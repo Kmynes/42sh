@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdio.h>
-#include "parser.h"
+#include <parser/parser.h>
 
 void example_function(void)
 {
