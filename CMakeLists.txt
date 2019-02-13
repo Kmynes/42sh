@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.9)
 project(42sh)
 
 set(CMAKE_C_STANDARD 99)
@@ -32,11 +32,7 @@ add_library(42sh_lib ${SRC_FILES})
 ### UNIT TESTS
 
 enable_testing()
-find_package(Check REQUIRED)
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-
 include_directories(tests tests/unit)
 add_executable(test_42sh tests/unit/main.c tests/unit/parser/test_parser.c)
-target_link_libraries(test_42sh 42sh_lib Threads::Threads ${CHECK_LIBRARIES})
+target_link_libraries(test_42sh 42sh_lib)
 

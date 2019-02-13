@@ -3,7 +3,8 @@
 #include <stddef.h>
 #include <lexer/lexer.h>
 
-enum ast_node_type {
+enum ast_node_type
+{
     TYPE_INPUT,
     TYPE_LIST,
     TYPE_AND_OR,
