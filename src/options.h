@@ -4,13 +4,15 @@
 
 #define MAX_OPTIONS 20
 
-struct option {
+struct option
+{
     char *name;
     char **params;
     size_t len_params;
 };
 
-struct list_options {
+struct list_options
+{
     struct option *options;
     size_t len;
 };

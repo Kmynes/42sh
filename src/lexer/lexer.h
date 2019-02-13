@@ -1,6 +1,7 @@
 #pragma once
 
-enum token_type {
+enum token_type
+{
     TOKEN_WORD
 };
 
