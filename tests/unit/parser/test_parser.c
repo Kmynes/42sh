@@ -1,23 +1,16 @@
-//
-// Created by thibault on 19/11/18.
-//
-
 #include <parser/parser.h>
+#include <lexer/lexer.h>
+#include <assert.h>
 #include "../test.h"
 
-START_TEST(toto_test)
-    {
-        int status = parser_example();
-        ck_assert(status == 42);
-    }
-END_TEST
-
-
-struct TCase *test_parser(struct Suite *s)
+void test_parse(void)
 {
-    struct TCase *c = tcase_create("parser tests");
-    suite_add_tcase(s, c);
-    tcase_add_test(c, toto_test);
+    struct lexer *lexer = lexer_init();
+    struct ast_node *ast = parse(lexer);
+    assert(ast != NULL);
+}
 
-    return c;
+void test_suite_parser(void)
+{
+    test_parse();
 }

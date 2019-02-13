@@ -1,8 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "parser.h"
+#include <lexer/lexer.h>
 
-int parser_example(void)
+struct ast_node *parse(struct lexer *lexer)
 {
-    printf("parser example");
-    return 42;
+    lexer = 0;  // NULL
+    struct ast_node* ast = malloc(sizeof(struct ast_node));
+
+    return ast;
 }
