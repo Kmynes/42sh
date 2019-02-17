@@ -1,47 +1,30 @@
-import subprocess
 import yaml
-
+import subprocess
+import os
 
 def run(mycode):
     ''' Runs a command in shell, returns stdout and stderror'''
     return subprocess.run(mycode, shell=True, stdout=subprocess.PIPE,
                           stderr=subprocess.PIPE)
 
+def test_check(ref_output, mycode_output)
+    ''' Checks for differences between reference output and mycode output '''
 
-for category in ".":
-    print(category)
-    for testFile in "./category":
-        # this loads the info from testFile into the test variable
-        with open(testFile, "r") as file:
-            test = yaml.load(file)
 
-            for test, data in test.items():
+for category in os.listdir('.'):
+    # only go check in folders whose name isn't "unit"
+    if not (os.path.isfile(category) or category == "unit"):
+        # print category title
+        print("=============== " + category + " ===============\n")s
+        # for every test file in that category
+        for test_file in os.listdir(category):
+            # open file
+            with open((category+"/"+test_file), "r") as file:
+                # load info from yaml
+                test = yaml.load(file)
                 # run reference test
-                ref = run(data["ref"])
-
-                # run actual code
-                mycode = run(data["mycode"])
-
-                # Listing of errors that occured
-                errors = []
-                if ref.stdout != mycode.stdout:
-                    errors.append("STDOUT")
-                if ref.stderr != mycode.stderr:
-                    errors.append("STDERR")
-                #if ref.returncode != mycode.returncode:
-                #   errors.append("RETURN CODE")
-
-                res = ", ".join(errors) if errors else "OK"
-                print("-" * 80)
-                print("{id}: {desc} [{res}]".format(id=test, desc=data["desc"], res=res))
-
-                # decode() convertit des bytes en str
-
-                expected = ref.stdout.decode()
-                if not expected:
-                    expected = ref.stderr.decode()
-                returned = mycode.stdout.decode()
-                if not returned:
-                    returned = mycode.stderr.decode()
-                print("\t", "EXPECTED: \n" + expected)
-                print("\t", "RETURNED: \n" + returned)
+                ref_output = run(test["ref"])
+                # run program test
+                mycode_output = run(test["mycode"])
+                # run diff
+                test_check(ref_output, mycode_output)
