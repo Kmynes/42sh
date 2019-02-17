@@ -7,18 +7,19 @@ def run(mycode_output):
     return subprocess.run(mycode_output, shell=True, stdout=subprocess.PIPE,
                           stderr=subprocess.PIPE)
 
-def test_check(title, ref_output, mycode_output):
+def output_diff(title, ref_output, mycode_output):
     ''' Diff between reference output and mycode output, prints results '''
+    # print the name of the test without a newline
     print(title + ": ", end='')
-
     # check if there was a difference in standard out or standard err, but 
     # make sure you don't say "OK" when there is no stderr
     if ref_output.stdout == mycode_output.stdout \
         or (ref_output.stderr == mycode_output.stderr \
         and ref_output.stderr != b''):
+        # if there is no difference between both outputs, print OK in green
         print("\033[1;32;40m OK \033[m")
-
     else:
+        # otherwise, print KO in red
         print("\033[1;31;40m KO \033[m")
 
 
@@ -38,4 +39,4 @@ for category in os.listdir('.'):
                 # run program test
                 mycode_output = run(test["mycode"])
                 # run diff
-                test_check(test["name"], ref_output, mycode_output)
+                output_diff(test["name"], ref_output, mycode_output)
