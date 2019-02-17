@@ -27,7 +27,7 @@ for category in os.listdir('.'):
     # only go check in folders whose name isn't "unit"
     if not (os.path.isfile(category) or category == "unit"):
         # print category title
-        print("=============== " + category + " ===============\n")
+        print("\n=============== " + category + " ===============\n")
         # for every test file in that category
         for test_file in os.listdir(category):
             # open file
