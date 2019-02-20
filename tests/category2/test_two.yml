@@ -1,4 +1,4 @@
-name: test_one
+name: test_two
 desc: this is a test scenario that should succeed
 ref: echo "failure"
 mycode: echro "failure"
