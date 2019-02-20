@@ -57,3 +57,4 @@ dkms.conf
 # CMake
 cmake-build-debug
 build/
+/.vs
