@@ -39,6 +39,7 @@ def category_list():
        
 
 def full_test_suite():
+    """ Launches a full test suite """
     total_tests = total_fails = 0
     directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -72,15 +73,55 @@ def full_test_suite():
     print("\nThere were " + str(total_tests) + " tests total, of which " \
         + str(total_fails) + " were failures.")
 
+
+def category_test(category):
+    """ test suite for a single category given in argument """
+    category_fails = category_tests = 0
+    directory = os.path.dirname(os.path.abspath(__file__))
+    for test_file in os.listdir(directory+"/"+category):
+        test_name = test_file.replace(".yml", "")
+        category_tests += 1
+        # open file
+        with open((directory+"/"+category+"/"+test_file), "r") as file:
+            # load info from yaml
+            test = yaml.load(file)
+        # run reference test
+        ref_output = run(test["ref"])
+        # run program test
+        mycode_output = run(test["mycode"])
+        # run diff
+        category_fails += output_diff(test_name, ref_output, mycode_output)
+    print("In the " + str(category) + " category there were " \
+        + str(category_tests) + " tests including " + str(category_fails) \
+        + " failure(s).")
+
+
 def argument_manager():
     if len(sys.argv) == 1:
         full_test_suite()
         return 0
+    if len(sys.argv) > 3:
+        print("Too many arguments.")
+        quit()
     if sys.argv[1] == "--list" or sys.argv[1] == "-l":
+        if len(sys.argv) > 2:
+            argument_error()
         category_list()
         return 0
+    if sys.argv[1] == "-c" or sys.argv[1] == "--category":
+        try:
+            category_test(sys.argv[2])
+        except:
+            print("Cannot access '" + sys.argv[2] + "': no such file" \
+                + " or directory")
+            quit()
+        
     else:
-        print("Unknown command")
-        return 1
+        argument_error()
+        
+
+def argument_error():
+    print("Argument Error")
+    quit()
 
 argument_manager()
