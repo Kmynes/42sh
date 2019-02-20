@@ -32,34 +32,34 @@ def output_diff(title, ref_output, mycode_output):
 def category_list():
     """ This function prints a list of all test categories """
     directory = os.path.dirname(os.path.abspath(__file__))
-    for root, subdirs, filenames in os.walk(directory):
-        for filename in filenames:
-            print(filename)
-            category = os.path.join(root, filename)
-            # only go check in folders whose name isn't "unit"
-            if not (os.path.isfile(category) or category == "unit"):
-                print(category)
-
+    print(directory)
+    for category in os.listdir(directory):
+        if not (os.path.isfile(directory+"/"+category) or category == "unit"):
+            print(category)
+       
+"""
 def category_list():
-    """ This function prints a list of all test categories """
     for category in os.listdir('.'):
         # only go check in folders whose name isn't "unit"
         if not (os.path.isfile(category) or category == "unit"):
             print(category)
+"""
 
 def full_test_suite():
     total_tests = total_fails = 0
-    for category in os.listdir('.'):
+    directory = os.path.dirname(os.path.abspath(__file__))
+
+    for category in os.listdir(directory):
         category_tests = category_fails = 0
         # only go check in folders whose name isn't "unit"
-        if not (os.path.isfile(category) or category == "unit"):
+        if not (os.path.isfile(directory+"/"+category) or category == "unit"):
             # print category title
             print("\n=============== " + category + " ===============\n")
             # for every test file in that category
-            for test_file in os.listdir(category):
+            for test_file in os.listdir(directory+"/"+category):
                 category_tests += 1
                 # open file
-                with open((category+"/"+test_file), "r") as file:
+                with open((directory+"/"+category+"/"+test_file), "r") as file:
                     # load info from yaml
                     test = yaml.load(file)
                 # run reference test
