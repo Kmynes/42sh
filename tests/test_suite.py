@@ -29,6 +29,16 @@ def output_diff(title, ref_output, mycode_output):
         print(" - unexpected output \033[m")
     return 1
 
+def category_list():
+    """ This function prints a list of all test categories """
+    directory = os.path.dirname(os.path.abspath(__file__))
+    for root, subdirs, filenames in os.walk(directory):
+        for filename in filenames:
+            print(filename)
+            category = os.path.join(root, filename)
+            # only go check in folders whose name isn't "unit"
+            if not (os.path.isfile(category) or category == "unit"):
+                print(category)
 
 def category_list():
     """ This function prints a list of all test categories """
