@@ -4,13 +4,13 @@ import os
 import sys
 
 def run(mycode_output):
-    ''' Runs a command in shell, returns stdout and stderror '''
+    """ Runs a command in shell, returns stdout and stderror """
     return subprocess.run(mycode_output, shell=True, stdout=subprocess.PIPE,
                           stderr=subprocess.PIPE)
 
 def output_diff(title, ref_output, mycode_output):
-    ''' Diff between reference output and mycode output, prints results.
-    returns 0 on success and 1 on failure'''
+    """ Diff between reference output and mycode output, prints results.
+    returns 0 on success and 1 on failure"""
     # print the name of the test without a newline
     print(title + ": ", end='')
     # check if there was a difference in standard out or standard err, but 
@@ -31,9 +31,8 @@ def output_diff(title, ref_output, mycode_output):
 
 
 def category_list():
-    ''' This function prints a list of all test categories '''
+    """ This function prints a list of all test categories """
     for category in os.listdir('.'):
-        category_tests = category_fails = 0
         # only go check in folders whose name isn't "unit"
         if not (os.path.isfile(category) or category == "unit"):
             print(category)
@@ -69,7 +68,7 @@ def full_test_suite():
     print("\nThere were " + str(total_tests) + " tests total, of which " \
         + str(total_fails) + " were failures.")
 
-def main():
+def argument_manager():
     if len(sys.argv) == 1:
         full_test_suite()
         return 0
@@ -81,4 +80,4 @@ def main():
         print("Unknown command")
         return 1
 
-main()
+argument_manager()

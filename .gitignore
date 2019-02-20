@@ -58,3 +58,4 @@ dkms.conf
 cmake-build-debug
 build/
 /.vs
+/tests/test_suite (2).py
