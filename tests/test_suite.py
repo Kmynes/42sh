@@ -37,13 +37,6 @@ def category_list():
         if not (os.path.isfile(directory+"/"+category) or category == "unit"):
             print(category)
        
-"""
-def category_list():
-    for category in os.listdir('.'):
-        # only go check in folders whose name isn't "unit"
-        if not (os.path.isfile(category) or category == "unit"):
-            print(category)
-"""
 
 def full_test_suite():
     total_tests = total_fails = 0
@@ -57,6 +50,7 @@ def full_test_suite():
             print("\n=============== " + category + " ===============\n")
             # for every test file in that category
             for test_file in os.listdir(directory+"/"+category):
+                test_name = test_file.replace(".yml", "")
                 category_tests += 1
                 # open file
                 with open((directory+"/"+category+"/"+test_file), "r") as file:
@@ -67,7 +61,7 @@ def full_test_suite():
                 # run program test
                 mycode_output = run(test["mycode"])
                 # run diff
-                category_fails += output_diff(test_file, ref_output, mycode_output)
+                category_fails += output_diff(test_name, ref_output, mycode_output)
 
             print("In the " + str(category) + " category there were " \
                 + str(category_tests) + " tests including " + str(category_fails) \
@@ -85,7 +79,6 @@ def argument_manager():
     if sys.argv[1] == "--list" or sys.argv[1] == "-l":
         category_list()
         return 0
-
     else:
         print("Unknown command")
         return 1
