@@ -32,7 +32,6 @@ def output_diff(title, ref_output, mycode_output):
 def category_list():
     """ This function prints a list of all test categories """
     directory = os.path.dirname(os.path.abspath(__file__))
-    print(directory)
     for category in os.listdir(directory):
         if not (os.path.isfile(directory+"/"+category) or category == "unit"):
             print(category)
@@ -102,7 +101,7 @@ def argument_manager():
         return 0
     if len(sys.argv) > 3:
         print("Too many arguments.")
-        quit()
+        quit(1)
     if sys.argv[1] == "--list" or sys.argv[1] == "-l":
         if len(sys.argv) > 2:
             argument_error()
@@ -114,7 +113,7 @@ def argument_manager():
         except:
             print("Cannot access '" + sys.argv[2] + "': no such file" \
                 + " or directory")
-            quit()
+            quit(1)
         
     else:
         argument_error()
@@ -122,6 +121,6 @@ def argument_manager():
 
 def argument_error():
     print("Argument Error")
-    quit()
+    quit(1)
 
 argument_manager()
