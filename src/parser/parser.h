@@ -1,10 +1,6 @@
 #pragma once
 
-#include <stddef.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "rules/rules.h"
 
 #define OPTIONAL(R) \
 __extension__({     \
