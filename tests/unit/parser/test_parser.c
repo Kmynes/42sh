@@ -1,16 +1,34 @@
-#include <parser/parser.h>
-#include <lexer/lexer.h>
-#include <assert.h>
-#include "../test.h"
+#include "test_parser.h"
+#include "rules/test_rules.h"
 
-void test_parse(void)
+void test_rules(void)
 {
-    struct lexer *lexer = lexer_init();
-    struct ast_node *ast = parse(lexer);
-    assert(ast != NULL);
+    test_read_ini_file();
+    test_read_sections();
+    test_read_key_value();
+    test_read_value();
+    test_read_identifier();
+    test_read_spaces();
+    test_read_end_of_line();
+    test_read_spacing();
+}
+
+void test_parser(void)
+{
+    test_ast_data();
+    test_ast_init();
+    test_ast();
+    test_parser_capture_init();
+    test_parser_capture();
+    test_parser_character();
+    test_parser_init();
+    test_parser_read_alphanum();
+    test_parser_read_interval();
+    test_parser_string_includes();
 }
 
 void test_suite_parser(void)
 {
-    test_parse();
+    test_parser();
+    test_rules();
 }

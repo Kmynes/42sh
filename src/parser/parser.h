@@ -1,6 +1,10 @@
 #pragma once
 
-#include "rules/rules.h"
+#include <stddef.h>
+#include <stdbool.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define OPTIONAL(R) \
 __extension__({     \
@@ -171,7 +175,7 @@ static inline bool parser_end_capture(struct parser *p, const char *tag)
 }
 
 //ast_init
-struct ast_node *ast_init(void)
+struct ast_node *ast_init(void);
 void ast_free(struct ast_node *ast);
 
 //ast_data

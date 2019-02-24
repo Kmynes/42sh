@@ -1,8 +1,4 @@
-#include <stddef.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <parser/parser.h>
 
 bool read_ini_file(struct parser *p);
 

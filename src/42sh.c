@@ -3,7 +3,6 @@
 
 int main(void)
 {
-    struct lexer *lexer = lexer_init();
-    struct ast_node *ast = parse(lexer);
-    execute_ast(ast);
+
+    return 0;
 }
