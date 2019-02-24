@@ -14,7 +14,6 @@ def run(code, arguments=[None]*3):
     if arguments[1]:
         code = "valgrind "+code
     if arguments[2]:
-        print("--Timed")
         try:
             return subprocess.run(code, shell=True,
                               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -99,7 +98,6 @@ def full_test_suite(arguments=[None]*3):
         # only go check in folders whose name isn't "unit"
         if not (os.path.isfile(directory+"/"+category) or category == "unit"):
             # print category title
-            print("= "+category+" "+"="*(77-len(category)))
             arguments[0] = category
             [category_tests, category_fails] = category_test(arguments)
 
@@ -113,6 +111,7 @@ def full_test_suite(arguments=[None]*3):
 def category_test(arguments):
     """ Executes tests for a specific category given in argument """
     category = arguments[0]
+    print("= "+category+" "+"="*(77-len(category)))
     category_fails = category_tests = 0
     directory = os.path.dirname(os.path.abspath(__file__))
     for test_file in os.listdir(directory+"/"+category):
