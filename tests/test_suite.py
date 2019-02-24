@@ -10,16 +10,9 @@ except ImportError:
 
 def run(code, arguments=[None]*3):
     """ Runs a command in shell, returns stdout and stderror """
-
     # arguments list: [category, sanity, timer]
-    # this section needs rework to implement multi flagging
-    if arguments[1] and arguments[2]:
-        try:
-            return subprocess.run("valgrind " + code, shell=True,
-                              stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                             timeout=int(arguments[2]))
-        except:
-            return "timeout"
+    if arguments[1]:
+        code = "valgrind "+code
     if arguments[2]:
         print("--Timed")
         try:
@@ -28,9 +21,6 @@ def run(code, arguments=[None]*3):
                              timeout=int(arguments[2]))
         except:
             return "timeout"
-    if arguments[1]:
-        return subprocess.run("valgrind "+ code, shell=True, 
-                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     return subprocess.run(code, shell=True,
                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
@@ -48,8 +38,6 @@ def output_diff(test_name, ref_output, mycode_output, arguments):
     ref_stderr = str(ref_output.stderr)
     mycode_stdout = str(mycode_output.stdout)
     mycode_stderr = str(mycode_output.stderr)
-    #print("STDERR")
-    #print(mycode_stderr)
     # valgrind checks
     if arguments[1]:
         if valgrind_error_extractor(mycode_stderr) > 0:
@@ -108,30 +96,13 @@ def full_test_suite(arguments=[None]*3):
     directory = os.path.dirname(os.path.abspath(__file__))
 
     for category in os.listdir(directory):
-        category_tests = category_fails = 0
         # only go check in folders whose name isn't "unit"
         if not (os.path.isfile(directory+"/"+category) or category == "unit"):
             # print category title
             print("= "+category+" "+"="*(77-len(category)))
-            # for every test file in that category
-            for test_file in os.listdir(directory+"/"+category):
-                test_name = test_file.replace(".yml", "")
-                category_tests += 1
-                # open file
-                with open((directory+"/"+category+"/"+test_file), "r") as file:
-                    # load info from yaml
-                    test = yaml.load(file)
-                # run reference test
-                ref_output = run(test["ref"])
-                # run program test
-                mycode_output = run(test["mycode"], arguments)
-                # run diff
-                category_fails += output_diff(test_name, ref_output, 
-                                              mycode_output, arguments)
+            arguments[0] = category
+            [category_tests, category_fails] = category_test(arguments)
 
-            print("In the " + str(category) + " category there were " \
-                  + str(category_tests) + " tests including " \
-                  + str(category_fails) + " failure(s).\n")
             total_tests += category_tests
             total_fails += category_fails
 
@@ -141,9 +112,10 @@ def full_test_suite(arguments=[None]*3):
 
 def category_test(arguments):
     """ test suite for a single category given in argument """
+    category = arguments[0]
     category_fails = category_tests = 0
     directory = os.path.dirname(os.path.abspath(__file__))
-    for test_file in os.listdir(directory+"/"+arguments[0]):
+    for test_file in os.listdir(directory+"/"+category):
         test_name = test_file.replace(".yml", "")
         category_tests += 1
         # open file
@@ -157,10 +129,14 @@ def category_test(arguments):
         # run diff
         category_fails += output_diff(test_name, ref_output, mycode_output,
                                      arguments)
-    print("In the " + str(arguments[0]) + " category there were " \
-        + str(category_tests) + " tests including " + str(category_fails) \
-        + " failure(s).")
+    category_end_print(category_tests, category_fails, category)
+    return [category_tests, category_fails]
 
+def category_end_print(category_tests, category_fails, test_name):
+    """ prints category summary message """
+    print("In the " + str(test_name) + " category there were " \
+        + str(category_tests) + " tests including " + str(category_fails) \
+        + " failure(s). \n")
 
 def argument_parser():
     """ parses command line arguments, returns error code """
@@ -234,6 +210,7 @@ def argument_manager(arguments):
     return [0]
 
 def error_code_display(error_code):
+    """ displays proper error message based on error code given """
     if error_code[0] == 1:
         print("Invalid number of arguments: '" + str(len(sys.argv)) + "'")
     if error_code[0] == 2:
