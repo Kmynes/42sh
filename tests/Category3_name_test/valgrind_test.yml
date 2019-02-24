@@ -1,0 +1,3 @@
+desc: this is a test scenario that should provoke a valgrind error
+ref: python3 ../test_suite.py
+mycode: python3 ../test_suite.py

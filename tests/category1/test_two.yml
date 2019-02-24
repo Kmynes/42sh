@@ -1,4 +1,3 @@
-name: test_two
 desc: this is a test scenario that should provoke an error
 ref: echo "failure"
 mycode: echo "success"
