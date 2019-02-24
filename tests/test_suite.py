@@ -91,7 +91,7 @@ def category_list():
        
 
 def full_test_suite(arguments=[None]*3):
-    """ Launches a full test suite """
+    """ Executes a full test suite """
     total_tests = total_fails = 0
     directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -111,7 +111,7 @@ def full_test_suite(arguments=[None]*3):
 
 
 def category_test(arguments):
-    """ test suite for a single category given in argument """
+    """ Executes tests for a specific category given in argument """
     category = arguments[0]
     category_fails = category_tests = 0
     directory = os.path.dirname(os.path.abspath(__file__))
