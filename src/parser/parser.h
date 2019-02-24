@@ -1,38 +1,120 @@
 #pragma once
 
 #include <stddef.h>
-#include <lexer/lexer.h>
+#include <stdbool.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define OPTIONAL(R) \
+__extension__({     \
+    R;              \
+    1;              \
+})
+
+#define ZERO_OR_MANY(R)\
+__extension__({        \
+    while(R);          \
+    1;                 \
+})
+
+#define ONE_OR_MANY(R)    \
+__extension__({     \
+    int res = 0;\
+    if (R)          \
+    {               \
+        while (R);  \
+        res = 1; \
+    }               \
+    res;	        \
+})
+
+struct parser
+{
+    char *input;
+    int cursor;
+    struct list_capt_s *capture;
+    struct ast_node *ast;
+    struct error_s *error;
+};
+
+enum error_type_e
+{
+    ON_CHAR,
+    ON_TEXT,
+    ON_RANGE,
+    ON_INSET,
+    ON_OUTSET
+};
+
+struct error_s
+{
+    enum error_type_e type;
+    union
+    {
+        char c;
+        char *text;
+        char *inset;
+        char *outset;
+        struct
+        {
+            char begin;
+            char end;
+        } range;
+    } u;
+};
 
 enum ast_node_type
 {
-    TYPE_INPUT,
-    TYPE_LIST,
-    TYPE_AND_OR,
-    TYPE_PIPELINE,
-    TYPE_COMMAND,
-    TYPE_SIMPLE_COMMAND,
-    TYPE_SHELL_COMMAND,
-    TYPE_FUNCDEC,
-    TYPE_REDIRECTION,
-    TYPE_PREFIX,
-    TYPE_ELEMENT,
-    TYPE_COMPOUND_LIST,
-    TYPE_RULE_FOR,
-    TYPE_RULE_WHILE,
-    TYPE_RULE_UNTIL,
-    TYPE_RULE_CASE,
-    TYPE_RULE_IF,
-    TYPE_ELSE_CAUSE,
-    TYPE_DO_GROUP,
-    TYPE_CASE_CLAUSE,
-    TYPE_CASE_ITEM
+    AST_NODE_EMPTY,
+    AST_NODE_INI_FILE,
+    AST_NODE_SECTION,
+    AST_NODE_KEY_VALUE,
+    AST_NODE_ASSIGN
 };
 
 struct ast_node
 {
     enum ast_node_type type;
+    void *data;
     size_t nb_children;
-    struct ast_node *children;
+    size_t capacity;
+    struct ast_node **children; // array of children
 };
 
-struct ast_node *parse(struct lexer *lexer);
+struct ast_section
+{
+    char *identifier;
+};
+
+struct ast_key_value
+{
+    char *id;
+    char *value;
+};
+
+struct ast_assign
+{
+    char *id;
+    char *num;
+};
+
+struct parser *parser_new_from_string(const char *text);
+
+void parser_free(struct parser *p);
+
+bool parser_eof(struct parser *p);
+
+char parser_getchar(struct parser *p);
+
+bool parser_peekchar(struct parser * p, char c);
+
+bool parser_readchar(struct parser *p, char c);
+
+bool parser_readtext(struct parser *p, char *text);
+
+bool parser_readrange(struct parser *p, char begin, char end);
+
+bool parser_readinset(struct parser *p, char *set);
+
+bool parser_readoutset(struct parser *p, char *set);
