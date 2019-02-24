@@ -70,4 +70,26 @@ static inline bool parser_end_capture(struct parser *p, const char *tag)
     return true;
 }
 
+//ast
+struct ast_node *ast_init(void);
+
+void ast_free(struct ast_node *ast);
+
+void ast_assign_free(struct ast_assign *ast_assign);
+
+void ast_key_value_free(struct ast_key_value *ast_key_value);
+
+void ast_section_free(struct ast_section *ast_sec);
+
+void ast_store(struct parser *p, enum ast_node_type type, struct ast_assign
+*ast_assign);
+// coder ast_lookup : renvoie un ast_node en cherchant le premier tag qui match
+struct ast_node *ast_lookup(struct parser *p, const char *tag);
+
+void ast_set_in_parent(struct ast_node *parent, struct ast_node *ast);
+struct ast_node *ast_get_from_parent(struct ast_node *parent, enum ast_node_type type_ast_search);
+
+void ast_set_in_parser(struct parser *p, struct ast_node *ast);
+struct ast_node *ast_get_from_parser(struct parser *p, enum ast_node_type type_ast_search);
+
 bool parser_readassign(struct parser *p);
