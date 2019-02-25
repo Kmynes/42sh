@@ -11,13 +11,14 @@ void test_rules(void)
     test_read_spaces();
     test_read_end_of_line();
     test_read_spacing();
+    test_global();
 }
 
 void test_parser(void)
 {
     test_ast_data();
     test_ast_init();
-    test_ast();
+    test_ast_accessor();
     test_parser_capture_init();
     test_parser_capture();
     test_parser_character();
