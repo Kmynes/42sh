@@ -6,7 +6,7 @@ void test_ast_data(void);
 
 void test_ast_init(void);
 
-void test_ast(void);
+void test_ast_accessor(void);
 
 void test_parser_capture_init(void);
 
