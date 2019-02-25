@@ -1,16 +1,30 @@
 #include "test_rules.h"
 
-void test_parser_new_from_string()
-{
-    char *str = "toto";
-    struct parser *parser = parser_new_from_string(str);
-    assert(parser);
-    assert(strcmp(parser->input, str) == 0);
-    assert(parser->cursor == 0);
-    parser_free(parser);
-}
-
 void test_read_key_value(void)
 {
-    test_parser_new_from_string();
+    struct parser *p = parser_new_from_string("toto");
+    assert(!read_key_value(p));
+    assert(p->cursor == 0);
+    parser_free(p);
+
+    p = parser_new_from_string("2toto=titi");
+    assert(!read_key_value(p));
+    assert(p->cursor == 0);
+    parser_free(p);
+
+    p = parser_new_from_string("toto=titi");
+    assert(!read_key_value(p));
+    assert(p->cursor == 0);
+    parser_free(p);
+
+    p = parser_new_from_string("; \ntoto=titi\n");
+
+    assert(read_key_value(p));
+
+    struct ast_node *ast = p->ast->children[0];
+    struct ast_key_value *data = (struct ast_key_value *) ast->data;
+    assert(strcmp(data->id, "toto") == 0);
+    assert(strcmp(data->value, "titi") == 0);    
+    assert(p->cursor == 13);
+    parser_free(p);
 }
