@@ -1,6 +1,5 @@
 #include "../test.h"
 #include <parser/parser.h>
-#include <assert.h>
 
 void test_ast_data(void);
 
