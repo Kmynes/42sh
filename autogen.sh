@@ -8,8 +8,3 @@ cmake ..
 
 make
 
-./42sh
-
-cd ..
-
-rm -r build
