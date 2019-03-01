@@ -1,6 +1,6 @@
 #include "test_parser.h"
 
-void test_parser_readtext()
+void test_parser_readtext(void)
 {
     char *str = "Le chat est un félin";
     char *text = "est";
@@ -15,7 +15,7 @@ void test_parser_readtext()
     parser_free(parser);
 }
 
-void test_parser_readrange()
+void test_parser_readrange(void)
 {
     char *str = "abc";
     struct parser *parser = parser_new_from_string(str);
@@ -26,7 +26,7 @@ void test_parser_readrange()
     parser_free(parser);
 }
 
-void test_parser_readinset()
+void test_parser_readinset(void)
 {
     struct parser *parser = parser_new_from_string("toto");
     assert(!parser_readinset(parser, "abcd"));
@@ -38,7 +38,7 @@ void test_parser_readinset()
     parser_free(parser);
 }
 
-void test_parser_readoutset()
+void test_parser_readoutset(void)
 {
     struct parser *parser = parser_new_from_string("toto");
     assert(parser_readoutset(parser, "abcd"));
