@@ -5,7 +5,7 @@
  * @param p
  * @param tag
  * @param ast
- */
+ *
 void ast_store(struct parser *p, enum ast_node_type type, struct ast_assign
 *ast_assign)
 {
@@ -22,7 +22,7 @@ void ast_store(struct parser *p, enum ast_node_type type, struct ast_assign
     ast->children[ast->nb_children] = p->ast;
     ast->nb_children++;
     p->ast = ast;
-}
+}*/
 
 void ast_set_in_parent(struct ast_node *parent, struct ast_node *ast)
 {
