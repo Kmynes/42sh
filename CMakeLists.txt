@@ -3,7 +3,7 @@ project(42sh)
 
 set(CMAKE_C_STANDARD 99)
 
-add_compile_options(-Wall -Wextra -pedantic -Werror)
+add_compile_options(-Wall -Wextra -pedantic -Werror -g)
 #add_compile_options(-Wall -Wextra -pedantic)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
