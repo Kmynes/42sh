@@ -18,10 +18,6 @@ bool parser_readassign(struct parser *p)
         ast->type = AST_NODE_ASSIGN;
         ast->data = ast_data_assign;
 
-        struct ast_node *ast_child_readassign = NULL;
-        while ((ast_child_readassign = ast_get_from_parser(p, AST_NODE_ASSIGN)))
-            ast_set_in_parent(ast_ini_file, ast_child_readassign);
-
         ast_set_in_parser(p, ast);
         //ast_store(p, AST_NODE_ASSIGN, &ast);
 
