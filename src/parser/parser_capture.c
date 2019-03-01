@@ -36,7 +36,7 @@ void print_capture(struct parser *p, struct list_capt_s *capture)
 
 void list_capt_store(struct list_capt_s *capture, const char *tag, struct capture_s *capt_s)
 {
-    while(capture->next != NULL)
+    while (capture->next != NULL)
     {
         capture = capture->next;
     }
