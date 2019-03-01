@@ -1,6 +1,6 @@
 #include "test_parser.h"
 
-void test_parser_eof()
+void test_parser_eof(void)
 {
     struct parser *parser = parser_new_from_string("");
     assert(parser_eof(parser));
@@ -11,7 +11,7 @@ void test_parser_eof()
     parser_free(parser);
 }
 
-void test_parser_getchar()
+void test_parser_getchar(void)
 {
     char *str = "Le chat est un félin";
     struct parser *parser = parser_new_from_string(str);
@@ -21,7 +21,7 @@ void test_parser_getchar()
     parser_free(parser);
 }
 
-void test_parser_peekchar()
+void test_parser_peekchar(void)
 {
     char *str = "Le chat est un félyn";
     struct parser *parser = parser_new_from_string(str);
@@ -33,7 +33,7 @@ void test_parser_peekchar()
     parser_free(parser);
 }
 
-void test_parser_readchar()
+void test_parser_readchar(void)
 {
     char *str = "boaisding";
     struct parser *parser = parser_new_from_string(str);
