@@ -12,6 +12,7 @@ void test_rules(void)
     test_read_end_of_line();
     test_read_spacing();
     test_global();
+    test_read_assign();
 }
 
 void test_parser(void)
