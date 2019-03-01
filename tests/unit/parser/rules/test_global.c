@@ -48,7 +48,7 @@ void test_global(void)
             {
                 ast_node_key_value = ast_node_section->children[j];
                 ast_key_value = ast_node_key_value->data;
-                printf ("\t\t- Key:%s Value\n", ast_key_value->value);
+                printf ("\t\t- Key:%s | Value:%s\n", ast_key_value->id, ast_key_value->value);
             }
         }
     }
