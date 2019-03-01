@@ -1,6 +1,6 @@
 #include "test_parser.h"
 
-void test_list_capt_lookup()
+void test_list_capt_lookup(void)
 {
     struct capture_s capt = { 0, 2 };
     struct parser *p = parser_new_from_string("toto");
@@ -13,7 +13,7 @@ void test_list_capt_lookup()
     parser_free(p);
 }
 
-void test_parser_readassign_ok()
+void test_parser_readassign_ok(void)
 {
     struct parser *p = parser_new_from_string("var=42; var=0");
     parser_readassign(p);
@@ -27,7 +27,7 @@ void test_parser_readassign_ok()
     parser_free(p);
 }
 
-void test_parser_readassign_nok()
+void test_parser_readassign_nok(void)
 {
     struct parser *p = parser_new_from_string("42=var");
     assert(!parser_get_capture(p, "id"));
