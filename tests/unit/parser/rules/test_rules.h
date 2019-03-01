@@ -1,6 +1,5 @@
-#include "../test_parser.h"
+#include "../../test.h"
 #include <parser/rules/rules.h>
-#include <libgen.h>
 
 void test_read_ini_file(void);
 
