@@ -58,22 +58,3 @@ struct capture_s *list_capt_lookup(struct list_capt_s *capture, const char *tag)
 
     return NULL;
 }
-
-bool parser_readassign(struct parser *p)
-{
-    unsigned int tmp = p->cursor;
-    if (parser_begin_capture(p, "id") && parser_readidentifier(p)
-        && parser_end_capture(p, "id") && parser_readchar(p, '=')
-        && parser_begin_capture(p, "num") && parser_readinteger(p) 
-        && parser_end_capture(p, "num"))
-    {
-        char *id = parser_get_capture(p, "id");
-        char *num = parser_get_capture(p, "num");
-        struct ast_assign ast = {id, num};
-        ast_store(p, AST_NODE_ASSIGN, &ast);
-        return true;
-    }
-
-    p->cursor = tmp;
-    return false;
-}
