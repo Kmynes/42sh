@@ -18,3 +18,5 @@ void test_read_end_of_line(void);
 void test_read_spacing(void);
 
 void test_global(void);
+
+void test_read_assign(void);
