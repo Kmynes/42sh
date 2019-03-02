@@ -66,7 +66,7 @@ struct error_s
 
 enum ast_node_type
 {
-    AST_NODE_EMPTY,
+    AST_NODE_EMPTY = 1,
     AST_NODE_INI_FILE,
     AST_NODE_SECTION,
     AST_NODE_KEY_VALUE,
@@ -214,8 +214,8 @@ char *extract_string(char *s, int begin, int end);
 void print_capture(struct parser *p, struct list_capt_s *capture);
 void list_capt_store(struct list_capt_s *, const char *, struct capture_s *);
 struct capture_s *list_capt_lookup(struct list_capt_s *, const char *);
-void remove_capture_by_tag(struct parser *p, const char *tag);
-bool parser_readassign(struct parser *p);
+void parser_remove_capture_by_tag(struct parser *p, const char *tag);
+bool readassign(struct parser *p);
 
 static inline bool parser_begin_capture(struct parser *p, const char *tag)
 {
@@ -229,7 +229,9 @@ static inline char *parser_get_capture(struct parser *p, const char *tag)
     struct capture_s *pcapt = list_capt_lookup(p->capture, tag);
     if (!pcapt)
         return false;
-    return strndup(&p->input[pcapt->begin], pcapt->end - pcapt->begin);
+    char *capture = strndup(&p->input[pcapt->begin], pcapt->end - pcapt->begin);
+    parser_remove_capture_by_tag(p, tag);
+    return capture;
 }
 
 static inline bool parser_end_capture(struct parser *p, const char *tag)
