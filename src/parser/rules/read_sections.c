@@ -1,19 +1,23 @@
 #include "rules.h"
 
+unsigned int nbr_section = 0;
+
 bool read_sections(struct parser *p)
 {
     int tmp = p->cursor;
-
-    if (read_spacing(p)               &&
-        parser_readchar(p, '[')       &&
-        parser_begin_capture(p, "id") &&
-        read_identifier(p)            &&
-        parser_end_capture(p, "id")   &&
-        parser_readchar(p, ']')       && 
+    char capt_id[20];
+    sprintf(capt_id, "id%d", nbr_section);
+   
+    if (read_spacing(p)                  &&
+        parser_readchar(p, '[')          &&
+        parser_begin_capture(p, capt_id) &&
+        read_identifier(p)               &&
+        parser_end_capture(p, capt_id)   &&
+        parser_readchar(p, ']')          && 
         ONE_OR_MANY(read_key_value(p)))
     {
         struct ast_section *data = malloc(sizeof(struct ast_section));
-        data->identifier = parser_get_capture(p, "id");
+        data->identifier = parser_get_capture(p, capt_id);
     
         struct ast_node *ast_section = ast_init();
         ast_section->type = AST_NODE_SECTION;
@@ -24,6 +28,7 @@ bool read_sections(struct parser *p)
             ast_set_in_parent(ast_section, ast_child_key_value);
 
         ast_set_in_parser(p, ast_section);
+        nbr_section++;
         return true;
     }
 
