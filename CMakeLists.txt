@@ -36,5 +36,6 @@ file(GLOB TEST_FILES
 enable_testing()
 include_directories(tests tests/unit)
 add_executable(test_42sh ${TEST_FILES})
-target_link_libraries(test_42sh 42sh_lib)
+
+target_link_libraries(test_42sh 42sh_lib -fsanitize=address)
 
