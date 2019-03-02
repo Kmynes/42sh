@@ -1,4 +1,4 @@
-#include "test_rules.h"
+#include "unit/parser/rules/test_rules.h"
 
 void test_read_word(void)
 {

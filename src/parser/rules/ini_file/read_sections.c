@@ -1,4 +1,4 @@
-#include "rules.h"
+#include "parser/rules/rules.h"
 
 unsigned int nbr_section = 0;
 
@@ -19,9 +19,7 @@ bool read_sections(struct parser *p)
         struct ast_section *data = malloc(sizeof(struct ast_section));
         data->identifier = parser_get_capture(p, capt_id);
     
-        struct ast_node *ast_section = ast_init();
-        ast_section->type = AST_NODE_SECTION;
-        ast_section->data = data;
+        struct ast_node *ast_section = ast_init(AST_NODE_SECTION, data);
 
         struct ast_node *ast_child_key_value = NULL;
         while ((ast_child_key_value = ast_get_from_parser(p, AST_NODE_KEY_VALUE)))

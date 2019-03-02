@@ -1,4 +1,4 @@
-#include "rules.h"
+#include "parser/rules/rules.h"
 
 unsigned int nbr_key_value = 0;
 
@@ -29,9 +29,7 @@ bool read_key_value(struct parser *p)
         data->id = id;
         data->value = value;
 
-        struct ast_node *ast = ast_init();
-        ast->type = AST_NODE_KEY_VALUE;
-        ast->data = data;
+        struct ast_node *ast = ast_init(AST_NODE_KEY_VALUE, data);
 
         ast_set_in_parser(p, ast);
         nbr_key_value++;

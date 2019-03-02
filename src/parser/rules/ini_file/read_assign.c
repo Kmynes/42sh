@@ -10,13 +10,11 @@ bool parser_readassign(struct parser *p)
     {
         char *id = parser_get_capture(p, "id");
         char *num = parser_get_capture(p, "num");
-        struct ast_assign *ast_data_assign = malloc(sizeof(struct ast_assign));
-        ast_data_assign->id = id;
-        ast_data_assign->num = num;
+        struct ast_assign *data = malloc(sizeof(struct ast_assign));
+        data->id = id;
+        data->num = num;
 
-        struct ast_node *ast = ast_init();
-        ast->type = AST_NODE_ASSIGN;
-        ast->data = ast_data_assign;
+        struct ast_node *ast = ast_init(AST_NODE_ASSIGN, data);
 
         ast_set_in_parser(p, ast);
         //ast_store(p, AST_NODE_ASSIGN, &ast);
