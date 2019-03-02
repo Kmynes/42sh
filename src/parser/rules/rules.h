@@ -24,3 +24,17 @@ bool read_word(struct parser *p);
 bool read_assignment_word(struct parser *p);
 
 bool read_ionumber(struct parser *p);
+
+bool read_and_or(struct parser *p);
+
+bool read_pipeline(struct parser *p);
+
+bool read_command(struct parser *p);
+
+bool read_simple_command(struct parser *p);
+
+bool read_shell_command(struct parser *p);
+
+bool read_funcdec_command(struct parser *p);
+
+bool read_copound_list(struct parser *p);
