@@ -17,14 +17,32 @@ struct list_options *get_options(char **argv, int argc)
 }
 
 // ast print le fichier DOT ouvert est \"ast.dot\"
-int ast_print()
+int ast_print(struct parser *p)
 {
-    FILE *fp = fopen("../ast.dot", "r");
+    FILE *fp = fopen("../ast.dot", "w");
     char c;
 
     if (fp == NULL)
         return 1;
 
+    switch (p->ast)
+    {
+        case 'AST_NODE_EMPTY' :
+            break;
+
+        case 'AST_NODE_INI_FILE' :
+            break;
+
+        case 'AST_NODE_SECTION' :
+           break;
+
+        case 'AST_NODE_KEY_VALUE' :
+            break;
+
+        case 'AST_NODE_ASSIGN' :
+            break;
+
+    }
     for (; (c = fgetc(fp)) != EOF ;)
         printf("%c",c);
 
