@@ -17,7 +17,7 @@ struct list_options *get_options(char **argv, int argc)
 // ast print le fichier DOT ouvert est \"ast.dot\"
 int ast_print()
 {
-    FILE *fp = fopen("ast.dot", "r");
+    FILE *fp = fopen("../ast.dot", "r");
     char c;
 
     if (fp == NULL)
