@@ -28,6 +28,10 @@ bool read_heredoc(struct parser *p);
 bool read_ionumber(struct parser *p);
 
 // Functional rules
+bool read_input(struct parser *p);
+
+bool read_list(struct parser *p);
+
 bool read_and_or(struct parser *p);
 
 bool read_pipeline(struct parser *p);
@@ -49,7 +53,6 @@ bool read_element(struct parser *p);
 bool read_copound_list(struct parser *p);
 
 // Key word rules
-
 bool read_rule_for(struct parser *p);
 
 bool read_rule_while(struct parser *p);
