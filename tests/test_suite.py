@@ -137,6 +137,19 @@ def category_end_print(category_tests, category_fails, test_name):
         + str(category_tests) + " tests including " + str(category_fails) \
         + " failure(s). \n")
 
+def helper():
+    print("" \
+          + "-l or --list \n" \
+          + "    Lists all categories\n" \
+          + "-s or --sanity \n" \
+          + "    Runs tests with Valgrind.\n" \
+          + "    Tests will fail if Valgrind returns errors.\n" \
+          + "-t <int> or --timeout <int> \n" \
+          + "    Adds a timeout (in seconds) to the test executions.\n" \
+          + "    Tests will fail if time runs out.\n" \
+          + "-c <category_name> or --category <category_name> \n" \
+          + "    Executes tests for specified category.\n")
+
 def argument_parser():
     """ parses command line arguments, returns error code """
     if len(sys.argv) == 1:
@@ -147,8 +160,13 @@ def argument_parser():
         return check_value
     if "-l" in sys.argv or "--list" in sys.argv:
         if len(sys.argv) > 2:
-            return [5]
+            return [5, "list"]
         category_list()
+        return [0]
+    if "-h" in sys.argv or "--help" in sys.argv:
+        if len(sys.argv) > 2:
+            return [5, "help"]
+        helper()
         return [0]
     if len(sys.argv) > 6:
         return [1]
@@ -173,7 +191,7 @@ def argument_checker():
     """ checks arguments given in command line to see if they are supported.
     returns error code """
     supported_arguments = ["-c", "--category",  "-t", "--timer",
-                           "-s", "--sanity", "-l", "--list"]
+                           "-s", "--sanity", "-l", "--list", "-h", "--help"]
     for argument in sys.argv[1:len(sys.argv)]:
         previous_argument = sys.argv[sys.argv.index(argument)-1]
         if previous_argument == "-t" or previous_argument == "--timeout":
@@ -222,7 +240,8 @@ def error_code_display(error_code):
               + str(error_code[1]) + "'")
     if error_code[0] == 5:
         print("Invalid number of arguments: '" + str(len(sys.argv)) + "'")
-        print("When list flag is active, no other arguments are accepted.")
+        print("When " + error_code[1] + " flag is active, no other arguments" \
+              + " are accepted.")
     if error_code[0] == 6:
         print("Missing argument after '" + error_code[1] + "'")
     if error_code[0] == 7:

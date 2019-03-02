@@ -20,3 +20,5 @@ struct list_options
 struct list_options *get_options(char **argv, int argc);
 
 void free_options(struct list_options *options);
+
+int ast_print();
