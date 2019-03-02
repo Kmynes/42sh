@@ -23,6 +23,8 @@ bool read_word(struct parser *p);
 
 bool read_assignment_word(struct parser *p);
 
+bool read_heredoc(struct parser *p);
+
 bool read_ionumber(struct parser *p);
 
 // Functional rules
