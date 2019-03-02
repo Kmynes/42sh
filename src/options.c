@@ -25,7 +25,7 @@ int ast_print()
     if (fp == NULL)
         return 1;
 
-    for (; c = fgetc(fp) != EOF ;)
+    for (; (c = fgetc(fp)) != EOF ;)
         printf("%c",c);
 
     fclose(fp);
