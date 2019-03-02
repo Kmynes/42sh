@@ -72,15 +72,6 @@ int execute_options(char * command, char * options)
         case 'v':
             version_display();
             return 0;
-        case 'x':
-            printf("Unknown option\n");
-            return 1;
-        case 'a':
-            AST_print_flag = 1;
-            break;
-        case 'n':
-            norc_flag = 1;
-            break;
         case 'c':
             // insert call to run function here with other flags
             return 0;
