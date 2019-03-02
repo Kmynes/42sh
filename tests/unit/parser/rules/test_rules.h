@@ -20,3 +20,5 @@ void test_read_spacing(void);
 void test_global(void);
 
 void test_read_assign(void);
+
+void test_read_word(void);
