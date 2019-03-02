@@ -1,6 +1,5 @@
 #include <parser/parser.h>
 
-
 bool read_ini_file(struct parser *p);
 
 bool read_sections(struct parser *p);
@@ -22,6 +21,9 @@ bool parser_readassign(struct parser *p);
 //Terminale rules
 bool read_word(struct parser *p);
 
+bool read_assignment_word(struct parser *p);
+
+bool read_ionumber(struct parser *p);
 
 // Functional rules
 bool read_and_or(struct parser *p);

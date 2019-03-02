@@ -58,3 +58,33 @@ struct capture_s *list_capt_lookup(struct list_capt_s *capture, const char *tag)
 
     return NULL;
 }
+
+void remove_capture_by_tag(struct parser *p, const char *tag)
+{
+    struct list_capt_s *current = p->capture;
+    struct list_capt_s *next = current;
+
+    // if capture is at the head of the list
+    if (strcmp(current->tag, tag) == 0)
+    {
+        p->capture = current->next;
+        free(current->tag);
+        free(current);
+        remove_capture_by_tag(p, tag);
+        return;
+    }
+
+    while (current->next)
+    {
+        next = current->next;
+        if (strcmp(next->tag, tag) == 0)
+        {
+            current->next = next->next;
+            free(next->tag);
+            free(next);
+            continue;
+        }
+
+        current = current->next;
+    }
+}

@@ -1,4 +1,4 @@
-#include "rules.h"
+#include "parser/rules/rules.h"
 
 bool read_end_of_line(struct parser *p)
 {

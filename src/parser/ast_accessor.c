@@ -9,7 +9,7 @@
 void ast_store(struct parser *p, enum ast_node_type type, struct ast_assign
 *ast_assign)
 {
-    struct ast_node *ast = ast_init();
+    struct ast_node *ast = ast_init(AST_NODE_EMPTY, NULL);
     ast->type = type;
 
     if (ast->type == AST_NODE_ASSIGN)
