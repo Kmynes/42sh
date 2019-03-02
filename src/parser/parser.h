@@ -71,9 +71,31 @@ enum ast_node_type
     AST_NODE_SECTION,
     AST_NODE_KEY_VALUE,
     AST_NODE_ASSIGN,
+    AST_INPUT,
+    AST_LIST,
+    AST_AND_OR,
+    AST_PIPELINE,
+    AST_COMMAND,
+    AST_SIMPLE_COMMAND,
+    AST_SHELL_COMMAND,
+    AST_FUNCDEC,
+    AST_REDIRECTION,
+    AST_PREFIX,
+    AST_ELEMENT,
+    AST_COMPOUND_LIST,
+    AST_RULE_FOR,
+    AST_RULE_WHILE,
+    AST_RULE_UNTIL,
+    AST_RULE_CASE,
+    AST_RULE_IF,
+    AST_ELSE_CLAUSE,
+    AST_DO_GROUP,
+    AST_CASE_CLAUSE,
+    AST_CASE_ITEM,
     AST_NODE_HEREDOC
 };
 
+// ast inifile
 struct ast_node
 {
     enum ast_node_type type;
@@ -112,6 +134,49 @@ struct list_capt_s
     struct capture_s capt;
     struct list_capt_s *next;
 };
+
+//ast functional
+struct ast_input{char *elt;};
+
+struct ast_list{char *elt;};
+
+struct ast_and_or{char *elt;};
+
+struct ast_pipeline{char *elt;};
+
+struct ast_command{char *elt;};
+
+struct ast_simple_command{char *elt;};
+
+struct ast_shell_command{char *elt;};
+
+struct ast_funcdec{char *elt;};
+
+struct ast_redirection{char *elt;};
+
+struct ast_prefix{char *elt;};
+
+struct ast_element{char *elt;};
+
+struct ast_compound_list{char *elt;};
+
+struct ast_rule_for{char *elt;};
+
+struct ast_rule_while{char *elt;};
+
+struct ast_untile{char *elt;};
+
+struct ast_case{char *elt;};
+
+struct ast_if{char *elt;};
+
+struct ast_else_clause{char *elt;};
+
+struct ast_do_group{char *elt;};
+
+struct ast_case_clause{char *elt;};
+
+struct ast_case_item{char *elt;};
 
 //parser_init
 struct parser *parser_new_from_string(const char *text);
