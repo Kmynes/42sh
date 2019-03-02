@@ -14,6 +14,8 @@ void test_rules(void)
     test_global();
     test_read_assign();
     test_read_word();
+    test_read_assignment_word();
+    test_read_ionumber();
 }
 
 void test_parser(void)

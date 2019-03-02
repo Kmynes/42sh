@@ -1,4 +1,4 @@
-#include "rules.h"
+#include "parser/rules/rules.h"
 
 bool read_ini_file(struct parser *p)
 {
@@ -6,8 +6,7 @@ bool read_ini_file(struct parser *p)
 
     if (ZERO_OR_MANY(read_sections(p)) && parser_eof(p))
     {
-        struct ast_node *ast_ini_file = ast_init();
-        ast_ini_file->type = AST_NODE_INI_FILE;
+        struct ast_node *ast_ini_file = ast_init(AST_NODE_INI_FILE, NULL);
 
         struct ast_node *ast_child_section = NULL;
 

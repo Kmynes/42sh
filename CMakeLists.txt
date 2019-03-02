@@ -16,11 +16,13 @@ include_directories(tests)
 
 file(GLOB SRC_FILES  
         src/*.c
-        src/*/*.c
-        src/*/*/*.c
+        src/**/*.c
+        src/**/**/*.c
+        src/**/**/**/*.c
 )
 
 add_executable(42sh ${SRC_FILES})
+
 
 add_library(42sh_lib ${SRC_FILES})
 
@@ -29,8 +31,9 @@ add_library(42sh_lib ${SRC_FILES})
 
 file(GLOB TEST_FILES
         tests/unit/*.c
-        tests/unit/*/*.c
-        tests/unit/*/*/*.c
+        tests/unit/**/*.c
+        tests/unit/**/**/*.c
+        tests/unit/**/**/**/*.c
         )
 
 enable_testing()
