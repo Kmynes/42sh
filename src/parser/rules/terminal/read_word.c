@@ -1,10 +1,15 @@
-#include "rules.h"
+#include "parser/rules/rules.h"
 
 bool read_word(struct parser *p)
 {
     int tmp = p->cursor;
 
-    if (ONE_OR_MANY(parser_readoutset(p, " \t\r\n\"'`")))
+//    if (ONE_OR_MANY(parser_readoutset(p, " \t\r\n\"'`")))
+//        return 1;
+
+
+    // no quotes
+    if (ONE_OR_MANY(parser_readalphanum(p)))
         return 1;
 
     p->cursor = tmp;

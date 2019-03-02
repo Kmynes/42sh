@@ -70,7 +70,8 @@ enum ast_node_type
     AST_NODE_INI_FILE,
     AST_NODE_SECTION,
     AST_NODE_KEY_VALUE,
-    AST_NODE_ASSIGN
+    AST_NODE_ASSIGN,
+    AST_NODE_HEREDOC
 };
 
 struct ast_node
@@ -148,6 +149,7 @@ char *extract_string(char *s, int begin, int end);
 void print_capture(struct parser *p, struct list_capt_s *capture);
 void list_capt_store(struct list_capt_s *, const char *, struct capture_s *);
 struct capture_s *list_capt_lookup(struct list_capt_s *, const char *);
+void remove_capture_by_tag(struct parser *p, const char *tag);
 bool parser_readassign(struct parser *p);
 
 static inline bool parser_begin_capture(struct parser *p, const char *tag)
@@ -175,7 +177,7 @@ static inline bool parser_end_capture(struct parser *p, const char *tag)
 }
 
 //ast_init
-struct ast_node *ast_init(void);
+struct ast_node *ast_init(enum ast_node_type, void *data);
 void ast_free(struct ast_node *ast);
 
 //ast_data

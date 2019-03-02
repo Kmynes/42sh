@@ -1,11 +1,11 @@
 #include "parser.h"
 
-struct ast_node *ast_init(void)
+struct ast_node *ast_init(enum ast_node_type type, void *data)
 {
     struct ast_node *ast = malloc(sizeof(struct ast_node));
 
-    ast->type = AST_NODE_EMPTY;
-    ast->data = NULL;
+    ast->type = type;
+    ast->data = data;
     // 10 children max
     ast->children = malloc(sizeof(struct ast_node) * 10);
     ast->nb_children = 0;
