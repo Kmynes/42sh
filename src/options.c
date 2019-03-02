@@ -24,7 +24,7 @@ int ast_print()
         return 1;
 
     for (; c = fgetc(fp) != EOF ;)
-        print("%c",c);
+        printf("%c",c);
 
     fclose(fp);
 
