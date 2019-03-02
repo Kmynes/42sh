@@ -21,6 +21,11 @@ int options_parser(char ** argv, int argc)
         if (options[i-1] == 'c')
         {
             //printf("command1 = %s", argv[i+1]); REMOVE THIS - TESTING ONLY
+            if (i+1 >= argc)
+            {
+                printf("Expected argument after -c option\n");
+                return 1;
+            }
             command = argv[i+1];
             i++;
         }
@@ -37,20 +42,18 @@ int execute_options(char * command, char * options)
 
     int AST_print_flag = 0;
     int norc_flag = 0;
-    int run_flag = 0;
     command[0] = command[0] + 1 - 1; // REMOVE THIS - testing dummy
     norc_flag++; // REMOVE THIS - testing dummy
     norc_flag--; // REMOVE THIS - testing dummy
     AST_print_flag++; // REMOVE THIS - testing dummy
     AST_print_flag--; // REMOVE THIS - testing dummy
+
+    // do a first loop of options to get the flags (or fail if needed)
     for (unsigned i = 0; options[i]; i++)
         switch (options[i])
         {
-            case 'v':
-                version_display();
-                return 0;
             case 'x':
-                printf("Unknown option");
+                printf("Unknown option\n");
                 return 1;
             case 'a':
                 AST_print_flag = 1;
@@ -58,14 +61,33 @@ int execute_options(char * command, char * options)
             case 'n':
                 norc_flag = 1;
                 break;
-            case 'c':
-                run_flag = 1;
             default:
                 break;
         }
-    if (run_flag)
-        // insert call to run function here with other flags
-        AST_print_flag++; // REMOVE THIS - testing dummy
+
+    // do a second loop of the options to execute in the right order
+    for (unsigned i = 0; options[i]; i++)
+        switch (options[i])
+        {
+        case 'v':
+            version_display();
+            return 0;
+        case 'x':
+            printf("Unknown option\n");
+            return 1;
+        case 'a':
+            AST_print_flag = 1;
+            break;
+        case 'n':
+            norc_flag = 1;
+            break;
+        case 'c':
+            // insert call to run function here with other flags
+            return 0;
+        default:
+            break;
+        }
+
 
     return 0;
 }
