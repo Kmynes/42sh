@@ -141,17 +141,38 @@ struct ast_input {
     struct ast_list *list;
 };
 
-struct ast_list{char *elt;};
+struct ast_list {
+    struct ast_and_or *and_or;
+};
 
-struct ast_and_or{char *elt;};
+struct ast_and_or {
+    struct ast_pipeline *pipeline;
+};
 
-struct ast_pipeline{char *elt;};
+struct ast_pipeline {
+    struct ast_command *command;
+};
 
-struct ast_command{char *elt;};
+struct ast_command { 
+    struct ast_simple_command *simple_command;
+    struct ast_shell_command *shell_command;
+    struct ast_funcdec *funcdec;
+    struct ast_redirection *redirection;
+};
 
-struct ast_simple_command{char *elt;};
+struct ast_simple_command {
+    struct ast_prefix *prefix;
+    struct ast_element *element;
+};
 
-struct ast_shell_command{char *elt;};
+struct ast_shell_command {
+    struct ast_compound_list *compound_list;
+    struct ast_rule_for *rule_for;
+    struct ast_rule_while *rule_while;
+    struct ast_rule_until *rule_until;
+    struct ast_rule_case *rule_case;
+    struct ast_rule_if *rule_if;
+};
 
 struct ast_funcdec{char *elt;};
 
