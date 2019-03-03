@@ -3,18 +3,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-int execute_options(char * command, char * options);
-char* option_translator(char * options, char * current_option);
-unsigned first_empty(char * table);
-void version_display();
+int execute_options(char *command, char *options);
+char *option_translator(char *options, char *current_option);
+unsigned first_empty(char *table);
+void version_display(void);
 
 
-
-int options_parser(char ** argv, int argc)
+int options_parser(char **argv, int argc)
 // parses arguments directly from command line
 {
-    char * options = malloc(argc);
-    char * command = malloc(100);
+    char *options = malloc(argc);
+    char *command = malloc(100);
     for (int i = 1; i < argc; i++)
     {
         options = option_translator(options, argv[i]);
@@ -34,9 +33,8 @@ int options_parser(char ** argv, int argc)
     return error_code;
 }
 
-int execute_options(char * command, char * options)
+int execute_options(char *command, char *options)
 {
-    //this is where you will place the run function call
     // printf("command is %s \n", command); REMOVE THIS - TESTING ONLY
     // printf("option table is %s \n", options); REMOVE THIS - TESTING ONLY
 
@@ -73,17 +71,19 @@ int execute_options(char * command, char * options)
             version_display();
             return 0;
         case 'c':
-            // insert call to run function here with other flags
+            // insert call to run function here!!
+            if (AST_print_flag)
+                // insert call to AST_print function here!!
+                AST_print_flag--; // REMOVE THIS - testing dummy
             return 0;
         default:
             break;
         }
-
-
+    
     return 0;
 }
 
-char* option_translator(char * options, char * current_option)
+char *option_translator(char *options, char *current_option)
 // translates options into single character flags
 {
     if (!strcmp(current_option, "--version"))
@@ -100,7 +100,7 @@ char* option_translator(char * options, char * current_option)
     return options;
 }
 
-unsigned first_empty(char * table)
+unsigned first_empty(char *table)
 // returns the first empty index in an array
 {
     unsigned first_free_index = 0;
