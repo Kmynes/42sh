@@ -38,5 +38,4 @@ void ast_key_value_free(void *data)
     struct ast_key_value *ast_key_value = data;
     free(ast_key_value->id);
     free(ast_key_value->value);
-    free(ast_key_value);
 }
