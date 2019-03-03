@@ -1,6 +1,5 @@
 #include "options.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include <parser/parser.h>
 
 // parse options as in myfind
 struct list_options *get_options(char **argv, int argc)
@@ -25,24 +24,16 @@ int ast_print(struct parser *p)
     if (fp == NULL)
         return 1;
 
-    switch (p->ast)
-    {
-        case 'AST_NODE_EMPTY' :
-            break;
+    if (p->ast->type == AST_NODE_EMPTY)
+    {}
+    else if (p->ast->type ==  AST_NODE_INI_FILE)
+    {}
+    else if (p->ast->type ==  AST_NODE_SECTION)
+    {}
+    else if (p->ast->type ==  AST_NODE_KEY_VALUE)
+    {}
+    else if (p->ast->type ==  AST_NODE_ASSIGN)
 
-        case 'AST_NODE_INI_FILE' :
-            break;
-
-        case 'AST_NODE_SECTION' :
-           break;
-
-        case 'AST_NODE_KEY_VALUE' :
-            break;
-
-        case 'AST_NODE_ASSIGN' :
-            break;
-
-    }
     for (; (c = fgetc(fp)) != EOF ;)
         printf("%c",c);
 
