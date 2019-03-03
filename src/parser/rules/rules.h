@@ -10,7 +10,8 @@ struct ast_section
 {
     char *identifier;
 };
-void ast_section_free(void *data);
+struct ast_node *ast_section_init(enum ast_node_type type, void *data);
+
 
 bool read_key_value(struct parser *p);
 struct ast_key_value
@@ -18,8 +19,7 @@ struct ast_key_value
     char *id;
     char *value;
 };
-void ast_key_value_free(void *data);
-
+struct ast_node *ast_key_value_init(enum ast_node_type type, void *data);
 
 bool read_value(struct parser *p);
 
@@ -32,13 +32,12 @@ bool read_end_of_line(struct parser *p);
 bool read_spacing(struct parser *p);
 
 bool readassign(struct parser *p);
-char *ast_assign_to_string(struct ast_node *ast);
 struct ast_assign
 {
     char *id;
     char *num;
 };
-void ast_assign_free(void *data);
+struct ast_node *ast_assign_init(enum ast_node_type type, void *data);
 
 
 //Terminale rules

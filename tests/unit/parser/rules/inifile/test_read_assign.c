@@ -6,7 +6,7 @@ void test_parser_readassign_ok(void)
     readassign(p);
 
     struct ast_node *ast = p->ast->children[0];
-    char *s = ast_node_to_string(ast);
+    char *s = ast->to_string(ast);
     assert(strcmp(s, "assign_var_42") == 0);
     free(s);
     assert(p->cursor == 6);

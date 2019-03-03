@@ -17,7 +17,7 @@ bool read_sections(struct parser *p)
         struct ast_section *data = malloc(sizeof(struct ast_section));
         data->identifier = parser_get_capture(p, "id");
     
-        struct ast_node *ast_section = ast_init(AST_NODE_SECTION, data);
+        struct ast_node *ast_section = ast_section_init(AST_NODE_SECTION, data);
 
         struct ast_node *ast_child_key_value = NULL;
         while ((ast_child_key_value = ast_get_from_parser(p, AST_NODE_KEY_VALUE)))
@@ -36,4 +36,13 @@ void ast_section_free(void *data)
 {
     struct ast_section *ast_sec = data;
     free(ast_sec->identifier);
+}
+
+struct ast_node *ast_section_init(enum ast_node_type type, void *data)
+{
+    struct ast_node *ast = ast_init(type, data);
+    ast->free = ast_section_free;
+    ast->to_string = NULL;
+
+    return ast;
 }

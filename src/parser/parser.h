@@ -103,6 +103,8 @@ struct ast_node
     size_t nb_children;
     size_t capacity;
     struct ast_node **children; // array of children
+    char *(*to_string)(struct ast_node *);
+    void (*free)(void *);
 };
 
 struct capture_s
