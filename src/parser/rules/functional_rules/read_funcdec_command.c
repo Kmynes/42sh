@@ -1,6 +1,6 @@
 #include <parser/rules/rules.h>
 
-bool read_funcdec_command(struct parser *p)
+bool read_funcdec(struct parser *p)
 {
     int tmp = p->cursor;
 
