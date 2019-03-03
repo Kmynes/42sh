@@ -136,7 +136,10 @@ struct list_capt_s
 };
 
 //ast functional
-struct ast_input{char *elt;};
+struct ast_input {
+    char *input;
+    struct ast_list *list;
+};
 
 struct ast_list{char *elt;};
 
