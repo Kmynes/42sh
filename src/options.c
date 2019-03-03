@@ -52,6 +52,8 @@ int execute_options(char *command, char *options)
         {
             case 'x':
                 printf("Unknown option\n");
+                free(options);
+                free(command);
                 return 1;
             case 'a':
                 AST_print_flag = 1;
@@ -69,6 +71,8 @@ int execute_options(char *command, char *options)
         {
         case 'v':
             version_display();
+            free(options);
+            free(command);
             return 0;
         case 'c':
             // insert call to run function here!!
