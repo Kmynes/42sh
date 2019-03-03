@@ -17,6 +17,7 @@ void test_rules(void)
     test_read_assignment_word();
     test_read_ionumber();
     test_read_heredoc();
+    test_read_redirection();
 }
 
 void test_parser(void)

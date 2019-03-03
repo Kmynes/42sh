@@ -92,7 +92,7 @@ enum ast_node_type
     AST_DO_GROUP,
     AST_CASE_CLAUSE,
     AST_CASE_ITEM,
-    AST_NODE_HEREDOC
+    AST_HEREDOC
 };
 
 // ast inifile
@@ -154,14 +154,15 @@ struct list_capt_s *list_capt_init(void);
 //parser_capture
 char *extract_string(char *s, int begin, int end);
 void print_capture(struct parser *p, struct list_capt_s *capture);
-void list_capt_store(struct list_capt_s *, const char *, struct capture_s *);
+struct list_capt_s *list_capt_store(struct list_capt_s *, const char *, struct capture_s *);
 struct capture_s *list_capt_lookup(struct list_capt_s *, const char *);
 void parser_remove_capture_by_tag(struct parser *p, const char *tag);
+void parser_free_capture_list(struct parser *p);
 
 static inline bool parser_begin_capture(struct parser *p, const char *tag)
 {
     struct capture_s capt = { p->cursor, 0 };
-    list_capt_store(p->capture, tag, &capt);
+    p->capture = list_capt_store(p->capture, tag, &capt);
     return true;
 }
 

@@ -18,5 +18,5 @@ ln -s ../../pre-commit.sh .git/hooks/pre-commit
 You can run test in an environement with docker by running
 
 ```
-docker-compose run --rm 42sh_arch
+docker-compose run 42sh_arch make check
 ```
