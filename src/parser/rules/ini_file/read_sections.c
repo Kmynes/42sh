@@ -5,19 +5,17 @@ unsigned int nbr_section = 0;
 bool read_sections(struct parser *p)
 {
     int tmp = p->cursor;
-    char capt_id[20];
-    sprintf(capt_id, "id%d", nbr_section);
-   
+
     if (read_spacing(p)                  &&
         parser_readchar(p, '[')          &&
-        parser_begin_capture(p, capt_id) &&
+        parser_begin_capture(p, "id") &&
         read_identifier(p)               &&
-        parser_end_capture(p, capt_id)   &&
+        parser_end_capture(p, "id")   &&
         parser_readchar(p, ']')          && 
         ONE_OR_MANY(read_key_value(p)))
     {
         struct ast_section *data = malloc(sizeof(struct ast_section));
-        data->identifier = parser_get_capture(p, capt_id);
+        data->identifier = parser_get_capture(p, "id");
     
         struct ast_node *ast_section = ast_init(AST_NODE_SECTION, data);
 

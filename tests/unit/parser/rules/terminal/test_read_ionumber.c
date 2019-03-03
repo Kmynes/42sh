@@ -4,8 +4,7 @@ void test_read_ionumber(void)
 {
     struct parser *p = parser_new_from_string("42 > toto");
     assert(read_ionumber(p));
-    printf("cursor : %d\n", p->cursor);
-
+    assert(p->cursor == 2);
     assert(!read_ionumber(p));
     parser_free(p);
 }

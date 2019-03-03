@@ -16,7 +16,8 @@ bool read_end_of_line(struct parser *p);
 
 bool read_spacing(struct parser *p);
 
-bool parser_readassign(struct parser *p);
+bool readassign(struct parser *p);
+char *readassign_to_string(struct ast_node *ast);
 
 //Terminale rules
 bool read_word(struct parser *p);
