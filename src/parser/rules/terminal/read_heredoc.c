@@ -16,7 +16,7 @@ bool read_heredoc(struct parser *p)
             {
                 parser_end_capture(p, "heredoc");
                 char *heredoc = parser_get_capture(p, "heredoc");
-                struct ast_node *ast = ast_heredoc_init(AST_NODE_HEREDOC,
+                struct ast_node *ast = ast_heredoc_init(AST_HEREDOC,
                                                 heredoc);
 
                 ast_set_in_parser(p, ast);

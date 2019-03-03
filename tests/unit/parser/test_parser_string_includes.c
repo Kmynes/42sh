@@ -2,16 +2,19 @@
 
 void test_parser_readtext(void)
 {
-    char *str = "Le chat est un félin";
-    char *text = "est";
+    struct parser *parser = parser_new_from_string("toto est toto");
+    assert(parser_readtext(parser, "toto"));
+    assert(parser->cursor == 4);
+    parser_free(parser);
 
-    size_t rank = 8;
+    parser = parser_new_from_string("est toto");
+    assert(!parser_readtext(parser, "toto"));
+    assert(parser->cursor == 0);
+    parser_free(parser);
 
-    struct parser *parser = parser_new_from_string(str);
-
-    parser->cursor = rank;
-
-    assert(parser_readtext(parser, text));
+    parser = parser_new_from_string(">>toto");
+    assert(parser_readtext(parser, ">>"));
+    assert(parser->cursor == 2);
     parser_free(parser);
 }
 

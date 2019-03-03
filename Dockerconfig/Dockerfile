@@ -43,5 +43,3 @@ RUN chmod +x /scripts/init.sh
 VOLUME /root/42sh
 
 WORKDIR /root/42sh
-
-ENTRYPOINT /scripts/init.sh
