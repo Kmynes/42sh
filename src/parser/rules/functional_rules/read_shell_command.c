@@ -56,10 +56,10 @@ bool read_shell_command(struct parser *p)
             ast_child = ast_get_from_parser(p, AST_COMPOUND_LIST);
         else if (rule_for)
             ast_child = ast_get_from_parser(p, AST_RULE_FOR);
-        if (rule_while)
+        else if (rule_while)
             ast_child = ast_get_from_parser(p, AST_RULE_WHILE);
         else if (rule_until)
-            ast_child = ast_get_from_parser(p, AST_RULE_FOR);
+            ast_child = ast_get_from_parser(p, AST_RULE_UNTIL);
         else if (rule_case)
             ast_child = ast_get_from_parser(p, AST_RULE_CASE);
         else if (rule_if)
