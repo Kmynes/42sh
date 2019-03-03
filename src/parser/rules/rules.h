@@ -46,10 +46,7 @@ bool read_word(struct parser *p);
 bool read_assignment_word(struct parser *p);
 
 bool read_heredoc(struct parser *p);
-struct ast_heredoc
-{
-    char *heredoc;
-};
+struct ast_node *ast_heredoc_init(enum ast_node_type type, void *data);
 
 bool read_ionumber(struct parser *p);
 
