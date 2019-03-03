@@ -12,3 +12,11 @@ To install it just run
 ```bash
 ln -s ../../pre-commit.sh .git/hooks/pre-commit
 ```
+
+### Docker testing
+
+You can run test in an environement with docker by running
+
+```
+docker-compose run --rm 42sh_arch
+```
