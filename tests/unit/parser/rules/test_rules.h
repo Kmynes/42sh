@@ -1,7 +1,6 @@
 #pragma once
 #include "../../test.h"
 #include <parser/rules/rules.h>
-#include <ast_print.h>
 
 void test_read_ini_file(void);
 

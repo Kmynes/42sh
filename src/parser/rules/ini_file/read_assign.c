@@ -8,13 +8,11 @@ bool readassign(struct parser *p)
         && parser_begin_capture(p, "num") && parser_readinteger(p) 
         && parser_end_capture(p, "num"))
     {
-        char *id = parser_get_capture(p, "id");
-        char *num = parser_get_capture(p, "num");
-        struct ast_assign data = { id, num };
-        printf("id : %s\n", data.id);
-        printf("num : %s\n", data.num);
+        struct ast_assign *data = malloc(sizeof(struct ast_assign));
+        data->id = parser_get_capture(p, "id");
+        data->num = parser_get_capture(p, "num");
 
-        struct ast_node *ast = ast_init(AST_NODE_ASSIGN, &data);
+        struct ast_node *ast = ast_assign_init(AST_NODE_ASSIGN, data);
 
         ast_set_in_parser(p, ast);
 
@@ -28,9 +26,8 @@ bool readassign(struct parser *p)
 void ast_assign_free(void *data)
 {
     struct ast_assign *ast_assign = data;
-    ast_assign++;
-//    free(ast_assign->id);
-//    free(ast_assign->num);
+    free(ast_assign->id);
+    free(ast_assign->num);
 }
 
 char *ast_assign_to_string(struct ast_node *ast)
@@ -40,4 +37,13 @@ char *ast_assign_to_string(struct ast_node *ast)
     char *output = malloc(size);
     sprintf(output, "assign_%s_%s", data->id, data->num);
     return output;
+}
+
+struct ast_node *ast_assign_init(enum ast_node_type type, void *data)
+{
+    struct ast_node *ast = ast_init(type, data);
+    ast->free = ast_assign_free;
+    ast->to_string = ast_assign_to_string;
+
+    return ast;
 }
