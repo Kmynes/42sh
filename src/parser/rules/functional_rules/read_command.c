@@ -1,11 +1,75 @@
 #include <parser/rules/rules.h>
 
+static bool read_second_instructions(struct parser *p)
+{
+    int tmp = p->cursor;
+
+    if (read_shell_command(p) &&
+        ZERO_OR_MANY(read_redirection(p))
+    )
+    {
+        return true;
+    }
+
+    p->cursor = tmp;
+
+    return false;
+}
+
+static bool read_third_instructions(struct parser *p)
+{
+    int tmp = p->cursor;
+
+    if (read_funcdec(p) &&
+        ZERO_OR_MANY(read_redirection(p))
+    )
+    {
+        return true;
+    }
+
+    p->cursor = tmp;
+
+    return false;
+}
+
+static void set_ast_redirection(struct parser *p, struct ast_node *ast, struct ast_node *ast_child)
+{
+    ast_set_in_parent(ast, ast_child);
+
+    struct ast_node *ast_child_redirect = NULL;
+
+    while ((ast_child_redirect = ast_get_from_parser(p, AST_REDIRECTION)))
+        ast_set_in_parent(ast, ast_child_redirect);
+}
+
 bool read_command(struct parser *p)
 {
     int tmp = p->cursor;
 
-    if (true)
+    if (read_simple_command(p)      || 
+        read_second_instructions(p) ||
+        read_third_instructions(p)
+    )
     {
+        struct ast_node *ast = ast_init(AST_COMMAND, NULL);
+        struct ast_node *ast_child = NULL;
+
+        ast_child = ast_get_from_parser(p, AST_SIMPLE_COMMAND);
+        ast_set_in_parser(p, ast);
+        if (ast_child != NULL)
+            return true;
+
+        ast_child = ast_get_from_parser(p, AST_SHELL_COMMAND);
+
+        if (ast_child != NULL)
+        {
+            set_ast_redirection(p, ast, ast_child);
+            return true;
+        }
+
+        ast_child = ast_get_from_parser(p, AST_FUNCDEC);    
+        set_ast_redirection(p, ast, ast_child);
+        
         return true;
     }
 
