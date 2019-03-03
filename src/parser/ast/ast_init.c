@@ -2,6 +2,8 @@
 
 struct ast_node_free free_table[] = {
         { AST_NODE_ASSIGN, ast_assign_free },
+        { AST_NODE_SECTION, ast_section_free },
+        { AST_NODE_KEY_VALUE, ast_key_value_free },
         { 0, NULL }  // always last element
 };
 
@@ -30,16 +32,10 @@ void ast_free(struct ast_node *ast)
             free_table[i].free_function(ast->data);
     }
 
-    if (ast->type == AST_NODE_SECTION)
-        ast_section_free(ast->data);
-    else if (ast->type == AST_NODE_KEY_VALUE)
-        ast_key_value_free(ast->data);
-    else if (ast->type == AST_NODE_ASSIGN)
-        ast_assign_free(ast->data);
-
     for (size_t i = 0; i < ast->nb_children; i++)
         ast_free(ast->children[i]);
 
     free(ast->children); // free array
+    free(ast->data);
     free(ast);
 }

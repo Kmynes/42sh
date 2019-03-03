@@ -8,11 +8,6 @@ struct ast_node_printer print_table[] = {
 
 char *ast_node_to_string(struct ast_node *ast)
 {
-    struct ast_assign *data = ast->data;
-    printf("data : %p\n", (void *)data);
-    printf("strlen(num) : %d\n", (int) strlen(data->num));
-    printf("num[0] --> %c\n", data->num[1]);
-    printf("num --> %s\n", data->num);
     for (int i = 0; print_table[i].type; i++)
     {
         if (print_table[i].type == ast->type)
