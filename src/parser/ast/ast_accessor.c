@@ -1,29 +1,5 @@
 #include <parser/parser.h>
 
-/**
- * store new ast_node at top of ast
- * @param p
- * @param tag
- * @param ast
- *
-void ast_store(struct parser *p, enum ast_node_type type, struct ast_assign
-*ast_assign)
-{
-    struct ast_node *ast = ast_init(AST_NODE_EMPTY, NULL);
-    ast->type = type;
-
-    if (ast->type == AST_NODE_ASSIGN)
-    {
-        // copy of struct ast_asssign on heap
-        void *node_data = malloc(sizeof(struct ast_assign));
-        memcpy(node_data, ast_assign, sizeof(struct ast_assign));
-        ast->data = node_data;
-    }
-    ast->children[ast->nb_children] = p->ast;
-    ast->nb_children++;
-    p->ast = ast;
-}*/
-
 void ast_set_in_parent(struct ast_node *parent, struct ast_node *ast)
 {
     if (parent->nb_children == parent->capacity)

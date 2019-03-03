@@ -1,4 +1,9 @@
-#include <parser/parser.h>
+#include "ast.h"
+
+struct ast_node_free free_table[] = {
+        { AST_NODE_ASSIGN, ast_assign_free },
+        { 0, NULL }  // always last element
+};
 
 struct ast_node *ast_init(enum ast_node_type type, void *data)
 {
@@ -18,6 +23,12 @@ void ast_free(struct ast_node *ast)
 {
     if (ast == NULL)
         return;
+
+    for (int i = 0; free_table[i].type; i++)
+    {
+        if (free_table[i].type == ast->type)
+            free_table[i].free_function(ast->data);
+    }
 
     if (ast->type == AST_NODE_SECTION)
         ast_section_free(ast->data);
