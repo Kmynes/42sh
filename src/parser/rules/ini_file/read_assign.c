@@ -1,6 +1,6 @@
 #include <parser/rules/rules.h>
 
-bool parser_readassign(struct parser *p)
+bool readassign(struct parser *p)
 {
     unsigned int tmp = p->cursor;
     if (parser_begin_capture(p, "id") && parser_readidentifier(p)
@@ -24,4 +24,12 @@ bool parser_readassign(struct parser *p)
 
     p->cursor = tmp;
     return false;
+}
+
+char *readassign_to_string(struct ast_node *ast)
+{
+    struct ast_assign *data = (struct ast_assign *) ast->data;
+    char *output = malloc(100);
+    sprintf(output, "assign_%s_%s", data->id, data->num);
+    return output;
 }
