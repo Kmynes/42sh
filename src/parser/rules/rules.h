@@ -65,7 +65,9 @@ bool read_and_or(struct parser *p);
 struct ast_and_or{char *elt;};
 
 bool read_pipeline(struct parser *p);
-struct ast_pipeline{char *elt;};
+struct ast_pipeline {
+    bool is_negative;
+};
 
 bool read_command(struct parser *p);
 struct ast_command{char *elt;};
