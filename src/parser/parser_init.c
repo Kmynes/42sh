@@ -1,3 +1,4 @@
+#include <parser/ast/ast.h>
 #include "parser.h"
 
 struct parser *parser_new_from_string(const char *text)

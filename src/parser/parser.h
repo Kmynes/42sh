@@ -105,23 +105,6 @@ struct ast_node
     struct ast_node **children; // array of children
 };
 
-struct ast_section
-{
-    char *identifier;
-};
-
-struct ast_key_value
-{
-    char *id;
-    char *value;
-};
-
-struct ast_assign
-{
-    char *id;
-    char *num;
-};
-
 struct capture_s
 {
     int begin;
@@ -134,73 +117,6 @@ struct list_capt_s
     struct capture_s capt;
     struct list_capt_s *next;
 };
-
-//ast functional
-struct ast_input {
-    char *input;
-    struct ast_list *list;
-};
-
-struct ast_list {
-    struct ast_and_or *and_or;
-};
-
-struct ast_and_or {
-    struct ast_pipeline *pipeline;
-};
-
-struct ast_pipeline {
-    struct ast_command *command;
-};
-
-struct ast_command { 
-    struct ast_simple_command *simple_command;
-    struct ast_shell_command *shell_command;
-    struct ast_funcdec *funcdec;
-    struct ast_redirection *redirection;
-};
-
-struct ast_simple_command {
-    struct ast_prefix *prefix;
-    struct ast_element *element;
-};
-
-struct ast_shell_command {
-    struct ast_compound_list *compound_list;
-    struct ast_rule_for *rule_for;
-    struct ast_rule_while *rule_while;
-    struct ast_rule_until *rule_until;
-    struct ast_rule_case *rule_case;
-    struct ast_rule_if *rule_if;
-};
-
-struct ast_funcdec{char *elt;};
-
-struct ast_redirection{char *elt;};
-
-struct ast_prefix{char *elt;};
-
-struct ast_element{char *elt;};
-
-struct ast_compound_list{char *elt;};
-
-struct ast_rule_for{char *elt;};
-
-struct ast_rule_while{char *elt;};
-
-struct ast_untile{char *elt;};
-
-struct ast_case{char *elt;};
-
-struct ast_if{char *elt;};
-
-struct ast_else_clause{char *elt;};
-
-struct ast_do_group{char *elt;};
-
-struct ast_case_clause{char *elt;};
-
-struct ast_case_item{char *elt;};
 
 //parser_init
 struct parser *parser_new_from_string(const char *text);
@@ -239,7 +155,6 @@ void print_capture(struct parser *p, struct list_capt_s *capture);
 void list_capt_store(struct list_capt_s *, const char *, struct capture_s *);
 struct capture_s *list_capt_lookup(struct list_capt_s *, const char *);
 void parser_remove_capture_by_tag(struct parser *p, const char *tag);
-bool readassign(struct parser *p);
 
 static inline bool parser_begin_capture(struct parser *p, const char *tag)
 {
@@ -266,22 +181,3 @@ static inline bool parser_end_capture(struct parser *p, const char *tag)
     pcapt->end = p->cursor;
     return true;
 }
-
-//ast_init
-struct ast_node *ast_init(enum ast_node_type, void *data);
-void ast_free(struct ast_node *ast);
-
-//ast_data
-void ast_assign_free(struct ast_assign *ast_assign);
-void ast_key_value_free(struct ast_key_value *ast_key_value);
-void ast_section_free(struct ast_section *ast_sec);
-
-//ast
-void ast_store(struct parser *p, enum ast_node_type type, struct ast_assign
-*ast_assign);
-// coder ast_lookup : renvoie un ast_node en cherchant le premier tag qui match
-struct ast_node *ast_lookup(struct parser *p, const char *tag);
-void ast_set_in_parent(struct ast_node *parent, struct ast_node *ast);
-struct ast_node *ast_get_from_parent(struct ast_node *parent, enum ast_node_type type_ast_search);
-void ast_set_in_parser(struct parser *p, struct ast_node *ast);
-struct ast_node *ast_get_from_parser(struct parser *p, enum ast_node_type type_ast_search);

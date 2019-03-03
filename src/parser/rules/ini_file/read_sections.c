@@ -31,3 +31,10 @@ bool read_sections(struct parser *p)
     p->cursor = tmp;
     return false;
 }
+
+void ast_section_free(void *data)
+{
+    struct ast_section *ast_sec = data;
+    free(ast_sec->identifier);
+    free(ast_sec);
+}
