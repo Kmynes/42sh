@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <parser/parser.h>
 
 int execute_options(char *command, char *options);
 char *option_translator(char *options, char *current_option);
@@ -121,13 +122,23 @@ void version_display()
 }
 
 // ast print le fichier DOT ouvert est \"ast.dot\"
-int ast_print()
+int ast_print(struct parser *p)
 {
-    FILE *fp = fopen("../ast.dot", "r");
+    FILE *fp = fopen("../ast.dot", "w");
     char c;
 
     if (fp == NULL)
         return 1;
+
+    if (p->ast->type == AST_NODE_EMPTY)
+    {}
+    else if (p->ast->type ==  AST_NODE_INI_FILE)
+    {}
+    else if (p->ast->type ==  AST_NODE_SECTION)
+    {}
+    else if (p->ast->type ==  AST_NODE_KEY_VALUE)
+    {}
+    else if (p->ast->type ==  AST_NODE_ASSIGN)
 
     for (; (c = fgetc(fp)) != EOF ;)
         printf("%c",c);

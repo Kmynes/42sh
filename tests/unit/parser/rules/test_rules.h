@@ -1,3 +1,4 @@
+#pragma once
 #include "../../test.h"
 #include <parser/rules/rules.h>
 
@@ -20,3 +21,11 @@ void test_read_spacing(void);
 void test_global(void);
 
 void test_read_assign(void);
+
+void test_read_word(void);
+
+void test_read_assignment_word(void);
+
+void test_read_ionumber(void);
+
+void test_read_heredoc(void);

@@ -19,5 +19,6 @@ struct list_capt_s *list_capt_init(void)
 {
     struct list_capt_s *capture = malloc(sizeof(struct list_capt_s));
     capture->next = NULL;
+    capture->tag = NULL;
     return capture;
 }
