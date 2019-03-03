@@ -79,7 +79,8 @@ int execute_options(char *command, char *options)
         default:
             break;
         }
-    
+    free(options);
+    free(command);
     return 0;
 }
 
