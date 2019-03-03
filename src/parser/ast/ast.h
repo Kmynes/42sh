@@ -12,7 +12,3 @@ struct ast_node *ast_get_from_parser(struct parser *p, enum ast_node_type type_a
 // ast_init
 struct ast_node *ast_init(enum ast_node_type type, void *data);
 void ast_free(struct ast_node *ast);
-struct ast_node_free {
-    enum ast_node_type type;
-    void (*free_function)(void *);
-};

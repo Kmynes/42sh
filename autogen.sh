@@ -4,7 +4,7 @@ mkdir -p build
 
 cd build
 
-cmake ..
+[ "$#" -eq 0 ] && cmake ..
 
 make
 
