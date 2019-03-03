@@ -27,3 +27,5 @@ void test_read_word(void);
 void test_read_assignment_word(void);
 
 void test_read_ionumber(void);
+
+void test_read_heredoc(void);
