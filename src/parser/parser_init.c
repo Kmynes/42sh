@@ -1,3 +1,4 @@
+#include <parser/ast/ast.h>
 #include "parser.h"
 
 struct parser *parser_new_from_string(const char *text)
@@ -8,7 +9,7 @@ struct parser *parser_new_from_string(const char *text)
     strcpy(parser->input, text);
     parser->cursor = 0;
     parser->capture = list_capt_init();
-    parser->ast = ast_init();
+    parser->ast = ast_init(AST_NODE_EMPTY, NULL);
     parser->error = malloc(sizeof(struct error_s));
 
     return parser;

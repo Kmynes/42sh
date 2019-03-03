@@ -66,13 +66,36 @@ struct error_s
 
 enum ast_node_type
 {
-    AST_NODE_EMPTY,
+    AST_NODE_EMPTY = 1,
     AST_NODE_INI_FILE,
     AST_NODE_SECTION,
     AST_NODE_KEY_VALUE,
-    AST_NODE_ASSIGN
+    AST_NODE_ASSIGN,
+    AST_INPUT,
+    AST_LIST,
+    AST_AND_OR,
+    AST_PIPELINE,
+    AST_COMMAND,
+    AST_SIMPLE_COMMAND,
+    AST_SHELL_COMMAND,
+    AST_FUNCDEC,
+    AST_REDIRECTION,
+    AST_PREFIX,
+    AST_ELEMENT,
+    AST_COMPOUND_LIST,
+    AST_RULE_FOR,
+    AST_RULE_WHILE,
+    AST_RULE_UNTIL,
+    AST_RULE_CASE,
+    AST_RULE_IF,
+    AST_ELSE_CLAUSE,
+    AST_DO_GROUP,
+    AST_CASE_CLAUSE,
+    AST_CASE_ITEM,
+    AST_NODE_HEREDOC
 };
 
+// ast inifile
 struct ast_node
 {
     enum ast_node_type type;
@@ -80,23 +103,8 @@ struct ast_node
     size_t nb_children;
     size_t capacity;
     struct ast_node **children; // array of children
-};
-
-struct ast_section
-{
-    char *identifier;
-};
-
-struct ast_key_value
-{
-    char *id;
-    char *value;
-};
-
-struct ast_assign
-{
-    char *id;
-    char *num;
+    char *(*to_string)(struct ast_node *);
+    void (*free)(void *);
 };
 
 struct capture_s
@@ -148,7 +156,7 @@ char *extract_string(char *s, int begin, int end);
 void print_capture(struct parser *p, struct list_capt_s *capture);
 void list_capt_store(struct list_capt_s *, const char *, struct capture_s *);
 struct capture_s *list_capt_lookup(struct list_capt_s *, const char *);
-bool parser_readassign(struct parser *p);
+void parser_remove_capture_by_tag(struct parser *p, const char *tag);
 
 static inline bool parser_begin_capture(struct parser *p, const char *tag)
 {
@@ -162,7 +170,9 @@ static inline char *parser_get_capture(struct parser *p, const char *tag)
     struct capture_s *pcapt = list_capt_lookup(p->capture, tag);
     if (!pcapt)
         return false;
-    return strndup(&p->input[pcapt->begin], pcapt->end - pcapt->begin);
+    char *capture = strndup(&p->input[pcapt->begin], pcapt->end - pcapt->begin);
+    parser_remove_capture_by_tag(p, tag);
+    return capture;
 }
 
 static inline bool parser_end_capture(struct parser *p, const char *tag)
@@ -173,22 +183,3 @@ static inline bool parser_end_capture(struct parser *p, const char *tag)
     pcapt->end = p->cursor;
     return true;
 }
-
-//ast_init
-struct ast_node *ast_init(void);
-void ast_free(struct ast_node *ast);
-
-//ast_data
-void ast_assign_free(struct ast_assign *ast_assign);
-void ast_key_value_free(struct ast_key_value *ast_key_value);
-void ast_section_free(struct ast_section *ast_sec);
-
-//ast
-void ast_store(struct parser *p, enum ast_node_type type, struct ast_assign
-*ast_assign);
-// coder ast_lookup : renvoie un ast_node en cherchant le premier tag qui match
-struct ast_node *ast_lookup(struct parser *p, const char *tag);
-void ast_set_in_parent(struct ast_node *parent, struct ast_node *ast);
-struct ast_node *ast_get_from_parent(struct ast_node *parent, enum ast_node_type type_ast_search);
-void ast_set_in_parser(struct parser *p, struct ast_node *ast);
-struct ast_node *ast_get_from_parser(struct parser *p, enum ast_node_type type_ast_search);

@@ -30,7 +30,7 @@ void test_global(void)
     // parse
     if (read_ini_file(p))
     {
-        struct ast_node *ast_ini_file = p->ast->children[0];
+ /*       struct ast_node *ast_ini_file = p->ast->children[0];
 
         struct ast_node *ast_node_section = NULL;
 
@@ -41,7 +41,6 @@ void test_global(void)
         for (size_t i =0;i < ast_ini_file->nb_children; i++)
         {
             ast_node_section = ast_ini_file->children[i];
-            //ast_section = ast_node_section->data;
 
             printf("- Section num:%ld :\n", i);
             for (size_t j=0;j < ast_node_section->nb_children; j++)
@@ -50,7 +49,7 @@ void test_global(void)
                 ast_key_value = ast_node_key_value->data;
                 printf ("\t\t- Key:%s | Value:%s\n", ast_key_value->id, ast_key_value->value);
             }
-        }
+        }*/
     }
     else
     {

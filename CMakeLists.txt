@@ -14,24 +14,18 @@ include_directories(src)
 
 include_directories(tests)
 
-file(GLOB SRC_FILES  
-        src/*.c
-        src/*/*.c
-        src/*/*/*.c
-)
+file(GLOB_RECURSE SRC_FILES  src/*)
+
 
 add_executable(42sh ${SRC_FILES})
+
 
 add_library(42sh_lib ${SRC_FILES})
 
 
 ### UNIT TESTS
 
-file(GLOB TEST_FILES
-        tests/unit/*.c
-        tests/unit/*/*.c
-        tests/unit/*/*/*.c
-        )
+file(GLOB_RECURSE TEST_FILES tests/*)
 
 enable_testing()
 include_directories(tests tests/unit)
