@@ -94,7 +94,9 @@ bool read_prefix(struct parser *p);
 struct ast_prefix{char *elt;};
 
 bool read_element(struct parser *p);
-struct ast_element{char *elt;};
+struct ast_element {
+    char *elt;
+};
 
 bool read_compound_list(struct parser *p);
 struct ast_compound_list{char *elt;};
