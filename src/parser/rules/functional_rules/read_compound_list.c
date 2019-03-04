@@ -42,7 +42,7 @@ bool read_compound_list(struct parser *p)
     if (ZERO_OR_MANY(parser_readchar(p, '\n')) &&
         read_and_or(p)                        &&
         ZERO_OR_MANY(read_first_part(p))      &&
-        read_second_part(p))) 
+        read_second_part(p))
     {
         struct ast_node *ast = ast_init(AST_COMPOUND_LIST, NULL);
         struct ast_node *ast_child = NULL;
