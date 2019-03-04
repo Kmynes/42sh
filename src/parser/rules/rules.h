@@ -75,7 +75,9 @@ bool read_shell_command(struct parser *p);
 struct ast_shell_command{char *elt;};
 
 bool read_funcdec(struct parser *p);
-struct ast_funcdec{char *elt;};
+struct ast_funcdec {
+    char *function;
+};
 
 bool read_redirection(struct parser *p);
 struct ast_redirection
@@ -85,7 +87,8 @@ struct ast_redirection
     char *word;
     char *heredoc;
 };
-struct ast_node *ast_redirection_init(char *ionumber, char *redirect, char *word, char *heredoc);
+struct ast_node *ast_redirection_init(char *ionumber, char *redirect, 
+                                        char *word, char *heredoc);
 
 bool read_prefix(struct parser *p);
 struct ast_prefix{char *elt;};
