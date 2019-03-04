@@ -41,3 +41,18 @@ int ast_print(struct parser *p)
 
     return 0;
 }
+
+int print_node_empty(struct parser *p)
+{}
+
+int print_node_ini_file(struct parser *p)
+{}
+
+int print_node_section(struct parser *p)
+{}
+
+int print_node_key_value(struct parser *p)
+{}
+
+int print_node_assign(struct parser *p)
+{}
