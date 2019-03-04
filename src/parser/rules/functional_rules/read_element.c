@@ -1,12 +1,12 @@
 #include <parser/rules/rules.h>
 
-static read_first_instructions(struct parser *p)
+static bool read_first_instructions(struct parser *p)
 {
     int tmp = p->cursor;
 
-    if (parser_begin_capture("elt") &&
+    if (parser_begin_capture(p, "elt") &&
         read_word(p)                &&
-        parser_end_capture("elt")
+        parser_end_capture(p, "elt")
         )
     {
         return true;
