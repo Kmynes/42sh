@@ -27,11 +27,10 @@ bool read_pipeline(struct parser *p)
         read_command(p)                                         &&
         ZERO_OR_MANY(read_optional_instructions(p))
     ) {
-        struct ast_node *ast = ast_init(AST_PIPELINE, data);
-        struct ast_node *ast_child_command = NULL;
+        struct ast_pipeline *data = malloc(sizeof(struct ast_pipeline));
+        struct ast_node *ast = ast_pipeline_init(data);
 
-        while ((ast_child_command = ast_get_from_parser(p, AST_COMMAND)))
-            ast_set_in_parent(ast, ast_child_command);
+        ast_recover_all_from_parser(ast, p, AST_COMMAND);
 
         ast_set_in_parser(p, ast);
         return true;
@@ -42,4 +41,21 @@ bool read_pipeline(struct parser *p)
     p->cursor = tmp;
 
     return false;
+}
+
+char *ast_pipeline_to_string(struct ast_node *ast)
+{
+    char buff[50];
+    struct ast_pipeline *data = ast->data;
+    char *answer = data->is_negative ? "true" : "false";
+    sprintf(buff, "pipeline:\n\tis_negative:%s", answer);
+    return default_to_string(ast, buff);
+}
+
+struct ast_node *ast_pipeline_init(void *data)
+{
+    struct ast_node *ast = ast_init(AST_PIPELINE, data);
+    ast->to_string = ast_pipeline_to_string;
+
+    return ast;
 }
