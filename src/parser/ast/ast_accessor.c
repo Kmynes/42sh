@@ -47,3 +47,11 @@ struct ast_node *ast_get_from_parser(struct parser *p, enum ast_node_type type_a
 {
     return ast_get_from_parent(p->ast, type_ast_search);
 }
+
+void ast_recover_all_from_parser(struct ast_node *parent, struct parser *p
+                                    , enum ast_node_type type)
+{
+    struct ast_node *child = NULL;
+    while ((child = ast_get_from_parser(p, type)))
+        ast_set_in_parent(parent, child);
+}

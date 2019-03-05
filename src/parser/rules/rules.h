@@ -52,18 +52,19 @@ bool read_ionumber(struct parser *p);
 
 // Functional rules
 bool read_input(struct parser *p);
-struct ast_input{char *elt;};
+struct ast_node *ast_input_init();
 
 bool read_list(struct parser *p);
-struct ast_list{char *elt;};
+struct ast_node *ast_list_init();
 
 bool read_and_or(struct parser *p);
-struct ast_and_or{char *elt;};
+struct ast_node *ast_and_or_init();
 
 bool read_pipeline(struct parser *p);
 struct ast_pipeline {
     bool is_negative;
 };
+struct ast_node *ast_pipeline_init(void *data);
 
 bool read_command(struct parser *p);
 struct ast_command{char *elt;};
@@ -78,6 +79,7 @@ bool read_funcdec(struct parser *p);
 struct ast_funcdec {
     char *function;
 };
+struct ast_node *ast_funcdec_init(void *data);
 
 bool read_redirection(struct parser *p);
 struct ast_redirection
@@ -99,7 +101,7 @@ struct ast_element {
 };
 
 bool read_compound_list(struct parser *p);
-struct ast_compound_list{char *elt;};
+struct ast_node *ast_compound_list_init();
 
 // Key word rules
 bool read_rule_for(struct parser *p);
@@ -128,3 +130,5 @@ struct ast_case_clause{char *elt;};
 
 bool read_case_item(struct parser *p);
 struct ast_case_item{char *elt;};
+
+char *default_to_string(struct ast_node *ast, char *type);

@@ -40,7 +40,7 @@ bool read_input(struct parser *p)
         parser_readchar(p, '\n')     ||
         parser_readchar(p, EOF)
     ) {
-        struct ast_node *ast = ast_init(AST_INPUT, NULL);
+        struct ast_node *ast = ast_input_init();
 
         if (has_list)
         {
@@ -59,16 +59,12 @@ bool read_input(struct parser *p)
 
 char *ast_input_to_string(struct ast_node *ast)
 {
-    char buff[100];
-    sprintf(buff, "input (%ld children)", ast->nb_children);
-    return strdup(buff);
+    return default_to_string(ast, "input");
 }
 
-struct ast_node *ast_input_init(enum ast_node_type type, void *data)
+struct ast_node *ast_input_init()
 {
-    struct ast_node *ast = ast_init(type, data);
-
+    struct ast_node *ast = ast_init(AST_INPUT, NULL);
     ast->to_string = ast_input_to_string;
-
     return ast;
 }
