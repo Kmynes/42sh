@@ -2,7 +2,7 @@
 
 bool read_assignment_word(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (parser_begin_capture(p, "key") &&
         read_identifier(p)             &&
@@ -41,6 +41,7 @@ void ast_assignment_word_free(void *data)
     struct ast_assignment_word *ass_word = data;
     free(ass_word->key);
     free(ass_word->value);
+    free(ass_word);
 }
 
 struct ast_node *ast_assignment_word_init(struct ast_assignment_word *data)

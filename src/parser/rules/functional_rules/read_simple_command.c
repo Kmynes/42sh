@@ -2,7 +2,7 @@
 
 static bool read_prefix_and_elements(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (ZERO_OR_MANY(read_prefix(p) && 
     ONE_OR_MANY(read_element(p))))
@@ -17,7 +17,7 @@ static bool read_prefix_and_elements(struct parser *p)
 
 bool read_simple_command(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
     bool prefix_and_elements = false;
     if (ONE_OR_MANY(read_prefix(p)) ||
         (prefix_and_elements = read_prefix_and_elements(p)))

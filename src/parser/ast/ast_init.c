@@ -28,6 +28,5 @@ void ast_free(struct ast_node *ast)
         ast_free(ast->children[i]);
 
     free(ast->children); // free array
-    free(ast->data);
     free(ast);
 }

@@ -2,7 +2,7 @@
 
 bool read_instructions(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if ((parser_readtext(p, "&&") || parser_readtext(p, "||") ) &&
         ZERO_OR_MANY(parser_readchar(p, '\n'))                  &&
@@ -18,7 +18,7 @@ bool read_instructions(struct parser *p)
 
 bool read_and_or(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (read_pipeline(p) && ZERO_OR_MANY(read_instructions(p)))
     {

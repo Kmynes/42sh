@@ -2,7 +2,7 @@
 
 static bool read_second_instructions(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (read_shell_command(p) &&
         ZERO_OR_MANY(read_redirection(p))
@@ -18,7 +18,7 @@ static bool read_second_instructions(struct parser *p)
 
 static bool read_third_instructions(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (read_funcdec(p) &&
         ZERO_OR_MANY(read_redirection(p))
@@ -35,16 +35,12 @@ static bool read_third_instructions(struct parser *p)
 static void set_ast_redirection(struct parser *p, struct ast_node *ast, struct ast_node *ast_child)
 {
     ast_set_in_parent(ast, ast_child);
-
-    struct ast_node *ast_child_redirect = NULL;
-
-    while ((ast_child_redirect = ast_get_from_parser(p, AST_REDIRECTION)))
-        ast_set_in_parent(ast, ast_child_redirect);
+    ast_recover_all_from_parser(ast, p, AST_REDIRECTION);
 }
 
 bool read_command(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (read_simple_command(p)      || 
         read_second_instructions(p) ||
@@ -69,7 +65,7 @@ bool read_command(struct parser *p)
 
         ast_child = ast_get_from_parser(p, AST_FUNCDEC);    
         set_ast_redirection(p, ast, ast_child);
-        
+
         return true;
     }
 

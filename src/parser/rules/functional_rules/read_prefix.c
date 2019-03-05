@@ -2,7 +2,7 @@
 
 bool read_prefix(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
     bool is_assign = false;
 
     if ( (is_assign = read_assignment_word(p)) || read_redirection(p))

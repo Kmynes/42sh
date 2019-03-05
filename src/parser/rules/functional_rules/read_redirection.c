@@ -2,11 +2,11 @@
 
 bool read_redirection_1(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     char *ionumber = NULL;
     parser_begin_capture(p, "ionumber");
-    int status = read_ionumber(p);
+    bool status = read_ionumber(p);
 
     if (status)
     {
@@ -25,7 +25,7 @@ bool read_redirection_1(struct parser *p)
         char *word = parser_get_capture(p, "word");
         struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
         ast_set_in_parser(p, ast);
-        return 1;
+        return true;
     }
 
     parser_remove_capture_by_tag(p, "ionumber");
@@ -33,16 +33,16 @@ bool read_redirection_1(struct parser *p)
     parser_remove_capture_by_tag(p, "word");
     free(ionumber);
     p->cursor = tmp;
-    return 0;
+    return false;
 }
 
 bool read_redirection_2(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     char *ionumber = NULL;
     parser_begin_capture(p, "ionumber");
-    int status = read_ionumber(p);
+    bool status = read_ionumber(p);
 
     if (status)
     {
@@ -62,7 +62,7 @@ bool read_redirection_2(struct parser *p)
         struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
         ast_set_in_parser(p, ast);
 
-        return 1;
+        return true;
     }
 
     parser_remove_capture_by_tag(p, "ionumber");
@@ -70,16 +70,16 @@ bool read_redirection_2(struct parser *p)
     parser_remove_capture_by_tag(p, "word");
     free(ionumber);
     p->cursor = tmp;
-    return 0;
+    return false;
 }
 
 bool read_redirection_3(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     char *ionumber = NULL;
     parser_begin_capture(p, "ionumber");
-    int status = read_ionumber(p);
+    bool status = read_ionumber(p);
 
     if (status)
     {
@@ -99,7 +99,7 @@ bool read_redirection_3(struct parser *p)
         struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
         ast_set_in_parser(p, ast);
 
-        return 1;
+        return true;
     }
 
     parser_remove_capture_by_tag(p, "ionumber");
@@ -107,16 +107,16 @@ bool read_redirection_3(struct parser *p)
     parser_remove_capture_by_tag(p, "word");
     free(ionumber);
     p->cursor = tmp;
-    return 0;
+    return false;
 }
 
 bool read_redirection_4(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     char *ionumber = NULL;
     parser_begin_capture(p, "ionumber");
-    int status = read_ionumber(p);
+    bool status = read_ionumber(p);
 
     if (status)
     {
@@ -136,24 +136,23 @@ bool read_redirection_4(struct parser *p)
         ast_free(ast_heredoc);
         struct ast_node *ast = ast_redirection_init(ionumber, redirect, NULL, heredoc);
         ast_set_in_parser(p, ast);
-        return 1;
+        return true;
     }
-
     parser_remove_capture_by_tag(p, "ionumber");
     parser_remove_capture_by_tag(p, "redirect");
     parser_remove_capture_by_tag(p, "heredoc");
     free(ionumber);
     p->cursor = tmp;
-    return 0;
+    return false;
 }
 
 bool read_redirection_5(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     char *ionumber = NULL;
     parser_begin_capture(p, "ionumber");
-    int status = read_ionumber(p);
+    bool status = read_ionumber(p);
 
     if (status)
     {
@@ -173,7 +172,7 @@ bool read_redirection_5(struct parser *p)
         ast_free(ast_heredoc);
         struct ast_node *ast = ast_redirection_init(ionumber, redirect, NULL, heredoc);
         ast_set_in_parser(p, ast);
-        return 1;
+        return true;
     }
 
     parser_remove_capture_by_tag(p, "ionumber");
@@ -181,16 +180,16 @@ bool read_redirection_5(struct parser *p)
     parser_remove_capture_by_tag(p, "heredoc");
     free(ionumber);
     p->cursor = tmp;
-    return 0;
+    return false;
 }
 
 bool read_redirection_6(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     char *ionumber = NULL;
     parser_begin_capture(p, "ionumber");
-    int status = read_ionumber(p);
+    bool status = read_ionumber(p);
 
     if (status)
     {
@@ -210,7 +209,7 @@ bool read_redirection_6(struct parser *p)
         struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
         ast_set_in_parser(p, ast);
 
-        return 1;
+        return true;
     }
 
     parser_remove_capture_by_tag(p, "ionumber");
@@ -218,16 +217,16 @@ bool read_redirection_6(struct parser *p)
     parser_remove_capture_by_tag(p, "word");
     free(ionumber);
     p->cursor = tmp;
-    return 0;
+    return false;
 }
 
 bool read_redirection_7(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     char *ionumber = NULL;
     parser_begin_capture(p, "ionumber");
-    int status = read_ionumber(p);
+    bool status = read_ionumber(p);
 
     if (status)
     {
@@ -247,7 +246,7 @@ bool read_redirection_7(struct parser *p)
         struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
         ast_set_in_parser(p, ast);
 
-        return 1;
+        return true;
     }
 
     parser_remove_capture_by_tag(p, "ionumber");
@@ -255,16 +254,16 @@ bool read_redirection_7(struct parser *p)
     parser_remove_capture_by_tag(p, "word");
     free(ionumber);
     p->cursor = tmp;
-    return 0;
+    return false;
 }
 
 bool read_redirection_8(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     char *ionumber = NULL;
     parser_begin_capture(p, "ionumber");
-    int status = read_ionumber(p);
+    bool status = read_ionumber(p);
 
     if (status)
     {
@@ -284,7 +283,7 @@ bool read_redirection_8(struct parser *p)
         struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
         ast_set_in_parser(p, ast);
 
-        return 1;
+        return true;
     }
 
     parser_remove_capture_by_tag(p, "ionumber");
@@ -292,16 +291,16 @@ bool read_redirection_8(struct parser *p)
     parser_remove_capture_by_tag(p, "word");
     free(ionumber);
     p->cursor = tmp;
-    return 0;
+    return false;
 }
 
 bool read_redirection_9(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     char *ionumber = NULL;
     parser_begin_capture(p, "ionumber");
-    int status = read_ionumber(p);
+    bool status = read_ionumber(p);
 
     if (status)
     {
@@ -321,7 +320,7 @@ bool read_redirection_9(struct parser *p)
         struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
         ast_set_in_parser(p, ast);
 
-        return 1;
+        return true;
     }
 
     parser_remove_capture_by_tag(p, "ionumber");
@@ -329,7 +328,7 @@ bool read_redirection_9(struct parser *p)
     parser_remove_capture_by_tag(p, "word");
     free(ionumber);
     p->cursor = tmp;
-    return 0;
+    return false;
 }
 
 
@@ -355,6 +354,7 @@ void ast_redirection_free(void *data)
     free(ast_redirection->redirect);
     free(ast_redirection->word);
     free(ast_redirection->heredoc);
+    free(data);
 }
 
 char *ast_redirection_to_string(struct ast_node *ast)
@@ -363,7 +363,6 @@ char *ast_redirection_to_string(struct ast_node *ast)
     char *ionumber = data->ionumber ? data->ionumber : "0";
     char *word = data->word ? data->word : data->heredoc;
     size_t size = strlen("redirection___") + strlen(ionumber) + strlen(data->redirect) + strlen(word) + 1;
-
 
     char *output = malloc(size);
     sprintf(output, "redirection_%s_%s_%s", ionumber, data->redirect, word);

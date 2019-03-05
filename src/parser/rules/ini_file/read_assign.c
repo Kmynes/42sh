@@ -28,12 +28,13 @@ void ast_assign_free(void *data)
     struct ast_assign *ast_assign = data;
     free(ast_assign->id);
     free(ast_assign->num);
+    free(data);
 }
 
 char *ast_assign_to_string(struct ast_node *ast)
 {
     struct ast_assign *data = ast->data;
-    int size = strlen(data->id) + strlen(data->num) + strlen("assign__") + 1;
+    size_t size = strlen(data->id) + strlen(data->num) + strlen("assign__") + 1;
     char *output = malloc(size);
     sprintf(output, "assign_%s_%s", data->id, data->num);
     return output;

@@ -2,7 +2,7 @@
 
 bool read_spacing(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (read_spaces(p) && read_end_of_line(p))
         return true;

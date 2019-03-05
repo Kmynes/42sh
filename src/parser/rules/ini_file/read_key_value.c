@@ -1,9 +1,8 @@
 #include "parser/rules/rules.h"
 
-
 bool read_key_value(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (read_spacing(p) &&
         parser_begin_capture(p, "key") && read_identifier(p) &&
@@ -23,7 +22,7 @@ bool read_key_value(struct parser *p)
         data->id = id;
         data->value = value;
 
-        struct ast_node *ast = ast_key_value_init(AST_NODE_KEY_VALUE, data);
+        struct ast_node *ast = ast_key_value_init(data);
 
         ast_set_in_parser(p, ast);
         return true;
@@ -38,11 +37,12 @@ void ast_key_value_free(void *data)
     struct ast_key_value *ast_key_value = data;
     free(ast_key_value->id);
     free(ast_key_value->value);
+    free(data);
 }
 
-struct ast_node *ast_key_value_init(enum ast_node_type type, void *data)
+struct ast_node *ast_key_value_init(struct ast_key_value *data)
 {
-    struct ast_node *ast = ast_init(type, data);
+    struct ast_node *ast = ast_init(AST_NODE_KEY_VALUE, data);
     ast->free = ast_key_value_free;
     ast->to_string = NULL;
 

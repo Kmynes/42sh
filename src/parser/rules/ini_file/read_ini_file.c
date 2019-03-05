@@ -2,21 +2,28 @@
 
 bool read_ini_file(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (ZERO_OR_MANY(read_sections(p)) && parser_eof(p))
     {
-        struct ast_node *ast_ini_file = ast_init(AST_NODE_INI_FILE, NULL);
-
-        struct ast_node *ast_child_section = NULL;
-
-        while ((ast_child_section = ast_get_from_parser(p, AST_NODE_SECTION)))
-            ast_set_in_parent(ast_ini_file, ast_child_section);
-
-        ast_set_in_parser(p, ast_ini_file);
+        struct ast_node *ast = ast_ini_file_init();
+        ast_recover_all_from_parser(ast, p, AST_NODE_SECTION);
+        ast_set_in_parser(p, ast);
         return true;
     }
 
     p->cursor = tmp;
     return false;
+}
+
+char *ast_ini_file_to_string(struct ast_node *ast)
+{
+    return default_to_string(ast, "ini_file:");
+}
+
+struct ast_node *ast_ini_file_init()
+{
+    struct ast_node *ast = ast_init(AST_NODE_INI_FILE, NULL);
+    ast->to_string = ast_ini_file_to_string;
+    return ast;
 }
