@@ -4,14 +4,14 @@
 #include <parser/ast/ast.h>
 
 bool read_ini_file(struct parser *p);
+struct ast_node *ast_ini_file_init();
 
 bool read_sections(struct parser *p);
 struct ast_section
 {
     char *identifier;
 };
-struct ast_node *ast_section_init(enum ast_node_type type, void *data);
-
+struct ast_node *ast_section_init(struct ast_section *data);
 
 bool read_key_value(struct parser *p);
 struct ast_key_value
@@ -19,7 +19,7 @@ struct ast_key_value
     char *id;
     char *value;
 };
-struct ast_node *ast_key_value_init(enum ast_node_type type, void *data);
+struct ast_node *ast_key_value_init(struct ast_key_value *data);
 
 bool read_value(struct parser *p);
 
@@ -52,7 +52,7 @@ struct ast_assignment_word
 struct ast_node *ast_assignment_word_init(struct ast_assignment_word *data);
 
 bool read_heredoc(struct parser *p);
-struct ast_node *ast_heredoc_init(enum ast_node_type type, void *data);
+struct ast_node *ast_heredoc_init(void *data);
 
 bool read_ionumber(struct parser *p);
 

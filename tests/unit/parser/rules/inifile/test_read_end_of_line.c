@@ -21,7 +21,7 @@ void test_read_end_of_line(void)
         else
         {
             assert(!parser_readeol(p));
-            assert(p->cursor == (int)i);
+            assert(p->cursor == i);
             p->cursor++;
         }
     }

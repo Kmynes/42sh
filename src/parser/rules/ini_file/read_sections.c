@@ -1,10 +1,8 @@
 #include "parser/rules/rules.h"
 
-unsigned int nbr_section = 0;
-
 bool read_sections(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (read_spacing(p)                  &&
         parser_readchar(p, '[')          &&
@@ -16,15 +14,10 @@ bool read_sections(struct parser *p)
     {
         struct ast_section *data = malloc(sizeof(struct ast_section));
         data->identifier = parser_get_capture(p, "id");
-    
-        struct ast_node *ast_section = ast_section_init(AST_NODE_SECTION, data);
 
-        struct ast_node *ast_child_key_value = NULL;
-        while ((ast_child_key_value = ast_get_from_parser(p, AST_NODE_KEY_VALUE)))
-            ast_set_in_parent(ast_section, ast_child_key_value);
-
-        ast_set_in_parser(p, ast_section);
-        nbr_section++;
+        struct ast_node *ast = ast_section_init(data);
+        ast_recover_all_from_parser(ast, p, AST_NODE_KEY_VALUE);
+        ast_set_in_parser(p, ast);
         return true;
     }
 
@@ -36,11 +29,12 @@ void ast_section_free(void *data)
 {
     struct ast_section *ast_sec = data;
     free(ast_sec->identifier);
+    free(ast_sec);
 }
 
-struct ast_node *ast_section_init(enum ast_node_type type, void *data)
+struct ast_node *ast_section_init(struct ast_section *data)
 {
-    struct ast_node *ast = ast_init(type, data);
+    struct ast_node *ast = ast_init(AST_NODE_SECTION, data);
     ast->free = ast_section_free;
     ast->to_string = NULL;
 

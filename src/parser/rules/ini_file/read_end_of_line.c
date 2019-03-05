@@ -2,7 +2,7 @@
 
 bool read_end_of_line(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
     if (OPTIONAL(parser_readchar(p, '\r')) && parser_readchar(p, '\n'))
         return true;
 

@@ -2,7 +2,7 @@
 
 static bool read_first(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
     if (parser_readchar(p, '{') &&
         read_compound_list(p)   &&
         parser_readchar(p, '}'))
@@ -17,7 +17,7 @@ static bool read_first(struct parser *p)
 
 static bool read_second(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
     if (parser_readchar(p, '(') &&
         read_compound_list(p)   &&
         parser_readchar(p, ')'))
@@ -32,7 +32,7 @@ static bool read_second(struct parser *p)
 
 bool read_shell_command(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     bool compound_list = false;
     bool rule_for = false;

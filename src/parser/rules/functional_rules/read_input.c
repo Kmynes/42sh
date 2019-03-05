@@ -2,7 +2,7 @@
 
 static bool read_input1(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (read_list(p)         &&
         parser_readchar(p, '\n'))
@@ -17,7 +17,7 @@ static bool read_input1(struct parser *p)
 
 static bool read_input2(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (read_list(p)         &&
         parser_readchar(p, EOF))
@@ -32,12 +32,12 @@ static bool read_input2(struct parser *p)
 
 bool read_input(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
     bool has_list = false;
 
     if ((has_list = read_input1(p)) ||
         (has_list = read_input2(p)) ||
-        parser_readchar(p, '\n')     ||
+        parser_readchar(p, '\n')    ||
         parser_readchar(p, EOF)
     ) {
         struct ast_node *ast = ast_input_init();

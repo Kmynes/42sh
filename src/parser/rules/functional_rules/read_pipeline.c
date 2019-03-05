@@ -2,7 +2,7 @@
 
 static bool read_optional_instructions(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (parser_readchar(p, '|')                 &&
         ZERO_OR_MANY(parser_readchar(p, '\n'))  &&
@@ -19,7 +19,7 @@ static bool read_optional_instructions(struct parser *p)
 
 bool read_pipeline(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     struct ast_pipeline *data = malloc(sizeof(struct ast_pipeline));
 
@@ -29,9 +29,7 @@ bool read_pipeline(struct parser *p)
     ) {
         struct ast_pipeline *data = malloc(sizeof(struct ast_pipeline));
         struct ast_node *ast = ast_pipeline_init(data);
-
         ast_recover_all_from_parser(ast, p, AST_COMMAND);
-
         ast_set_in_parser(p, ast);
         return true;
     }

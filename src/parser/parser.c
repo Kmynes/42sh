@@ -1,12 +1,22 @@
 #include "parser.h"
 
+static void get_number(size_t *capacity, size_t len)
+{
+    while (*capacity < len)
+        *capacity = *capacity *2;
+}
+
 char *default_to_string(struct ast_node *ast, char *type)
 {
+    size_t current_size = strlen(type);
     size_t output_capacity = 512;
-    char *output = malloc(sizeof(char) * output_capacity);
-    sprintf(output, "%s", type);
+    get_number(&output_capacity, current_size);
 
-    size_t current_size = strlen(output);
+    char *output = calloc(sizeof(char), output_capacity);
+    if (output == NULL)
+        return NULL;
+
+    sprintf(output, "%s", type);    
     for (size_t i = 0; i < ast->nb_children; i++)
     {
         struct ast_node *child = ast->children[i];
@@ -29,5 +39,6 @@ char *default_to_string(struct ast_node *ast, char *type)
         sprintf(output, "\n\t- %s", child_str);
     }
 
+    output[current_size] = '\0';
     return output;
 }

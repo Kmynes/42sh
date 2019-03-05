@@ -23,7 +23,7 @@ void test_rule_capture( bool (*read_func)(), char *input, char *expected_string)
     parser_end_capture(p, "test_rule");
     char *s = parser_get_capture(p, "test_rule");
 
-    assert(p->cursor == (int)strlen(expected_string));
+    assert(p->cursor == strlen(expected_string));
     assert(strcmp(s, expected_string) == 0);
     free(s);
     parser_free(p);

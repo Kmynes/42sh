@@ -2,7 +2,7 @@
 
 bool parser_readtext(struct parser *p, char *text)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
     p->error->type = ON_CHAR;
     p->error->u.text = text;
     char *str = p->input + p->cursor;

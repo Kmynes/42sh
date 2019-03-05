@@ -2,7 +2,7 @@
 
 static bool read_list1(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if ((parser_readchar(p, ';') ||
           parser_readchar(p, '&'))   &&
@@ -18,7 +18,7 @@ static bool read_list1(struct parser *p)
 
 bool read_list(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (read_and_or(p)           &&
         ZERO_OR_MANY(read_list1(p)) &&
@@ -26,9 +26,7 @@ bool read_list(struct parser *p)
         parser_readchar(p, '&')))
     {
         struct ast_node *ast = ast_list_init();
-
         ast_recover_all_from_parser(ast, p, AST_AND_OR);
-
         ast_set_in_parser(p, ast);
         return true;
     }
@@ -46,8 +44,6 @@ char *ast_list_to_string(struct ast_node *ast)
 struct ast_node *ast_list_init()
 {
     struct ast_node *ast = ast_init(AST_LIST, NULL);
-
     ast->to_string = ast_list_to_string;
-
     return ast;
 }

@@ -2,7 +2,7 @@
 
 static bool read_first_instructions(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
 
     if (parser_begin_capture(p, "elt") &&
         read_word(p)                &&
@@ -18,11 +18,10 @@ static bool read_first_instructions(struct parser *p)
 
 bool read_element(struct parser *p)
 {
-    int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
     bool is_word = false;
 
-    if (
-        (is_word = read_first_instructions(p)) ||
+    if ((is_word = read_first_instructions(p)) ||
         read_redirection(p))
     {
         struct ast_node *ast = ast_init(AST_ELEMENT, NULL);

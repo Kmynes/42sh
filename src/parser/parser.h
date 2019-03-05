@@ -32,7 +32,7 @@ __extension__({     \
 struct parser
 {
     char *input;
-    int cursor;
+    unsigned int cursor;
     struct list_capt_s *capture;
     struct ast_node *ast;
     struct error_s *error;
