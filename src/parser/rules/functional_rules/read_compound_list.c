@@ -4,9 +4,9 @@ static bool read_first_part(struct parser *p)
 {
     int tmp = p->cursor;
 
-    if ((parser_readchar(p, ';')  ||
-        parser_readchar(p, '&')   ||
-        parser_readchar(p, '\n'))              &&
+    if ((parser_readchar(p, ';')
+        || parser_readchar(p, '&')
+        || parser_readchar(p, '\n'))              &&
         ZERO_OR_MANY(parser_readchar(p, '\n')) &&
         read_and_or(p)
     )
@@ -26,7 +26,7 @@ static bool read_second_part(struct parser *p)
     if ((parser_readchar(p, '&') ||
          parser_readchar(p, ';') ||
          parser_readchar(p, '\n')) &&
-        ZERO_OR_MANY(parser_readchar(p, '\n')))
+         ZERO_OR_MANY(parser_readchar(p, '\n')))
     {
         return true;
     }
@@ -40,8 +40,8 @@ bool read_compound_list(struct parser *p)
     int tmp = p->cursor;
 
     if (ZERO_OR_MANY(parser_readchar(p, '\n')) &&
-        read_and_or(p)                        &&
-        ZERO_OR_MANY(read_first_part(p))      &&
+        read_and_or(p)                         &&
+        ZERO_OR_MANY(read_first_part(p))       &&
         read_second_part(p))
     {
         struct ast_node *ast = ast_compound_list_init();
@@ -66,5 +66,6 @@ struct ast_node *ast_compound_list_init()
 {
     struct ast_node *ast = ast_init(AST_COMPOUND_LIST, NULL);
     ast->to_string = ast_compound_list_to_string;
+
     return ast;
 }

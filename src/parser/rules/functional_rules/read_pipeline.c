@@ -52,10 +52,15 @@ char *ast_pipeline_to_string(struct ast_node *ast)
     return default_to_string(ast, buff);
 }
 
+void ast_pipeline_free(void *data)
+{
+    free(data);
+}
+
 struct ast_node *ast_pipeline_init(void *data)
 {
     struct ast_node *ast = ast_init(AST_PIPELINE, data);
     ast->to_string = ast_pipeline_to_string;
-
+    ast->free = ast_pipeline_free;
     return ast;
 }
