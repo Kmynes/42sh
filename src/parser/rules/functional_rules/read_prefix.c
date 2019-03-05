@@ -4,9 +4,8 @@ bool read_prefix(struct parser *p)
 {
     int tmp = p->cursor;
 
-    if (true) {
+    if (read_assignment_word(p) == true || read_redirection(p) == true)
         return true;
-    }
 
     p->cursor = tmp;
 
