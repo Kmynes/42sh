@@ -44,6 +44,12 @@ struct ast_node *ast_assign_init(enum ast_node_type type, void *data);
 bool read_word(struct parser *p);
 
 bool read_assignment_word(struct parser *p);
+struct ast_assignment_word
+{
+    char *key;
+    char *value;
+};
+struct ast_node *ast_assignment_word_init(struct ast_assignment_word *data);
 
 bool read_heredoc(struct parser *p);
 struct ast_node *ast_heredoc_init(enum ast_node_type type, void *data);
@@ -95,7 +101,7 @@ struct ast_node *ast_redirection_init(char *ionumber, char *redirect,
                                         char *word, char *heredoc);
 
 bool read_prefix(struct parser *p);
-struct ast_prefix{char *elt;};
+struct ast_node *ast_prefix_init();
 
 bool read_element(struct parser *p);
 struct ast_element {

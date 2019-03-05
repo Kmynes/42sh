@@ -92,7 +92,8 @@ enum ast_node_type
     AST_DO_GROUP,
     AST_CASE_CLAUSE,
     AST_CASE_ITEM,
-    AST_HEREDOC
+    AST_HEREDOC,
+    AST_ASSIGNEMENT_WORD
 };
 
 // ast inifile
