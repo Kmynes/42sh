@@ -65,6 +65,8 @@ struct ast_pipeline {
     bool is_negative;
 };
 struct ast_node *ast_pipeline_init(void *data);
+char *ast_pipeline_to_string(struct ast_node *ast);
+void ast_pipeline_free(void *data);
 
 bool read_command(struct parser *p);
 struct ast_command{char *elt;};
@@ -73,7 +75,7 @@ bool read_simple_command(struct parser *p);
 struct ast_simple_command{char *elt;};
 
 bool read_shell_command(struct parser *p);
-struct ast_shell_command{char *elt;};
+struct ast_node *ast_shell_command();
 
 bool read_funcdec(struct parser *p);
 struct ast_funcdec {
