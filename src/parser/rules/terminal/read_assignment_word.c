@@ -27,21 +27,21 @@ bool read_assignment_word(struct parser *p)
 
 char *ast_assignment_word_to_string(struct ast_node *ast)
 {
-    char buff[60];
-    struct ast_assignment_word *ass_word = ast->data;
-    char *key = ass_word->key;
-    char *value = ass_word->value;
+    char buff[512];
+    struct ast_assignment_word *assign_word = ast->data;
+    char *key = assign_word->key;
+    char *value = assign_word->value;
 
-    sprintf(buff,"assignment_word:key:%s value%s", key, value);
+    sprintf(buff, "assignment_word: -> key:%s value:%s", key, value);
     return strdup(buff);
 }
 
 void ast_assignment_word_free(void *data)
 {
-    struct ast_assignment_word *ass_word = data;
-    free(ass_word->key);
-    free(ass_word->value);
-    free(ass_word);
+    struct ast_assignment_word *assign_word = data;
+    free(assign_word->key);
+    free(assign_word->value);
+    free(assign_word);
 }
 
 struct ast_node *ast_assignment_word_init(struct ast_assignment_word *data)
