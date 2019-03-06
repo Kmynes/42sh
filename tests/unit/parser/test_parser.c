@@ -3,6 +3,7 @@
 
 void test_rules(void)
 {
+    //Ini file
     test_read_ini_file();
     test_read_sections();
     test_read_key_value();
@@ -12,12 +13,17 @@ void test_rules(void)
     test_read_end_of_line();
     test_read_spacing();
     test_global();
+
+    //Terminal
     test_read_assign();
     test_read_word();
     test_read_assignment_word();
     test_read_ionumber();
     test_read_heredoc();
+
+    //Functional
     test_read_redirection();
+    test_read_prefix();
 }
 
 void test_parser(void)
