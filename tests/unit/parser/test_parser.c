@@ -24,6 +24,7 @@ void test_rules(void)
     //Functional
     test_read_redirection();
     test_read_prefix();
+    test_read_element();
 }
 
 void test_parser(void)
