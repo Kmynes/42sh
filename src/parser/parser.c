@@ -33,7 +33,7 @@ char *default_to_string(struct ast_node *ast, char *type)
                 return output;
 
             output = ptr;
-            output_capacity *=2;
+            output_capacity *= 2;
         }
 
         sprintf(output, "\n\t- %s", child_str);
