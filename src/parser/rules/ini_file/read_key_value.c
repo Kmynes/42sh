@@ -4,16 +4,12 @@ bool read_key_value(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (read_spacing(p) &&
-        parser_begin_capture(p, "key") && read_identifier(p) &&
-        parser_end_capture(p, "key") &&
-        read_spaces(p) &&
-        parser_readchar(p, '=') &&
-        read_spaces(p) &&
-        parser_begin_capture(p, "value") && read_value(p) &&
-        parser_end_capture(p, "value") &&
-        read_spaces(p) &&
-        read_end_of_line(p))
+    if (read_spacing(p) && parser_begin_capture(p, "key")
+        && read_identifier(p) && parser_end_capture(p, "key")
+        && read_spaces(p) && parser_readchar(p, '=') && read_spaces(p)
+        && parser_begin_capture(p, "value") && read_value(p)
+        && parser_end_capture(p, "value") && read_spaces(p)
+        && read_end_of_line(p))
     {
         char *id = parser_get_capture(p, "key");
         char *value = parser_get_capture(p, "value");
