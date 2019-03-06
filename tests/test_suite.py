@@ -5,17 +5,18 @@ try:
     import yaml
 except ImportError: 
     print("YAML is not installed on this machine")
-    quit()
+    quit(2)
 
 
 def run(code, arguments=[None]*3):
     """ Runs a command in shell, returns stdout and stderror """
     # arguments list: [category, sanity, timer]
+    directory = os.path.dirname(os.path.abspath(__file__))
     if arguments[1]:
         code = "valgrind "+code
     if arguments[2]:
         try:
-            return subprocess.run(code, shell=True,
+            return subprocess.run(code, shell=True, cwd=directory,
                               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                              timeout=int(arguments[2]))
         except:
