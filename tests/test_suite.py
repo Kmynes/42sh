@@ -265,13 +265,15 @@ def check_if_made():
         print("Could not access executable, did you run make?")
         quit(2)
 # main function
+def main():
+    check_if_made()
+    exit_code = argument_parser()
+    if exit_code[0] > 1:
+        error_code_display(exit_code)
+        quit(2)
+    if exit_code[0] == 1:
+        quit(1)
+    else:
+        quit(0)
 
-check_if_made()
-exit_code = argument_parser()
-if exit_code[0] > 1:
-    error_code_display(exit_code)
-    quit(2)
-if exit_code[0] == 1:
-    quit(1)
-else:
-    quit(0)
+main()
