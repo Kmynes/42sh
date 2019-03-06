@@ -43,7 +43,7 @@ bool read_pipeline(struct parser *p)
 
 char *ast_pipeline_to_string(struct ast_node *ast)
 {
-    char buff[50];
+    char buff[512];
     struct ast_pipeline *data = ast->data;
     char *answer = data->is_negative ? "true" : "false";
     sprintf(buff, "pipeline:\n\tis_negative:%s", answer);

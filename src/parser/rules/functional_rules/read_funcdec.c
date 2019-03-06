@@ -30,7 +30,7 @@ bool read_funcdec(struct parser *p)
 
 char *ast_funcdec_to_string(struct ast_node *ast)
 {
-    char buff[60];
+    char buff[512];
     struct ast_funcdec *data = ast->data;
     char *func_name = data->function;
     sprintf(buff, "funcdec:\n\tfunction_name:%s", func_name);
