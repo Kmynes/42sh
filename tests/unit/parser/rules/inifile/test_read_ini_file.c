@@ -9,7 +9,7 @@ void test_read_ini_file(void)
 
     struct parser *p = parser_new_from_string(text);
  
-    assert(!read_ini_file(p)); //Suppose not match
+    assert(!read_ini_file(p)); // Suppose not match
     parser_free(p);
 
     p = parser_new_from_string(text2);
