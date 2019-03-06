@@ -10,7 +10,7 @@ bool read_prefix(struct parser *p)
         struct ast_node *ast = ast_prefix_init();
 
         if (is_assign)
-            ast_recover_all_from_parser(ast, p, AST_NODE_ASSIGN);
+            ast_recover_all_from_parser(ast, p, AST_ASSIGNEMENT_WORD);
         else
             ast_recover_all_from_parser(ast, p, AST_REDIRECTION);
 
