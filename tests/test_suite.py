@@ -11,7 +11,9 @@ except ImportError:
 def run(code, arguments=[None]*3):
     """ Runs a command in shell, returns stdout and stderror """
     # arguments list: [category, sanity, timer]
-    directory = os.path.dirname(os.path.abspath(__file__))
+    file_directory = os.path.dirname(os.path.abspath(__file__))
+    build_directory = file_directory.replace("tests", "build")
+
     if arguments[1]:
         code = "valgrind "+code
     if arguments[2]:
@@ -255,7 +257,16 @@ def error_code_display(error_code):
               + " but instead got flag")
     if error_code[0] == 8:
         print("Invalid number of arguments: '" + str(len(sys.argv)) + "'")
+
+def check_if_made():
+    file_directory = os.path.dirname(os.path.abspath(__file__))
+    build_directory = file_directory.replace("tests", "build")
+    if not os.path.isdir(build_directory):
+        print("Could not access executable, did you run make?")
+        quit(2)
 # main function
+
+check_if_made()
 exit_code = argument_parser()
 if exit_code[0] > 1:
     error_code_display(exit_code)
