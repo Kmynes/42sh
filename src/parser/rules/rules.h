@@ -75,13 +75,13 @@ char *ast_pipeline_to_string(struct ast_node *ast);
 void ast_pipeline_free(void *data);
 
 bool read_command(struct parser *p);
-struct ast_command{char *elt;};
+struct ast_node *ast_command_init();
 
 bool read_simple_command(struct parser *p);
-struct ast_simple_command{char *elt;};
+struct ast_node *ast_simple_command_init();
 
 bool read_shell_command(struct parser *p);
-struct ast_node *ast_shell_command();
+struct ast_node *ast_shell_command_init();
 
 bool read_funcdec(struct parser *p);
 struct ast_funcdec {
@@ -107,6 +107,7 @@ bool read_element(struct parser *p);
 struct ast_element {
     char *elt;
 };
+struct ast_node *ast_element_init(struct ast_element *data);
 
 bool read_compound_list(struct parser *p);
 struct ast_node *ast_compound_list_init();

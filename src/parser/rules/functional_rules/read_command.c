@@ -47,7 +47,7 @@ bool read_command(struct parser *p)
         read_third_instructions(p)
     )
     {
-        struct ast_node *ast = ast_init(AST_COMMAND, NULL);
+        struct ast_node *ast = ast_command_init();
         struct ast_node *ast_child = NULL;
 
         ast_child = ast_get_from_parser(p, AST_SIMPLE_COMMAND);
@@ -71,4 +71,16 @@ bool read_command(struct parser *p)
 
     p->cursor = tmp;
     return false;
+}
+
+char *ast_command_to_string(struct ast_node *ast)
+{
+    return default_to_string(ast, "read_command");
+}
+
+struct ast_node *ast_command_init()
+{
+    struct ast_node *ast = ast_init(AST_COMMAND, NULL);
+    ast->to_string = ast_command_to_string;
+    return ast;
 }

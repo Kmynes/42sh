@@ -22,17 +22,11 @@ bool read_simple_command(struct parser *p)
     if (ONE_OR_MANY(read_prefix(p)) ||
         (prefix_and_elements = read_prefix_and_elements(p)))
     {
-        struct ast_node *ast = ast_init(AST_SIMPLE_COMMAND, NULL);
-        struct ast_node *ast_child = NULL;
-
-        while ((ast_child = ast_get_from_parser(p, AST_PREFIX)))
-            ast_set_in_parent(ast, ast_child);
+        struct ast_node *ast = ast_simple_command_init();
+        ast_recover_all_from_parser(ast, p, AST_PREFIX);
 
         if (prefix_and_elements)
-        {
-            while ((ast_child = ast_get_from_parser(p, AST_ELEMENT)))
-                ast_set_in_parent(ast, ast_child);
-        }
+            ast_recover_all_from_parser(ast, p, AST_ELEMENT);
 
         ast_set_in_parser(p, ast);
         return true;
@@ -41,4 +35,16 @@ bool read_simple_command(struct parser *p)
     p->cursor = tmp;
 
     return false;   
+}
+
+char *ast_simple_command_to_string(struct ast_node *ast)
+{
+    return default_to_string(ast, "simple_command:");
+}
+
+struct ast_node *ast_simple_command_init()
+{
+    struct ast_node *ast = ast_init(AST_SIMPLE_COMMAND, NULL);
+    ast->to_string =  ast_simple_command_to_string;
+    return ast;
 }
