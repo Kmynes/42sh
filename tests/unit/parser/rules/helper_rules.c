@@ -1,6 +1,7 @@
 #include "helper_rules.h"
 
-void test_rule( bool (*read_func)(struct parser *), char *input, char *expected_string)
+void test_rule( bool (*read_func)(struct parser *),
+    char *input, char *expected_string)
 {
     struct parser *p = parser_new_from_string(input);
     assert(read_func(p));
@@ -15,7 +16,8 @@ void test_rule( bool (*read_func)(struct parser *), char *input, char *expected_
     parser_free(p);
 }
 
-void test_rule_capture( bool (*read_func)(), char *input, char *expected_string)
+void test_rule_capture( bool (*read_func)(), char *input,
+    char *expected_string)
 {
     struct parser *p = parser_new_from_string(input);
     parser_begin_capture(p, "test_rule");
