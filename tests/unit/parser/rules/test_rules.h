@@ -3,6 +3,7 @@
 #include <parser/rules/rules.h>
 #include "helper_rules.h"
 
+//Test inifile
 void test_read_ini_file(void);
 
 void test_read_sections(void);
@@ -21,6 +22,7 @@ void test_read_spacing(void);
 
 void test_global(void);
 
+//Test terminal
 void test_read_assign(void);
 
 void test_read_word(void);
@@ -31,4 +33,7 @@ void test_read_ionumber(void);
 
 void test_read_heredoc(void);
 
+//Test functional
 void test_read_redirection(void);
+
+void test_read_prefix(void);
