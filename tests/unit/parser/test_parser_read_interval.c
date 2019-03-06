@@ -46,5 +46,5 @@ void test_parser_read_interval(void)
 {
     test_parser_readeol();
     test_parser_readidentifier();
-    test_parser_readinteger();   
+    test_parser_readinteger();
 }

@@ -4,9 +4,9 @@ bool read_instructions(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if ((parser_readtext(p, "&&") || parser_readtext(p, "||") ) &&
-        ZERO_OR_MANY(parser_readchar(p, '\n'))                  &&
-        read_pipeline(p))
+    if ((parser_readtext(p, "&&") || parser_readtext(p, "||"))
+        && ZERO_OR_MANY(parser_readchar(p, '\n'))
+        && read_pipeline(p))
     {
         return true;
     }

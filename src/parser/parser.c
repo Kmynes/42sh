@@ -3,7 +3,7 @@
 static void get_number(size_t *capacity, size_t len)
 {
     while (*capacity < len)
-        *capacity = *capacity *2;
+        *capacity = *capacity * 2;
 }
 
 char *default_to_string(struct ast_node *ast, char *type)
@@ -35,7 +35,7 @@ char *default_to_string(struct ast_node *ast, char *type)
                 return output;
 
             output = ptr;
-            output_capacity *=2;
+            output_capacity *= 2;
         }
 
         strcat(output, separator);

@@ -63,8 +63,8 @@ void test_global(void)
                 printf("expected text \"%s\"\n", p->error->u.text);
                 break;
             case ON_RANGE:
-                printf("expected range \"%d to %d\"\n", p->error->u.range
-                .begin, p->error->u.range.begin);
+                printf("expected range \"%d to %d\"\n",
+                    p->error->u.range.begin, p->error->u.range.begin);
                 break;
             case ON_INSET:
                 printf("expected inset \"%s\"\n", p->error->u.inset);

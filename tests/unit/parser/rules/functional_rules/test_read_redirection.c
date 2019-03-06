@@ -6,8 +6,10 @@ void test_read_redirection(void)
     test_rule(read_redirection, "2>test.sh", "redirection_2_>_test.sh");
     test_rule(read_redirection, "2<test.sh", "redirection_2_<_test.sh");
     test_rule(read_redirection, "2>>test.sh", "redirection_2_>>_test.sh");
-    test_rule(read_redirection, "2<<END\necho toto\nEND", "redirection_2_<<_\necho toto\n");
-    test_rule(read_redirection, "2<<-END\necho toto\nEND", "redirection_2_<<-_\necho toto\n");
+    test_rule(read_redirection, "2<<END\necho toto\nEND",
+        "redirection_2_<<_\necho toto\n");
+    test_rule(read_redirection, "2<<-END\necho toto\nEND",
+        "redirection_2_<<-_\necho toto\n");
     test_rule(read_redirection, "2>&test.sh", "redirection_2_>&_test.sh");
     test_rule(read_redirection, "2<&test.sh", "redirection_2_<&_test.sh");
     test_rule(read_redirection, "2>|test.sh", "redirection_2_>|_test.sh");
