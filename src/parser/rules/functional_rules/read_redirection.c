@@ -14,16 +14,17 @@ bool read_redirection_1(struct parser *p)
         ionumber = parser_get_capture(p, "ionumber");
     }
 
-    if (parser_begin_capture(p, "redirect") &&
-        parser_readchar(p, '>') &&
-        parser_end_capture(p, "redirect") &&
-        parser_begin_capture(p, "word") &&
-        read_word(p) &&
-        parser_end_capture(p, "word"))
+    if (parser_begin_capture(p, "redirect")
+        && parser_readchar(p, '>')
+        && parser_end_capture(p, "redirect")
+        && parser_begin_capture(p, "word")
+        && read_word(p)
+        && parser_end_capture(p, "word"))
     {
         char *redirect = parser_get_capture(p, "redirect");
         char *word = parser_get_capture(p, "word");
-        struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
+        struct ast_node *ast = ast_redirection_init(ionumber,
+            redirect, word, NULL);
         ast_set_in_parser(p, ast);
         return true;
     }
@@ -50,16 +51,17 @@ bool read_redirection_2(struct parser *p)
         ionumber = parser_get_capture(p, "ionumber");
     }
 
-    if (parser_begin_capture(p, "redirect") &&
-        parser_readchar(p, '<') &&
-        parser_end_capture(p, "redirect") &&
-        parser_begin_capture(p, "word") &&
-        read_word(p) &&
-        parser_end_capture(p, "word"))
+    if (parser_begin_capture(p, "redirect")
+        && parser_readchar(p, '<')
+        && parser_end_capture(p, "redirect")
+        && parser_begin_capture(p, "word")
+        && read_word(p)
+        && parser_end_capture(p, "word"))
     {
         char *redirect = parser_get_capture(p, "redirect");
         char *word = parser_get_capture(p, "word");
-        struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
+        struct ast_node *ast = ast_redirection_init(ionumber,
+            redirect, word, NULL);
         ast_set_in_parser(p, ast);
 
         return true;
@@ -87,16 +89,17 @@ bool read_redirection_3(struct parser *p)
         ionumber = parser_get_capture(p, "ionumber");
     }
 
-    if (parser_begin_capture(p, "redirect") &&
-        parser_readtext(p, ">>") &&
-        parser_end_capture(p, "redirect") &&
-        parser_begin_capture(p, "word") &&
-        read_word(p) &&
-        parser_end_capture(p, "word"))
+    if (parser_begin_capture(p, "redirect")
+        && parser_readtext(p, ">>")
+        && parser_end_capture(p, "redirect")
+        && parser_begin_capture(p, "word")
+        && read_word(p)
+        && parser_end_capture(p, "word"))
     {
         char *redirect = parser_get_capture(p, "redirect");
         char *word = parser_get_capture(p, "word");
-        struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
+        struct ast_node *ast = ast_redirection_init(ionumber,
+            redirect, word, NULL);
         ast_set_in_parser(p, ast);
 
         return true;
@@ -124,17 +127,18 @@ bool read_redirection_4(struct parser *p)
         ionumber = parser_get_capture(p, "ionumber");
     }
 
-    if (parser_begin_capture(p, "redirect") &&
-        parser_readtext(p, "<<") &&
-        parser_end_capture(p, "redirect") &&
-        parser_begin_capture(p, "heredoc") &&
-        read_heredoc(p))
+    if (parser_begin_capture(p, "redirect")
+        && parser_readtext(p, "<<")
+        && parser_end_capture(p, "redirect")
+        && parser_begin_capture(p, "heredoc")
+        && read_heredoc(p))
     {
         char *redirect = parser_get_capture(p, "redirect");
         struct ast_node *ast_heredoc = ast_get_from_parser(p, AST_HEREDOC);
         char *heredoc = strdup(ast_heredoc->data);
         ast_free(ast_heredoc);
-        struct ast_node *ast = ast_redirection_init(ionumber, redirect, NULL, heredoc);
+        struct ast_node *ast = ast_redirection_init(ionumber,
+            redirect, NULL, heredoc);
         ast_set_in_parser(p, ast);
         return true;
     }
@@ -160,17 +164,18 @@ bool read_redirection_5(struct parser *p)
         ionumber = parser_get_capture(p, "ionumber");
     }
 
-    if (parser_begin_capture(p, "redirect") &&
-        parser_readtext(p, "<<-") &&
-        parser_end_capture(p, "redirect") &&
-        parser_begin_capture(p, "heredoc") &&
-        read_heredoc(p))
+    if (parser_begin_capture(p, "redirect")
+        && parser_readtext(p, "<<-")
+        && parser_end_capture(p, "redirect")
+        && parser_begin_capture(p, "heredoc")
+        && read_heredoc(p))
     {
         char *redirect = parser_get_capture(p, "redirect");
         struct ast_node *ast_heredoc = ast_get_from_parser(p, AST_HEREDOC);
         char *heredoc = strdup(ast_heredoc->data);
         ast_free(ast_heredoc);
-        struct ast_node *ast = ast_redirection_init(ionumber, redirect, NULL, heredoc);
+        struct ast_node *ast = ast_redirection_init(ionumber,
+            redirect, NULL, heredoc);
         ast_set_in_parser(p, ast);
         return true;
     }
@@ -197,12 +202,12 @@ bool read_redirection_6(struct parser *p)
         ionumber = parser_get_capture(p, "ionumber");
     }
 
-    if (parser_begin_capture(p, "redirect") &&
-        parser_readtext(p, ">&") &&
-        parser_end_capture(p, "redirect") &&
-        parser_begin_capture(p, "word") &&
-        read_word(p) &&
-        parser_end_capture(p, "word"))
+    if (parser_begin_capture(p, "redirect")
+        && parser_readtext(p, ">&")
+        && parser_end_capture(p, "redirect")
+        && parser_begin_capture(p, "word")
+        && read_word(p)
+        && parser_end_capture(p, "word"))
     {
         char *redirect = parser_get_capture(p, "redirect");
         char *word = parser_get_capture(p, "word");
@@ -234,12 +239,12 @@ bool read_redirection_7(struct parser *p)
         ionumber = parser_get_capture(p, "ionumber");
     }
 
-    if (parser_begin_capture(p, "redirect") &&
-        parser_readtext(p, "<&") &&
-        parser_end_capture(p, "redirect") &&
-        parser_begin_capture(p, "word") &&
-        read_word(p) &&
-        parser_end_capture(p, "word"))
+    if (parser_begin_capture(p, "redirect")
+        && parser_readtext(p, "<&")
+        && parser_end_capture(p, "redirect")
+        && parser_begin_capture(p, "word")
+        && read_word(p)
+        && parser_end_capture(p, "word"))
     {
         char *redirect = parser_get_capture(p, "redirect");
         char *word = parser_get_capture(p, "word");
@@ -271,16 +276,17 @@ bool read_redirection_8(struct parser *p)
         ionumber = parser_get_capture(p, "ionumber");
     }
 
-    if (parser_begin_capture(p, "redirect") &&
-        parser_readtext(p, ">|") &&
-        parser_end_capture(p, "redirect") &&
-        parser_begin_capture(p, "word") &&
-        read_word(p) &&
-        parser_end_capture(p, "word"))
+    if (parser_begin_capture(p, "redirect")
+        && parser_readtext(p, ">|")
+        && parser_end_capture(p, "redirect")
+        && parser_begin_capture(p, "word")
+        && read_word(p)
+        && parser_end_capture(p, "word"))
     {
         char *redirect = parser_get_capture(p, "redirect");
         char *word = parser_get_capture(p, "word");
-        struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
+        struct ast_node *ast = ast_redirection_init(ionumber,
+            redirect, word, NULL);
         ast_set_in_parser(p, ast);
 
         return true;
@@ -308,16 +314,17 @@ bool read_redirection_9(struct parser *p)
         ionumber = parser_get_capture(p, "ionumber");
     }
 
-    if (parser_begin_capture(p, "redirect") &&
-        parser_readtext(p, "<>") &&
-        parser_end_capture(p, "redirect") &&
-        parser_begin_capture(p, "word") &&
-        read_word(p) &&
-        parser_end_capture(p, "word"))
+    if (parser_begin_capture(p, "redirect")
+        && parser_readtext(p, "<>")
+        && parser_end_capture(p, "redirect")
+        && parser_begin_capture(p, "word")
+        && read_word(p)
+        && parser_end_capture(p, "word"))
     {
         char *redirect = parser_get_capture(p, "redirect");
         char *word = parser_get_capture(p, "word");
-        struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
+        struct ast_node *ast = ast_redirection_init(ionumber,
+            redirect, word, NULL);
         ast_set_in_parser(p, ast);
 
         return true;
@@ -334,17 +341,15 @@ bool read_redirection_9(struct parser *p)
 
 bool read_redirection(struct parser *p)
 {
-    return (
-            read_redirection_1(p) ||
-            read_redirection_2(p) ||
-            read_redirection_3(p) ||
-            read_redirection_4(p) ||
-            read_redirection_5(p) ||
-            read_redirection_6(p) ||
-            read_redirection_7(p) ||
-            read_redirection_8(p) ||
-            read_redirection_9(p)
-            );
+    return (read_redirection_1(p)
+            || read_redirection_2(p)
+            || read_redirection_3(p)
+            || read_redirection_4(p)
+            || read_redirection_5(p)
+            || read_redirection_6(p)
+            || read_redirection_7(p)
+            || read_redirection_8(p)
+            || read_redirection_9(p));
 }
 
 void ast_redirection_free(void *data)
@@ -362,14 +367,16 @@ char *ast_redirection_to_string(struct ast_node *ast)
     struct ast_redirection *data = ast->data;
     char *ionumber = data->ionumber ? data->ionumber : "0";
     char *word = data->word ? data->word : data->heredoc;
-    size_t size = strlen("redirection___") + strlen(ionumber) + strlen(data->redirect) + strlen(word) + 1;
+    size_t size = strlen("redirection___") + strlen(ionumber)
+        + strlen(data->redirect) + strlen(word) + 1;
 
     char *output = malloc(size);
     sprintf(output, "redirection_%s_%s_%s", ionumber, data->redirect, word);
     return output;
 }
 
-struct ast_node *ast_redirection_init(char *ionumber, char *redirect, char *word, char *heredoc)
+struct ast_node *ast_redirection_init(char *ionumber,
+    char *redirect, char *word, char *heredoc)
 {
     struct ast_redirection *data = malloc(sizeof(struct ast_redirection));
     data->ionumber = ionumber;

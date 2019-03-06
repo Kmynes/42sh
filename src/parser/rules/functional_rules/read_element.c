@@ -4,9 +4,9 @@ static bool read_first_instructions(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (parser_begin_capture(p, "elt") &&
-        read_word(p)                &&
-        parser_end_capture(p, "elt"))
+    if (parser_begin_capture(p, "elt")
+        && read_word(p)
+        && parser_end_capture(p, "elt"))
     {
         return true;
     }
@@ -21,8 +21,8 @@ bool read_element(struct parser *p)
     unsigned int tmp = p->cursor;
     bool is_word = false;
 
-    if ((is_word = read_first_instructions(p)) ||
-        read_redirection(p))
+    if ((is_word = read_first_instructions(p))
+        || read_redirection(p))
     {
         struct ast_node *ast = NULL;
         if (is_word)

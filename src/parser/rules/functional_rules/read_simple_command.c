@@ -4,8 +4,8 @@ static bool read_prefix_and_elements(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (ZERO_OR_MANY(read_prefix(p) && 
-    ONE_OR_MANY(read_element(p))))
+    if (ZERO_OR_MANY(read_prefix(p)
+    && ONE_OR_MANY(read_element(p))))
     {
         return true;
     }
@@ -19,8 +19,8 @@ bool read_simple_command(struct parser *p)
 {
     unsigned int tmp = p->cursor;
     bool prefix_and_elements = false;
-    if (ONE_OR_MANY(read_prefix(p)) ||
-        (prefix_and_elements = read_prefix_and_elements(p)))
+    if (ONE_OR_MANY(read_prefix(p))
+        || (prefix_and_elements = read_prefix_and_elements(p)))
     {
         struct ast_node *ast = ast_simple_command_init();
         ast_recover_all_from_parser(ast, p, AST_PREFIX);

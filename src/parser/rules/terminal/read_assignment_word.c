@@ -4,15 +4,16 @@ bool read_assignment_word(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (parser_begin_capture(p, "key") &&
-        read_identifier(p)             &&
-        parser_end_capture(p, "key")   && 
-        parser_readchar(p, '=')        && 
-        parser_begin_capture(p, "value")  &&
-        read_word(p)                   &&
-        parser_end_capture(p, "value"))
+    if (parser_begin_capture(p, "key")
+        && read_identifier(p)
+        && parser_end_capture(p, "key")
+        && parser_readchar(p, '=')
+        && parser_begin_capture(p, "value")
+        && read_word(p)
+        && parser_end_capture(p, "value"))
     {
-        struct ast_assignment_word *data = malloc(sizeof(struct ast_assignment_word));
+        struct ast_assignment_word *data = malloc(sizeof(struct \
+            ast_assignment_word));
         data->key = parser_get_capture(p, "key");
         data->value = parser_get_capture(p, "value");
 
