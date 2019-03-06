@@ -4,15 +4,14 @@ bool read_funcdec(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (parser_readtext(p, "function")           &&
-        parser_begin_capture(p, "func_n")        && 
-        read_word(p)                             &&
-        parser_end_capture(p, "func_n")          &&
-        parser_readchar(p, '(')                  &&
-        parser_readchar(p, ')')                  &&
-        ZERO_OR_MANY(parser_readchar(p, '\n'))   &&
-        read_shell_command(p)
-    )
+    if (parser_readtext(p, "function")
+        && parser_begin_capture(p, "func_n")
+        && read_word(p)
+        && parser_end_capture(p, "func_n")
+        && parser_readchar(p, '(')
+        && parser_readchar(p, ')')
+        && ZERO_OR_MANY(parser_readchar(p, '\n'))
+        && read_shell_command(p))
     {
         struct ast_funcdec *data = malloc(sizeof(struct ast_funcdec));
         data->function = parser_get_capture(p, "func_n");
