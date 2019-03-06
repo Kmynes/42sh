@@ -11,8 +11,7 @@ bool read_spacing(struct parser *p)
 
     if (parser_readchar(p, ';')
         && ZERO_OR_MANY(parser_readoutset(p, "\r\n"))
-        && read_end_of_line(p)
-        )
+        && read_end_of_line(p))
         return true;
 
     p->cursor = tmp;
