@@ -3,9 +3,9 @@
 static bool read_first(struct parser *p)
 {
     unsigned int tmp = p->cursor;
-    if (parser_readchar(p, '{') &&
-        read_compound_list(p)   &&
-        parser_readchar(p, '}'))
+    if (parser_readchar(p, '{')
+        && read_compound_list(p)
+        && parser_readchar(p, '}'))
     {
         return true;
     }
@@ -18,9 +18,9 @@ static bool read_first(struct parser *p)
 static bool read_second(struct parser *p)
 {
     unsigned int tmp = p->cursor;
-    if (parser_readchar(p, '(') &&
-        read_compound_list(p)   &&
-        parser_readchar(p, ')'))
+    if (parser_readchar(p, '(')
+        && read_compound_list(p)
+        && parser_readchar(p, ')'))
     {
         return true;
     }
@@ -41,13 +41,13 @@ bool read_shell_command(struct parser *p)
     bool rule_case = false;
     bool rule_if = false;
 
-    if ((compound_list = read_first(p))       ||
-       (compound_list = read_second(p))       ||
-       (rule_for = read_rule_for(p))          ||
-       (rule_while = read_rule_while(p))      ||
-       (rule_until = read_rule_until(p))      ||
-       (rule_case = read_rule_case(p))        ||
-       (rule_if = read_rule_if(p)))
+    if ((compound_list = read_first(p))
+       ||(compound_list = read_second(p))
+       ||(rule_for = read_rule_for(p))
+       || (rule_while = read_rule_while(p))
+       || (rule_until = read_rule_until(p))
+       || (rule_case = read_rule_case(p))
+       || (rule_if = read_rule_if(p)))
     {
         struct ast_node *ast = ast_shell_command_init();
         struct ast_node *ast_child = NULL;
