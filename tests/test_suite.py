@@ -106,7 +106,10 @@ def full_test_suite(arguments=[None]*3):
 
     print("\nThere were " + str(total_tests) + " tests total, of which " \
         + str(total_fails) + " were failures.")
-
+    if (total_fails):
+        return 1
+    else:
+        return 0
 
 def category_test(arguments):
     """ Executes tests for a specific category given in argument """
@@ -169,7 +172,7 @@ def argument_parser():
         helper()
         return [0]
     if len(sys.argv) > 6:
-        return [1]
+        return [8]
     # arguments list: [category, sanity, timer]
     arguments = [None]*3
     if "-c" in sys.argv or "--category" in sys.argv:
@@ -219,17 +222,19 @@ def argument_manager(arguments):
         print("- running in sanitised mode")
     if arguments[0]:
         try:
-            category_test(arguments)
+            [tests, fails] = category_test(arguments)
         except FileNotFoundError:
             return [2, arguments[0]]
     else:
-        full_test_suite(arguments)
-    return [0]
+        fails = full_test_suite(arguments)
+    if fails:
+        return [1]
+    else:
+        return [0]
 
 def error_code_display(error_code):
     """ displays proper error message based on error code given """
-    if error_code[0] == 1:
-        print("Invalid number of arguments: '" + str(len(sys.argv)) + "'")
+    
     if error_code[0] == 2:
         print("File not found (category does not exist): '" \
               + str(error_code[1]) + "'")
@@ -247,9 +252,14 @@ def error_code_display(error_code):
     if error_code[0] == 7:
         print("Expected argument after '" + error_code[1] + "',"
               + " but instead got flag")
-
+    if error_code[0] == 8:
+        print("Invalid number of arguments: '" + str(len(sys.argv)) + "'")
 # main function
 exit_code = argument_parser()
-if exit_code[0]:
+if exit_code[0] > 1:
     error_code_display(exit_code)
-quit(exit_code[0])
+    quit(2)
+if exit_code[0] == 1:
+    quit(1)
+else:
+    quit(0)
