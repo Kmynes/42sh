@@ -37,3 +37,4 @@ void test_read_heredoc(void);
 void test_read_redirection(void);
 
 void test_read_prefix(void);
+void test_read_element(void);

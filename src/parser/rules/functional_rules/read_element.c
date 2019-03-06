@@ -1,6 +1,6 @@
 #include <parser/rules/rules.h>
 
-static bool read_first_instructions(struct parser *p)
+static bool read_element1(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
@@ -21,8 +21,8 @@ bool read_element(struct parser *p)
     unsigned int tmp = p->cursor;
     bool is_word = false;
 
-    if ((is_word = read_first_instructions(p))
-        || read_redirection(p))
+    if (read_redirection(p)
+        || (is_word = read_element1(p)))
     {
         struct ast_node *ast = NULL;
         if (is_word)
