@@ -155,7 +155,8 @@ struct list_capt_s *list_capt_init(void);
 //parser_capture
 char *extract_string(char *s, int begin, int end);
 void print_capture(struct parser *p, struct list_capt_s *capture);
-struct list_capt_s *list_capt_store(struct list_capt_s *, const char *, struct capture_s *);
+struct list_capt_s *list_capt_store(struct list_capt_s *, const char *,
+    struct capture_s *);
 struct capture_s *list_capt_lookup(struct list_capt_s *, const char *);
 void parser_remove_capture_by_tag(struct parser *p, const char *tag);
 void parser_free_capture_list(struct parser *p);
@@ -172,7 +173,8 @@ static inline char *parser_get_capture(struct parser *p, const char *tag)
     struct capture_s *pcapt = list_capt_lookup(p->capture, tag);
     if (!pcapt)
         return false;
-    char *capture = strndup(&p->input[pcapt->begin], pcapt->end - pcapt->begin);
+    char *capture = strndup(&p->input[pcapt->begin],
+        pcapt->end - pcapt->begin);
     parser_remove_capture_by_tag(p, tag);
     return capture;
 }
