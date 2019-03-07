@@ -341,6 +341,7 @@ bool read_redirection_9(struct parser *p)
 
 bool read_redirection(struct parser *p)
 {
+    read_spaces(p);
     return (read_redirection_1(p)
             || read_redirection_2(p)
             || read_redirection_3(p)
