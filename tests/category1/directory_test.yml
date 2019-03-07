@@ -1,0 +1,3 @@
+desc: checks that the tests are run in build directory
+ref: ./42sh --version
+mycode: ./42sh --version
