@@ -138,6 +138,7 @@ struct ast_else_clause{char *elt;};
 
 bool read_do_group(struct parser *p);
 struct ast_do_group{char *elt;};
+struct ast_node *ast_do_group_init();
 
 bool read_case_clause(struct parser *p);
 struct ast_case_clause{char *elt;};
