@@ -40,7 +40,7 @@ struct ast_assign
 struct ast_node *ast_assign_init(enum ast_node_type type, void *data);
 
 
-//Terminale rules
+//Terminal rules
 bool read_word(struct parser *p);
 
 bool read_assignment_word(struct parser *p);
@@ -67,7 +67,8 @@ bool read_and_or(struct parser *p);
 struct ast_node *ast_and_or_init();
 
 bool read_pipeline(struct parser *p);
-struct ast_pipeline {
+struct ast_pipeline
+{
     bool is_negative;
 };
 struct ast_node *ast_pipeline_init(void *data);
@@ -84,7 +85,8 @@ bool read_shell_command(struct parser *p);
 struct ast_node *ast_shell_command_init();
 
 bool read_funcdec(struct parser *p);
-struct ast_funcdec {
+struct ast_funcdec 
+{
     char *function;
 };
 struct ast_node *ast_funcdec_init(void *data);
@@ -97,14 +99,15 @@ struct ast_redirection
     char *word;
     char *heredoc;
 };
-struct ast_node *ast_redirection_init(char *ionumber, char *redirect, 
+struct ast_node *ast_redirection_init(char *ionumber, char *redirect,
                                         char *word, char *heredoc);
 
 bool read_prefix(struct parser *p);
 struct ast_node *ast_prefix_init();
 
 bool read_element(struct parser *p);
-struct ast_element {
+struct ast_element
+{
     char *elt;
 };
 struct ast_node *ast_element_init(struct ast_element *data);
