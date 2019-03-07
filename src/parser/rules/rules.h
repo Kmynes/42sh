@@ -40,7 +40,7 @@ struct ast_assign
 struct ast_node *ast_assign_init(enum ast_node_type type, void *data);
 
 
-//Terminal rules
+// Terminal rules
 bool read_word(struct parser *p);
 
 bool read_assignment_word(struct parser *p);
@@ -125,6 +125,7 @@ struct ast_node *ast_rule_while_init();
 
 bool read_rule_until(struct parser *p);
 struct ast_until{char *elt;};
+struct ast_node *ast_rule_until_init();
 
 bool read_rule_case(struct parser *p);
 struct ast_case{char *elt;};
