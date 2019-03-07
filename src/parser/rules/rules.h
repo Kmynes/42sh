@@ -118,6 +118,7 @@ struct ast_rule_for{char *elt;};
 
 bool read_rule_while(struct parser *p);
 struct ast_rule_while{char *elt;};
+struct ast_node *ast_rule_while_init();
 
 bool read_rule_until(struct parser *p);
 struct ast_until{char *elt;};
