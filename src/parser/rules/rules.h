@@ -118,6 +118,7 @@ struct ast_node *ast_compound_list_init();
 // Key word rules
 bool read_rule_for(struct parser *p);
 struct ast_rule_for{char *elt;};
+struct ast_node *ast_rule_for_init();
 
 bool read_rule_while(struct parser *p);
 struct ast_rule_while{char *elt;};
@@ -132,6 +133,7 @@ struct ast_case{char *elt;};
 
 bool read_rule_if(struct parser *p);
 struct ast_if{char *elt;};
+struct ast_node *ast_rule_if_init();
 
 bool read_rule_else_clause(struct parser *p);
 struct ast_else_clause{char *elt;};

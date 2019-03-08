@@ -13,8 +13,8 @@ void version_display(void);
 int options_parser(char **argv, int argc)
 // parses arguments directly from command line
 {
-    char *options = malloc(argc);
-    char *command = malloc(100);
+    char *options = calloc(argc, 1);
+    char *command = NULL;
     for (int i = 1; i < argc; i++)
     {
         options = option_translator(options, argv[i]);
@@ -32,7 +32,6 @@ int options_parser(char **argv, int argc)
     }
     int error_code = execute_options(command, options);
     free(options);
-    free(command);
     return error_code;
 }
 
@@ -43,7 +42,11 @@ int execute_options(char *command, char *options)
 
     int AST_print_flag = 0;
     int norc_flag = 0;
-    command[0] = command[0] + 1 - 1; // REMOVE THIS - testing dummy
+    if (command)
+    {
+        norc_flag++; // REMOVE THIS - testing dummy
+        norc_flag--; // REMOVE THIS - testing dummy
+    }
     norc_flag++; // REMOVE THIS - testing dummy
     norc_flag--; // REMOVE THIS - testing dummy
     AST_print_flag++; // REMOVE THIS - testing dummy
