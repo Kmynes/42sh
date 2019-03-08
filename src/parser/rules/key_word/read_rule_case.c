@@ -2,7 +2,9 @@
 
 bool read_rule_case(struct parser *p)
 {
-    //unsigned int tmp = p->cursor;
+    unsigned int tmp = p->cursor;
+    if(tmp == p->cursor)
+       return true;
     return true;
 }
 /*
