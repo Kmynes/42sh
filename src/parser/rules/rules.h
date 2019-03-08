@@ -133,6 +133,7 @@ struct ast_case{char *elt;};
 
 bool read_rule_if(struct parser *p);
 struct ast_if{char *elt;};
+struct ast_node *ast_rule_if_init();
 
 bool read_rule_else_clause(struct parser *p);
 struct ast_else_clause{char *elt;};
