@@ -2,8 +2,9 @@
 
 bool read_case_clause(struct parser *p)
 {
-    unsigned int tmp = p->cursor;
+    //unsigned int tmp = p->cursor;
     return true;
+}
 /*
 	WAITING FOR FINISHING TOUCH
 
