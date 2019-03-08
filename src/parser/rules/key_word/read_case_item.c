@@ -2,7 +2,7 @@
 
 bool read_case_item(struct parser *p)
 {
-    unsigned int tmp = p->cursor;
+    //unsigned int tmp = p->cursor;
     return true;
 }
 /*
