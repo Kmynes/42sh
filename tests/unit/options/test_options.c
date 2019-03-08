@@ -33,9 +33,20 @@ void test_command_input(void)
     free(input);
 }
 
+void test_no_input(void)
+/* this test checks that there are no segfaults when giving normal
+** input. this might be an issue later on when coomands are supported.
+*/
+{
+    char **input = NULL;
+    int argc = 1;
+    assert(options_parser(input, argc) == 0);
+}
+
 void test_suite_options(void)
 {
     test_version();
     test_invalid();
     test_command_input();
+    test_no_input();
 }
