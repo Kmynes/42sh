@@ -3,9 +3,23 @@
 bool read_case_clause(struct parser *p)
 {
     unsigned int tmp = p->cursor;
+    if(tmp == p->cursor)
+        return true;
+    return true;
+}
+/*
+	WAITING FOR FINISHING TOUCH
 
-    if (true) {
-        // Code the ast here
+    if (read_case_item(p)
+        && ZERO_OR_MANY((parser_readtext(p, ";;")
+			&& ZERO_OR_MANY('\n')
+			&& read_case_item(p)))
+	&& ZERO_OR_MANY(parser_readchar(p, '\n'))) {
+
+        struct ast_node *ast = ast_case_clause_init();
+
+        ast_recover_all_from_parser(ast, p, );
+
         return true;
     }
 
@@ -13,3 +27,16 @@ bool read_case_clause(struct parser *p)
 
     return false;
 }
+
+char *ast_case_clause_to_string(struct ast_node *ast)
+{
+    return default_to_string(ast, "case_clause");
+}
+
+struct ast_node *ast_case_clause_init()
+{
+    struct ast_node *ast = ast_init(AST_CASE_CLAUSE, NULL);
+    ast->to_string = ast_case_clause_to_string;
+    return ast;
+}
+*/
