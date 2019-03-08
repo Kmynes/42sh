@@ -4,7 +4,7 @@ bool read_prefix(struct parser *p)
 {
     unsigned int tmp = p->cursor;
     bool is_assign = false;
-
+    read_spaces(p);
     if ((is_assign = read_assignment_word(p)) || read_redirection(p))
     {
         struct ast_node *ast = ast_prefix_init();

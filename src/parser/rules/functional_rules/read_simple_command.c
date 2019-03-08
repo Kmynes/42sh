@@ -1,31 +1,14 @@
 #include <parser/rules/rules.h>
 
-static bool read_prefix_and_elements(struct parser *p)
+static bool read_simple_command1(struct parser *p)
 {
     unsigned int tmp = p->cursor;
-
-    if (ZERO_OR_MANY(read_prefix(p)
-    && ONE_OR_MANY(read_element(p))))
-    {
-        return true;
-    }
-
-    p->cursor = tmp;
-
-    return false;
-}
-
-bool read_simple_command(struct parser *p)
-{
-    unsigned int tmp = p->cursor;
-    bool prefix_and_elements = false;
-    if (ONE_OR_MANY(read_prefix(p))
-        || (prefix_and_elements = read_prefix_and_elements(p)))
+    if (ONE_OR_MANY(read_prefix(p)))
     {
         struct ast_node *ast = ast_simple_command_init();
         ast_recover_all_from_parser(ast, p, AST_PREFIX);
 
-        if (prefix_and_elements)
+        if (ONE_OR_MANY(read_element(p)))
             ast_recover_all_from_parser(ast, p, AST_ELEMENT);
 
         ast_set_in_parser(p, ast);
@@ -33,8 +16,32 @@ bool read_simple_command(struct parser *p)
     }
 
     p->cursor = tmp;
+    return false;
+}
 
-    return false;   
+static bool read_simple_command2(struct parser *p)
+{
+    unsigned int tmp = p->cursor;
+
+    if (ZERO_OR_MANY(read_prefix(p)) && ONE_OR_MANY(read_element(p)))
+    {
+        struct ast_node *ast = ast_simple_command_init();
+        ast_recover_all_from_parser(ast, p, AST_PREFIX);
+
+        ast_recover_all_from_parser(ast, p, AST_ELEMENT);
+
+        ast_set_in_parser(p, ast);
+        return true;
+    }
+
+    p->cursor = tmp;
+    return false;
+}
+
+bool read_simple_command(struct parser *p)
+{
+    read_spaces(p);
+    return read_simple_command1(p) || read_simple_command2(p);
 }
 
 char *ast_simple_command_to_string(struct ast_node *ast)
