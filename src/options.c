@@ -42,7 +42,11 @@ int execute_options(char *command, char *options)
 
     int AST_print_flag = 0;
     int norc_flag = 0;
-    printf("%s", command); // REMOVE THIS - testing dummy
+    if (command)
+    {
+        norc_flag++; // REMOVE THIS - testing dummy
+        norc_flag--; // REMOVE THIS - testing dummy
+    }
     norc_flag++; // REMOVE THIS - testing dummy
     norc_flag--; // REMOVE THIS - testing dummy
     AST_print_flag++; // REMOVE THIS - testing dummy
