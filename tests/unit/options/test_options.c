@@ -12,7 +12,6 @@ void test_version(void)
 
 void test_invalid(void)
 // Tests that there are no errors when bad input is given
-
 {
     char **input = malloc(100);
     input[1] = "--vern";
@@ -31,6 +30,7 @@ void test_command_input(void)
     input[1] = "-c";
     input[2] = "find";
     assert(options_parser(input, argc) == 0);
+    free(input);
 }
 
 void test_suite_options(void)
