@@ -2,8 +2,9 @@
 
 bool read_rule_for(struct parser *p)
 {
-    unsigned int tmp = p->cursor;
     
+    unsigned int tmp = p->cursor;
+    /*
     if (parser_readtext(p, "for")
         && parser_begin_capture(p, "for_var")
         && read_word(p)
@@ -23,14 +24,12 @@ bool read_rule_for(struct parser *p)
         ast_set_in_parser(p, ast);
         return true;
     }
-
+    */
     p->cursor = tmp;
-
-    return false;
-    
     return true;
 }
 
+/*
 char *ast_rule_for_to_string(struct ast_node *ast)
 {
     return default_to_string(ast, "rule_for");
@@ -42,4 +41,4 @@ struct ast_node *ast_rule_for_init()
     ast->to_string = ast_rule_for_to_string;
     return ast;
 }
-
+*/
