@@ -20,7 +20,7 @@ bool read_element(struct parser *p)
 {
     unsigned int tmp = p->cursor;
     bool is_word = false;
-
+    read_spaces(p);
     if (read_redirection(p)
         || (is_word = read_element1(p)))
     {
@@ -49,11 +49,11 @@ bool read_element(struct parser *p)
 char *ast_element_to_string(struct ast_node *ast)
 {
     if (ast->data == NULL)
-        return default_to_string(ast, "read_element");
+        return default_to_string(ast, "element");
 
     char buff[512];
     struct ast_element *data = ast->data;
-    sprintf(buff, "read_element: -> element:%s", data->elt);
+    sprintf(buff, "element:%s", data->elt);
     return default_to_string(ast, buff); 
 }
 
