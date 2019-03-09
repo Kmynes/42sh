@@ -1,8 +1,8 @@
 #include <parser/rules/rules.h>
 
-bool test_ZERO_OR_MANY_case_item(struct parser *p)
+bool test_ZERO_OR_MANY_case_item(struct parser *p, struct ast_multiple_word *data)
 {
-    while(parser_readchar(p, '|') && read_assignment_word(p));
+    while(parser_readchar(p, '|') && read_multiple_word(p, data));
 
     return true;
 }
@@ -16,12 +16,16 @@ bool read_case_item(struct parser *p)
     data->capacity = 16;
 
     if (OPTIONAL(parser_readchar(p, '('))
-        && read_assignment_word(p)
-        && test_ZERO_OR_MANY_case_item(p)
+        && parser_begin_capture(p, "case_item_0")
+        && read_word(p)
+        && parser_end_capture(p, "case_item_0")
+        && test_ZERO_OR_MANY_case_item(p, data)
         && parser_readchar(p, ')')
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
-        && read_compound_list(p)) 
+        && read_compound_list(p))
     {
+        data->words[0] = parser_get_capture(p, "case_item_0");
+
         struct ast_node *ast = ast_case_item_init(data);
 
         ast_recover_all_from_parser(ast, p, AST_COMPOUND_LIST);
