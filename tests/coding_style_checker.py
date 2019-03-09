@@ -56,6 +56,8 @@ def coding_styler(file, filename):
             style_errors += sticky_star(index, file, line_number, filename)
         if file[index] == '+' or file[index] == '-' or file[index] == '*':
             style_errors += operation_spacing(index, file, line_number, filename)
+        if file[index] == '{' or file[index] == '}':
+            style_errors += solo_braces(index, file, line_number, filename)
         if file[index] == '\n':
             col_err = False
             line_number+=1
@@ -69,6 +71,7 @@ def find_line(index, file):
     return [line_start, line_end]
 
 def eighty_columns(index, file, line_number, filename):
+    """ Checks if there are more than 80 characters in a single line """
     [line_start, line_end] = find_line(index, file)
     if index-line_start > 80:
         print("More than 80 columns at line " + str(line_number)
@@ -79,7 +82,7 @@ def eighty_columns(index, file, line_number, filename):
     return 0
 
 def operation_spacing(index, file, line_number, filename):
-    """ checks if there are spaces around binary operators """
+    """ Checks if there are spaces around binary operators """
     [line_start, line_end] = find_line(index, file)
     if file[index-1].isnumeric() or file[index+1].isnumeric():
         print("Missing space around binary operator at line "+str(line_number)
@@ -90,7 +93,7 @@ def operation_spacing(index, file, line_number, filename):
     return 0
 
 def dead_code(index, file, line_number, filename):
-    """ checks if there is dead code in the code """
+    """ Checks if there is dead code in the code """
     [line_start, line_end] = find_line(index, file)
     if "//" in file[line_start:index]:
         print("Dead code at line " +str(line_number)
@@ -100,7 +103,7 @@ def dead_code(index, file, line_number, filename):
     return 0
 
 def sticky_star(index, file, line_number, filename):
-    """ checks if pointers are spaced correctly """
+    """ Checks if pointers are spaced correctly """
     [line_start, line_end] = find_line(index, file)
     is_comment = False
     if not ';' in file[line_start:line_end]:
@@ -116,24 +119,41 @@ def sticky_star(index, file, line_number, filename):
     return 0
 
 def trailing_spaces(index, file, line_number, filename):
-    """ takes a character index and a file as a string and returns 1 or 0 """
+    """ Checks if there are any trailing spaces at the end of a line """
     [line_start, line_end] = find_line(index, file)
     if file[line_start:line_end].find("for") != -1:
         return 0
-    is_comment = False
-    is_multiline = False
-    is_string = False
+    # check if line is comment
     if "//" in file[line_start:line_end]:
-        is_comment = True
+        return 0
+    # check if line is a multiline statement 
     if '\\' in file[index:line_end]:
-        is_multiline = True
+        return 0
+    # check if space is part of string
     if '"' in file[index-20:index] and '"' in file[index:index+20]:
-        is_string = True
-    if file[index+1] == " " and not is_comment and not is_multiline \
-        and not is_string:
+        return 0
+    if file[index+1] == " ":
         print("Trailing space at line "+str(line_number)
               + " of file " + filename)
         print(file[line_start+1:line_end])
         print(" "*(index-line_start) + "^")
         return 1
+    return 0
+
+def solo_braces(index, file, line_number, filename):
+    """ Checks that { and } are on their own line """
+    [line_start, line_end] = find_line(index, file)
+    if "struct" in file[line_start:line_end]:
+        return 0
+    if '"' in file[index-20:index] and '"' in file[index:index+20]:
+        return 0
+    if "'" in file[index-2:index] and "'" in file[index:index+2]:
+        return 0
+    for character in file[line_start:line_end]:
+        if character.isalpha() or character == ")" or character == "(":
+            print("Badly indented brace at line "+str(line_number)
+                    + " of file " + filename)
+            print(file[line_start+1:line_end])
+            print(" "*(index-line_start-1) + "^")
+            return 1
     return 0
