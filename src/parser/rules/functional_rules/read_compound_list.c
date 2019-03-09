@@ -4,6 +4,7 @@ static bool read_first_part(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
+    read_spaces(p);
     if ((parser_readchar(p, ';')
         || parser_readchar(p, '&')
         || parser_readchar(p, '\n'))
@@ -22,6 +23,7 @@ static bool read_second_part(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
+    read_spaces(p);
     if ((  parser_readchar(p, '&')
         || parser_readchar(p, ';')
         || parser_readchar(p, '\n'))
@@ -41,7 +43,7 @@ bool read_compound_list(struct parser *p)
     if (ZERO_OR_MANY(parser_readchar(p, '\n'))
         && read_and_or(p)
         && ZERO_OR_MANY(read_first_part(p))
-        && read_second_part(p))
+        && OPTIONAL(read_second_part(p)))
     {
         struct ast_node *ast = ast_compound_list_init();
 
