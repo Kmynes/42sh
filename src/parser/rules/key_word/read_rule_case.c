@@ -3,15 +3,9 @@
 bool read_rule_case(struct parser *p)
 {
     unsigned int tmp = p->cursor;
-    if(tmp == p->cursor)
-       return true;
-    return true;
-}
-/*
-	WAITING FOR FINISHING TOUCH
 
     if (parser_readtext(p, "case")
-        && read_asiignment_word(p)
+        && read_assignment_word(p)
 	&& ZERO_OR_MANY(parser_readchar(p, '\n'))
 	&& parser_readtext(p, "in")
 	&& ZERO_OR_MANY(parser_readchar(p, '\n'))
@@ -20,7 +14,10 @@ bool read_rule_case(struct parser *p)
 
         struct ast_node *ast = ast_case_item_init();
 
-        ast_recover_all_from_parser(ast, p, );
+        ast_recover_all_from_parser(ast, p, AST_ASSIGNEMENT_WORD);
+	//read_case_clause(p) == true then add it ==> ast_recover_all_from_parser(ast, p, AST_CASE_CLAUSE); 
+
+        ast_set_in_parser(p, ast);
 
         return true;
     }
@@ -30,7 +27,7 @@ bool read_rule_case(struct parser *p)
     return false;
 }
 
-char *ast_rule_case_to_string(struct parser *p)
+char *ast_rule_case_to_string(struct ast_node *ast)
 {
     return default_to_string(ast, "rule_case");
 }
@@ -41,4 +38,3 @@ struct ast_node *ast_rule_case_init()
     ast->to_string = ast_rule_case_to_string;
     return ast;
 }
-*/

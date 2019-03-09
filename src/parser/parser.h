@@ -124,6 +124,7 @@ struct list_capt_s
 //parser_init
 struct parser *parser_new_from_string(const char *text);
 void parser_free(struct parser *p);
+void parser_free_no_ast(struct parser *p);
 
 //parser_character
 bool parser_eof(struct parser *p);
