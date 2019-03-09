@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <parser/parser.h>
+#include <execution/execute_command.h>
 
 int execute_options(char *command, char *options);
 char *option_translator(char *options, char *current_option);
@@ -42,6 +43,7 @@ int execute_options(char *command, char *options)
 
     int AST_print_flag = 0;
     int norc_flag = 0;
+    int res;
     if (command)
     {
         norc_flag++; // REMOVE THIS - testing dummy
@@ -77,11 +79,12 @@ int execute_options(char *command, char *options)
             version_display();
             return 0;
         case 'c':
+            res = execute_command(command);
             // insert call to run function here!!
             if (AST_print_flag)
                 // insert call to AST_print function here!!
                 AST_print_flag--; // REMOVE THIS - testing dummy
-            return 0;
+            return res;
         default:
             break;
         }

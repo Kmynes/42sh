@@ -50,8 +50,19 @@ bool read_and_or(struct parser *p)
     return false;
 }
 
+int ast_and_or_exec(struct ast_node *ast)
+{
+    if (ast->type != AST_AND_OR) {
+        return 0;
+    }
+
+    puts("executing and_or");
+    return 1;
+}
+
 struct ast_node *ast_and_or_init()
 {
     struct ast_node *ast = ast_init(AST_AND_OR, NULL);
+    ast->exec = ast_and_or_exec;
     return ast;
 }

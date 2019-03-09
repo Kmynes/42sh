@@ -26,7 +26,6 @@ void test_read_and_or_or(void)
     char *input = "toto||titi";
     test_rule(read_and_or, input, "AST_AND_OR(3)");
     struct ast_node *ast = ast_from_read(read_and_or, input);
-    printf("children : %ld\n", ast->nb_children);
     assert(ast->children[0]->type == AST_PIPELINE);
     assert(ast->children[1]->type == AST_WORD);
     assert(ast->children[2]->type == AST_PIPELINE);
@@ -39,7 +38,6 @@ void test_read_and_or_multiple(void)
     char *input = "toto||titi&&tutu||tata";
     test_rule(read_and_or, input, "AST_AND_OR(4)");
     struct ast_node *ast = ast_from_read(read_and_or, input);
-    printf("children : %ld\n", ast->nb_children);
     assert(ast->children[0]->type == AST_PIPELINE);
     assert(ast->children[1]->type == AST_PIPELINE);
     ast_free(ast);

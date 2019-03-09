@@ -22,6 +22,7 @@ void test_rules(void)
     test_read_heredoc();
 
     //Functional
+    test_read_input();
     test_read_list();
     test_read_and_or();
     test_read_pipeline();
