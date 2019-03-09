@@ -92,7 +92,8 @@ struct error_s
         AST(AST_CASE_CLAUSE) \
         AST(AST_CASE_ITEM) \
         AST(AST_HEREDOC) \
-        AST(AST_ASSIGNEMENT_WORD)
+        AST(AST_ASSIGNEMENT_WORD) \
+        AST(AST_WORD) \
 
 #define GENERATE_ENUM(ENUM) ENUM,
 #define GENERATE_STRING(STRING) #STRING,
