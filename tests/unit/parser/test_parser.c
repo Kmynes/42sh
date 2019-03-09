@@ -47,6 +47,6 @@ void test_parser(void)
 
 void test_suite_parser(void)
 {
-//    test_parser();
+    test_parser();
     test_rules();
 }

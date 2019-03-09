@@ -26,4 +26,5 @@ void test_read_word(void)
     test_read_word_helper("toto>2", "toto");
     test_read_word_helper("toto<2", "toto");
     test_read_word_helper("toto;2", "toto");
+    test_read_word_helper("toto||titi", "toto");
 }
