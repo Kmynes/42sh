@@ -368,11 +368,13 @@ char *ast_redirection_to_string(struct ast_node *ast)
     struct ast_redirection *data = ast->data;
     char *ionumber = data->ionumber ? data->ionumber : "0";
     char *word = data->word ? data->word : data->heredoc;
-    size_t size = strlen("redirection___") + strlen(ionumber)
+    char *base = ast_node_default_to_string(ast);
+    size_t size = strlen(base) + strlen("___") + strlen(ionumber)
         + strlen(data->redirect) + strlen(word) + 1;
 
     char *output = malloc(size);
-    sprintf(output, "redirection_%s_%s_%s", ionumber, data->redirect, word);
+    sprintf(output, "%s_%s_%s_%s", base, ionumber, data->redirect, word);
+    free(base);
     return output;
 }
 

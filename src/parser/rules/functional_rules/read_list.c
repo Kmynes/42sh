@@ -36,14 +36,8 @@ bool read_list(struct parser *p)
     return false;
 }
 
-char *ast_list_to_string(struct ast_node *ast)
-{
-    return default_to_string(ast, "list");
-}
-
 struct ast_node *ast_list_init()
 {
     struct ast_node *ast = ast_init(AST_LIST, NULL);
-    ast->to_string = ast_list_to_string;
     return ast;
 }

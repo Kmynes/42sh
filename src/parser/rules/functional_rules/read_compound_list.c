@@ -56,14 +56,8 @@ bool read_compound_list(struct parser *p)
     return false;
 }
 
-char *ast_compound_list_to_string(struct ast_node *ast)
-{
-    return default_to_string(ast, "compound_list");
-}
-
 struct ast_node *ast_compound_list_init()
 {
     struct ast_node *ast = ast_init(AST_COMPOUND_LIST, NULL);
-    ast->to_string = ast_compound_list_to_string;
     return ast;
 }

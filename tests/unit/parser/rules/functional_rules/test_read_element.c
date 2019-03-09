@@ -2,24 +2,24 @@
 
 void test_read_element(void)
 {
-    assert(test_rule(read_element, "`abc`", "element:`abc`"));
+    assert(test_rule(read_element, "`abc`", "AST_ELEMENT(0)_`abc`"));
 
-    assert(test_rule(read_element, "2>test.sh",
-        "element\n\t- redirection_2_>_test.sh"));
+    test_rule(read_element, "2>test.sh",
+        "AST_ELEMENT(1)");
     assert(test_rule(read_element, "2<test.sh",
-        "element\n\t- redirection_2_<_test.sh"));
+                     "AST_ELEMENT(1)"));
     assert(test_rule(read_element, "2>>test.sh",
-        "element\n\t- redirection_2_>>_test.sh"));
+                     "AST_ELEMENT(1)"));
     assert(test_rule(read_element, "2<<END\necho toto\nEND",
-        "element\n\t- redirection_2_<<_\necho toto\n"));
+                     "AST_ELEMENT(1)"));
     assert(test_rule(read_element, "2<<-END\necho toto\nEND",
-        "element\n\t- redirection_2_<<-_\necho toto\n"));
+                     "AST_ELEMENT(1)"));
     assert(test_rule(read_element, "2>&test.sh",
-        "element\n\t- redirection_2_>&_test.sh"));
+                     "AST_ELEMENT(1)"));
     assert(test_rule(read_element, "2<&test.sh",
-        "element\n\t- redirection_2_<&_test.sh"));
+                     "AST_ELEMENT(1)"));
     assert(test_rule(read_element, "2>|test.sh",
-        "element\n\t- redirection_2_>|_test.sh"));
+                     "AST_ELEMENT(1)"));
     assert(test_rule(read_element, "2<>test.sh",
-        "element\n\t- redirection_2_<>_test.sh"));
+                     "AST_ELEMENT(1)"));
 }
