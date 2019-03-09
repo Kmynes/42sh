@@ -39,3 +39,5 @@ void test_read_redirection(void);
 void test_read_prefix(void);
 void test_read_element(void);
 void test_read_simple_command(void);
+void test_read_pipeline(void);
+void test_read_command(void);
