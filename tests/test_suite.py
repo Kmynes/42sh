@@ -1,4 +1,5 @@
 import subprocess
+from coding_style_checker import file_selector
 import os
 import sys
 try:
@@ -154,7 +155,9 @@ def helper():
           + "    Adds a timeout (in seconds) to the test executions.\n" \
           + "    Tests will fail if time runs out.\n" \
           + "-c <category_name> or --category <category_name> \n" \
-          + "    Executes tests for specified category.\n")
+          + "    Executes tests for specified category.\n" \
+          + "--style \n" \
+          + "    Tests coding style. \n")
 
 def argument_parser():
     """ parses command line arguments, returns error code """
@@ -173,6 +176,11 @@ def argument_parser():
         if len(sys.argv) > 2:
             return [5, "help"]
         helper()
+        return [0]
+    if "--style" in sys.argv:
+        if len(sys.argv) > 2:
+            return [5, "help"]
+        file_selector()
         return [0]
     if len(sys.argv) > 6:
         return [8]
@@ -196,7 +204,7 @@ def argument_parser():
 def argument_checker():
     """ checks arguments given in command line to see if they are supported.
     returns error code """
-    supported_arguments = ["-c", "--category",  "-t", "--timer",
+    supported_arguments = ["-c", "--category",  "-t", "--timer", "--style",
                            "-s", "--sanity", "-l", "--list", "-h", "--help"]
     for argument in sys.argv[1:len(sys.argv)]:
         previous_argument = sys.argv[sys.argv.index(argument)-1]
