@@ -22,12 +22,13 @@ void test_rules(void)
     test_read_heredoc();
 
     //Functional
+    test_read_and_or();
+    test_read_pipeline();
+    test_read_command();
+    test_read_simple_command();
     test_read_redirection();
     test_read_prefix();
     test_read_element();
-    test_read_simple_command();
-    test_read_pipeline();
-    test_read_command();
 }
 
 void test_parser(void)

@@ -48,12 +48,14 @@ bool read_element(struct parser *p)
 
 char *ast_element_to_string(struct ast_node *ast)
 {
+    // redirection stored in children
     if (ast->data == NULL)
-        return default_to_string(ast, "element");
+        return ast_node_default_to_string(ast);
 
+    // word stored in data
     char buff[512];
     struct ast_element *data = ast->data;
-    sprintf(buff, "element:%s", data->elt);
+    sprintf(buff, "AST_ELEMENT(0)_%s", data->elt);
     return default_to_string(ast, buff); 
 }
 

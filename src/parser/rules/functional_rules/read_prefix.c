@@ -23,14 +23,8 @@ bool read_prefix(struct parser *p)
     return false;
 }
 
-char *ast_prefix_to_string(struct ast_node *ast)
-{
-    return default_to_string(ast, "prefix");
-}
-
 struct ast_node *ast_prefix_init()
 {
     struct ast_node *ast = ast_init(AST_PREFIX, NULL);
-    ast->to_string = ast_prefix_to_string;
     return ast;
 }

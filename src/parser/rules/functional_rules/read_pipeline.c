@@ -42,14 +42,13 @@ bool read_pipeline(struct parser *p)
 
 char *ast_pipeline_to_string(struct ast_node *ast)
 {
-    char *buff = malloc(20);
+    char *output = ast_node_default_to_string(ast);
     struct ast_pipeline *data = ast->data;
-    sprintf(buff, "pipeline");
     if (data->is_negative)
     {
-        strcat(buff, "_negative");
+        strcat(output, "_negative");
     }
-    return buff;
+    return output;
 }
 
 void ast_pipeline_free(void *data)
