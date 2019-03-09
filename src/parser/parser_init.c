@@ -26,3 +26,17 @@ void parser_free(struct parser *p)
         free(p);
     }
 }
+
+// free parser but not ast
+void parser_free_no_ast(struct parser *p)
+{
+    if (p)
+    {
+        free(p->input);
+        free_list_capt_s(p->capture);
+        free(p->ast->children);
+        free(p->ast);
+        free(p->error);
+        free(p);
+    }
+}

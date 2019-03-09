@@ -42,7 +42,8 @@ struct ast_node *ast_get_from_parent(struct ast_node *parent,
 
 void ast_set_in_parser(struct parser *p, struct ast_node *ast)
 {
-    ast_set_in_parent(p->ast, ast);
+    if (ast != NULL)
+        ast_set_in_parent(p->ast, ast);
 }
 
 struct ast_node *ast_get_from_parser(struct parser *p,

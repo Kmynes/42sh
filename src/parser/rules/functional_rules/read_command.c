@@ -46,20 +46,26 @@ bool read_command(struct parser *p)
         struct ast_node *ast = ast_command_init();
         struct ast_node *ast_child = NULL;
 
+
         ast_child = ast_get_from_parser(p, AST_SIMPLE_COMMAND);
-        ast_set_in_parser(p, ast);
         if (ast_child != NULL)
+        {
+            ast_set_in_parent(ast, ast_child);
+            ast_set_in_parser(p, ast);
             return true;
+        }
 
         ast_child = ast_get_from_parser(p, AST_SHELL_COMMAND);
 
         if (ast_child != NULL)
         {
+            ast_set_in_parent(ast, ast_child);
             set_ast_redirection(p, ast, ast_child);
             return true;
         }
 
-        ast_child = ast_get_from_parser(p, AST_FUNCDEC);    
+        ast_child = ast_get_from_parser(p, AST_FUNCDEC);
+        ast_set_in_parent(ast, ast_child);
         set_ast_redirection(p, ast, ast_child);
 
         return true;
@@ -71,7 +77,8 @@ bool read_command(struct parser *p)
 
 char *ast_command_to_string(struct ast_node *ast)
 {
-    return default_to_string(ast, "read_command");
+    ast++;
+    return strdup("command");
 }
 
 struct ast_node *ast_command_init()

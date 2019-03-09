@@ -1,40 +1,51 @@
 #include "helper_rules.h"
 
-void test_rule( bool (*read_func)(struct parser *),
+bool test_rule( bool (*read_func)(struct parser *),
     char *input, char *expected_string)
 {
     struct parser *p = parser_new_from_string(input);
-    assert(read_func(p));
+    if (!read_func(p))
+    {
+        printf("test_rule, for expected : %s, read function returned false", expected_string);
+        parser_free(p);
+        return false;
+    }
 
+    bool res;
+    struct ast_node *ast = p->ast->children[0];
     if (expected_string)
     {
-        struct ast_node *ast = p->ast->children[0];
         char *s = ast->to_string(ast);
-        assert(strcmp(s, expected_string) == 0);
+        res = strcmp(s, expected_string) == 0;
+        if (!res)
+            printf("test_rule '%s' didn't match expected '%s'", s, expected_string);
         free(s);
     }
     parser_free(p);
+    return res;
 }
 
-void test_rule_capture( bool (*read_func)(), char *input,
-    char *expected_string)
+bool test_not_rule( bool (*read_func)(struct parser *), char *input)
 {
     struct parser *p = parser_new_from_string(input);
-    parser_begin_capture(p, "test_rule");
-    assert(read_func(p));
-    parser_end_capture(p, "test_rule");
-    char *s = parser_get_capture(p, "test_rule");
-
-    assert(p->cursor == strlen(expected_string));
-    assert(strcmp(s, expected_string) == 0);
-    free(s);
+    bool res = !read_func(p) && p->cursor == 0;
     parser_free(p);
+
+    return res;
 }
 
-void test_not_rule( bool (*read_func)(struct parser *), char *input)
+struct ast_node *ast_from_read( bool (*read_func)(struct parser *),
+                                char *input)
 {
     struct parser *p = parser_new_from_string(input);
-    assert(!read_func(p));
-    assert(p->cursor == 0);
-    parser_free(p);
+    if (!read_func(p))
+    {
+        printf("test_rule, for input : %s, read function returned false", input);
+        parser_free(p);
+        return NULL;
+    }
+
+    struct ast_node *ast = p->ast->children[0];
+    parser_free_no_ast(p);
+    return ast;
 }
