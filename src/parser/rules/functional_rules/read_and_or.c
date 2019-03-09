@@ -35,14 +35,8 @@ bool read_and_or(struct parser *p)
     return false;
 }
 
-char *ast_and_or_to_string(struct ast_node *ast)
-{
-    return default_to_string(ast, "and_or");
-}
-
 struct ast_node *ast_and_or_init()
 {
     struct ast_node *ast = ast_init(AST_AND_OR, NULL);
-    ast->to_string = ast_and_or_to_string;
     return ast;
 }

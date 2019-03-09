@@ -181,3 +181,6 @@ struct ast_node *ast_case_clause_init();
 
 bool read_case_item(struct parser *p);
 struct ast_node *ast_case_item_init(struct ast_multiple_word *data);
+
+char *default_to_string(struct ast_node *ast, char *type);
+char *ast_print_default(struct ast_node *ast, char *type);

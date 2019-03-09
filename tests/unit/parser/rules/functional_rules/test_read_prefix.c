@@ -3,23 +3,23 @@
 void test_read_prefix(void)
 {
     assert(test_rule(read_prefix, "i=0",
-        "prefix\n\t- assignment_word: -> key:i value:0"));
+        "AST_PREFIX(1)"));
     assert(test_not_rule(read_prefix, "i = 0"));
 
-    assert(test_rule(read_prefix, "2>test.sh", "prefix\n\t- redirection_2_>_test.sh"));
-    assert(test_rule(read_prefix, "2<test.sh", "prefix\n\t- redirection_2_<_test.sh"));
+    assert(test_rule(read_prefix, "2>test.sh", "AST_PREFIX(1)"));
+    assert(test_rule(read_prefix, "2<test.sh", "AST_PREFIX(1)"));
     assert(test_rule(read_prefix, "2>>test.sh",
-        "prefix\n\t- redirection_2_>>_test.sh"));
+                     "AST_PREFIX(1)"));
     assert(test_rule(read_prefix, "2<<END\necho toto\nEND",
-        "prefix\n\t- redirection_2_<<_\necho toto\n"));
+                     "AST_PREFIX(1)"));
     assert(test_rule(read_prefix, "2<<-END\necho toto\nEND",
-        "prefix\n\t- redirection_2_<<-_\necho toto\n"));
+                     "AST_PREFIX(1)"));
     assert(test_rule(read_prefix, "2>&test.sh",
-        "prefix\n\t- redirection_2_>&_test.sh"));
+                     "AST_PREFIX(1)"));
     assert(test_rule(read_prefix, "2<&test.sh",
-        "prefix\n\t- redirection_2_<&_test.sh"));
+                     "AST_PREFIX(1)"));
     assert(test_rule(read_prefix, "2>|test.sh",
-        "prefix\n\t- redirection_2_>|_test.sh"));
+                     "AST_PREFIX(1)"));
     assert(test_rule(read_prefix, "2<>test.sh",
-        "prefix\n\t- redirection_2_<>_test.sh"));
+                     "AST_PREFIX(1)"));
 }

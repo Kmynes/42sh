@@ -75,15 +75,8 @@ bool read_command(struct parser *p)
     return false;
 }
 
-char *ast_command_to_string(struct ast_node *ast)
-{
-    ast++;
-    return strdup("command");
-}
-
 struct ast_node *ast_command_init()
 {
     struct ast_node *ast = ast_init(AST_COMMAND, NULL);
-    ast->to_string = ast_command_to_string;
     return ast;
 }
