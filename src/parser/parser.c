@@ -52,8 +52,9 @@ char *default_to_string(struct ast_node *ast, char *type)
     return output;
 }
 
-char *ast_print_default(struct ast_node *ast, char *type)
+char *ast_default_to_string(struct ast_node *ast)
 {
+    char *type = (char *)AST_STRING[ast->type];
     const char *separator = "\n\t- ";
     size_t size_separator = strlen(separator);
     size_t current_size = strlen(type);
@@ -72,7 +73,7 @@ char *ast_print_default(struct ast_node *ast, char *type)
         if (child->custom_to_string)
             child_str = child->to_string(child);
         else
-            child_str = ast_print_default(child, (char *)AST_STRING[child->type]);
+            child_str = ast_default_to_string(child);
 
         current_size += strlen(child_str) + size_separator;
 

@@ -6,19 +6,19 @@ bool test_rule( bool (*read_func)(struct parser *),
     struct parser *p = parser_new_from_string(input);
     if (!read_func(p))
     {
-        printf("test_rule, for expected : %s, read function returned false", expected_string);
+        printf("test_rule, for expected : %s, read function returned false\n", expected_string);
         parser_free(p);
         return false;
     }
 
-    bool res;
+    bool res = true;
     struct ast_node *ast = p->ast->children[0];
     if (expected_string)
     {
         char *s = ast->to_string(ast);
         res = strcmp(s, expected_string) == 0;
         if (!res)
-            printf("test_rule '%s' didn't match expected '%s'", s, expected_string);
+            printf("test_rule '%s' didn't match expected '%s'\n", s, expected_string);
         free(s);
     }
     parser_free(p);
@@ -40,7 +40,7 @@ struct ast_node *ast_from_read( bool (*read_func)(struct parser *),
     struct parser *p = parser_new_from_string(input);
     if (!read_func(p))
     {
-        printf("test_rule, for input : %s, read function returned false", input);
+        printf("test_rule, for input : %s, read function returned false\n", input);
         parser_free(p);
         return NULL;
     }
