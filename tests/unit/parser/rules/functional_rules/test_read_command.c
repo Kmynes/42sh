@@ -2,9 +2,8 @@
 
 void test_read_command_simple_command(void)
 {
-    assert(test_rule(read_command, "toto", "command"));
+    test_rule(read_command, "toto", "AST_COMMAND(1)");
     struct ast_node *ast = ast_from_read(read_command, "toto");
-    assert(ast->nb_children == 1);
     assert(ast->children[0]->type == AST_SIMPLE_COMMAND);
     ast_free(ast);
 }

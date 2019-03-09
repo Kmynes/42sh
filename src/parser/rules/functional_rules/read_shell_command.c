@@ -76,14 +76,8 @@ bool read_shell_command(struct parser *p)
     return false;
 }
 
-char *ast_shell_command_to_string(struct ast_node *ast)
-{
-    return default_to_string(ast, "shell_command");
-}
-
 struct ast_node *ast_shell_command_init()
 {
     struct ast_node *ast = ast_init(AST_SHELL_COMMAND, NULL);
-    ast->to_string = ast_shell_command_to_string;
     return ast;
 }

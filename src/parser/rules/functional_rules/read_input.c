@@ -56,14 +56,8 @@ bool read_input(struct parser *p)
     return false;
 }
 
-char *ast_input_to_string(struct ast_node *ast)
-{
-    return default_to_string(ast, "input");
-}
-
 struct ast_node *ast_input_init()
 {
     struct ast_node *ast = ast_init(AST_INPUT, NULL);
-    ast->to_string = ast_input_to_string;
     return ast;
 }
