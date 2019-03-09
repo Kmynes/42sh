@@ -6,16 +6,16 @@ bool read_rule_case(struct parser *p)
 
     if (parser_readtext(p, "case")
         && read_assignment_word(p)
-	&& ZERO_OR_MANY(parser_readchar(p, '\n'))
-	&& parser_readtext(p, "in")
-	&& ZERO_OR_MANY(parser_readchar(p, '\n'))
-	&& OPTIONAL(read_case_clause(p))
-	&& parser_readtext(p, "esac")) {
+	    && ZERO_OR_MANY(parser_readchar(p, '\n'))
+	    && parser_readtext(p, "in")
+	    && ZERO_OR_MANY(parser_readchar(p, '\n'))
+	    && OPTIONAL(read_case_clause(p))
+	    && parser_readtext(p, "esac"))
+    {
 
         struct ast_node *ast = ast_case_item_init();
 
         ast_recover_all_from_parser(ast, p, AST_ASSIGNEMENT_WORD);
-	//read_case_clause(p) == true then add it ==> ast_recover_all_from_parser(ast, p, AST_CASE_CLAUSE); 
 
         ast_set_in_parser(p, ast);
 
