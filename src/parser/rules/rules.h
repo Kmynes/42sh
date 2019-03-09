@@ -3,6 +3,16 @@
 #include <parser/parser.h>
 #include <parser/ast/ast.h>
 
+//Global
+char *default_to_string(struct ast_node *ast, char *type);
+struct ast_multiple_word
+{
+    char **words;
+    size_t nb_word;
+    size_t capacity;
+};
+bool read_multiple_word(struct parser *p, struct ast_multiple_word *data);
+
 bool read_ini_file(struct parser *p);
 struct ast_node *ast_ini_file_init();
 
@@ -117,38 +127,58 @@ struct ast_node *ast_compound_list_init();
 
 // Key word rules
 bool read_rule_for(struct parser *p);
-struct ast_rule_for{char *elt;};
-struct ast_node *ast_rule_for_init();
+
+struct ast_node *ast_rule_for_init(struct ast_multiple_word *data);
 
 bool read_rule_while(struct parser *p);
-struct ast_rule_while{char *elt;};
+struct ast_rule_while
+{
+    char *elt;
+};
 struct ast_node *ast_rule_while_init();
 
 bool read_rule_until(struct parser *p);
-struct ast_until{char *elt;};
+struct ast_until
+{
+    char *elt;
+};
 struct ast_node *ast_rule_until_init();
 
 bool read_rule_case(struct parser *p);
-struct ast_case{char *elt;};
+struct ast_case
+{
+    char *elt;
+};
+struct ast_node *ast_rule_case_init();
 
 bool read_rule_if(struct parser *p);
-struct ast_if{char *elt;};
+struct ast_if
+{
+    char *elt;
+};
 struct ast_node *ast_rule_if_init();
 
 bool read_rule_else_clause(struct parser *p);
+struct ast_else_clause
+{
+    char *elt;
+};
 struct ast_else_clause{char *elt;};
 struct ast_node *ast_else_clause_init();
 
 bool read_do_group(struct parser *p);
-struct ast_do_group{char *elt;};
+struct ast_do_group
+{
+    char *elt;
+};
 struct ast_node *ast_do_group_init();
 
 bool read_case_clause(struct parser *p);
-struct ast_case_clause{char *elt;};
+struct ast_case_clause
+{
+    char *elt;
+};
 struct ast_node *ast_case_clause_init();
 
 bool read_case_item(struct parser *p);
-struct ast_case_item{char *elt;};
-struct ast_node *ast_case_item_init();
-
-char *default_to_string(struct ast_node *ast, char *type);
+struct ast_node *ast_case_item_init(struct ast_multiple_word *data);
