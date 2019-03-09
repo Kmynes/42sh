@@ -87,7 +87,7 @@ static void test_read_simple_command1(void)
 
     add_to_string_as_child(expected, ast);
 
-    test_rule(read_simple_command, "i=0", expected);
+    assert(test_rule(read_simple_command, "i=0", "simple_command"));
     free(expected);
 }
 
@@ -108,7 +108,7 @@ static void test_read_simple_command2(void)
         gen_data_assignement_word("date_of_birth", "01_01_2019"));
     add_to_string_as_child(expected, ast3);
 
-    test_rule(read_simple_command, "firstname=toto lastename=SH date_of_birth=01_01_2019", expected);
+    assert(test_rule(read_simple_command, "firstname=toto lastename=SH date_of_birth=01_01_2019", "simple_command"));
     free(expected);
 }
 
@@ -131,7 +131,7 @@ static void test_read_simple_command2_5(void)
         gen_data_redirec("54", "<", "file_name.sh", NULL));
     add_to_string_as_child(expected, ast3);
 
-    test_rule(read_simple_command, "2>42.sh lastename=SH 54<file_name.sh", expected);
+    assert(test_rule(read_simple_command, "2>42.sh lastename=SH 54<file_name.sh", "simple_command"));
     free(expected);
 }
 
@@ -144,7 +144,7 @@ static void test_read_simple_command3(void)
         gen_data_ast_element(strdup("The_real_test")));
     add_to_string_as_child(expected, ast_element);
 
-    test_rule(read_simple_command, "The_real_test", expected);
+    assert(test_rule(read_simple_command, "The_real_test", "simple_command"));
 
     free(expected);
 }
@@ -169,7 +169,7 @@ static void test_read_simple_command4(void)
         gen_data_ast_element(strdup("epi_tatech")));
     add_to_string_as_child(expected, ast_element3);
 
-    test_rule(read_simple_command, "epitech 4242>>some_test.sh epi_tatech", expected);
+    assert(test_rule(read_simple_command, "epitech 4242>>some_test.sh epi_tatech", "simple_command"));
 
     free(expected);
 }
@@ -196,7 +196,7 @@ static void test_read_simple_command5(void)
     add_to_string_as_child(expected, ast_element);
 
     char *input = "school=epita foo=bar school2=epitech SOME_WORD";
-    test_rule(read_simple_command, input, expected);
+    assert(test_rule(read_simple_command, input, "simple_command"));
     free(expected);
 }
 
@@ -223,7 +223,7 @@ static void test_read_simple_command6(void)
         gen_data_ast_element(strdup("epita")));
     add_to_string_as_child(expected, ast_element3);
 
-    test_rule(read_simple_command, "docker=compose epitech 356>>file_to_edit.sh epita", expected);
+    assert(test_rule(read_simple_command, "docker=compose epitech 356>>file_to_edit.sh epita", "simple_command"));
     free(expected);
 }
 
@@ -262,9 +262,14 @@ static void test_read_simple_command7(void)
     add_to_string_as_child(expected, ast_element);
 
     char *input = "school=epita foo=bar school2=epitech SOME_WORD_2 4566>&/dev/null 0<&.bashrc";
-    test_rule(read_simple_command, input, expected);
+    assert(test_rule(read_simple_command, input, "simple_command"));
 
     free(expected);
+}
+
+void test_read_simple_command8(void)
+{
+    assert(test_rule(read_simple_command, "toto", "simple_command"));
 }
 
 void test_read_simple_command(void)
@@ -293,4 +298,6 @@ void test_read_simple_command(void)
     test_read_simple_command7();//Warning assume the first element is a word
     //else theire no distinction possible with prefix
 
+    // just one command
+    test_read_simple_command8();
 }

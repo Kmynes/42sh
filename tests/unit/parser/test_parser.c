@@ -26,6 +26,8 @@ void test_rules(void)
     test_read_prefix();
     test_read_element();
     test_read_simple_command();
+    test_read_pipeline();
+    test_read_command();
 }
 
 void test_parser(void)
@@ -44,6 +46,6 @@ void test_parser(void)
 
 void test_suite_parser(void)
 {
-    test_parser();
+//    test_parser();
     test_rules();
 }
