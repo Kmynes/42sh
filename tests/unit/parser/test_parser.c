@@ -29,6 +29,7 @@ void test_rules(void)
     test_read_redirection();
     test_read_prefix();
     test_read_element();
+    test_read_compound_list();
 }
 
 void test_parser(void)
