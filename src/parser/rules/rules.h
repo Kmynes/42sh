@@ -176,7 +176,9 @@ struct ast_node *ast_case_clause_init();
 bool read_case_item(struct parser *p);
 struct ast_case_item
 {
-    char *elt;
+    char **words;
+    size_t nb_word;
+    size_t capacity;
 };
 struct ast_node *ast_case_item_init();
 

@@ -10,10 +10,11 @@ bool test_ZERO_OR_MANY_case_clause(struct parser *p)
 bool read_case_clause(struct parser *p)
 {
     unsigned int tmp = p->cursor;
+
     if (read_case_item(p)
         && test_ZERO_OR_MANY_case_clause(p)
-	&& ZERO_OR_MANY(parser_readchar(p, '\n'))) {
-
+	    && ZERO_OR_MANY(parser_readchar(p, '\n')))
+    {
         struct ast_node *ast = ast_case_clause_init();
 
         ast_recover_all_from_parser(ast, p, AST_CASE_ITEM);
