@@ -35,6 +35,7 @@ void test_read_heredoc(void);
 
 
 //Test functional
+void test_read_input(void);
 void test_read_list(void);
 void test_read_and_or(void);
 void test_read_pipeline(void);

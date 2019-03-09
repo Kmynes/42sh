@@ -52,8 +52,32 @@ bool read_list(struct parser *p)
     return false;
 }
 
+int ast_list_exec(struct ast_node *ast)
+{
+    if (ast->type != AST_LIST)
+        return 0;
+
+    int res = ast->children[0]->exec(ast->children[0]);
+
+    size_t i = 1;
+    while (ast->nb_children > i)
+    {
+        char *op = (char *)ast->children[i]->data;
+        if (res || strcmp(op, ";") == 0)
+        {
+            res = ast->children[i + 1]->exec(ast->children[i + 1]);
+            i += 2;
+        }
+        else
+            return 0;
+    }
+
+    return 1; // ok
+}
+
 struct ast_node *ast_list_init()
 {
     struct ast_node *ast = ast_init(AST_LIST, NULL);
+    ast->exec = ast_list_exec;
     return ast;
 }

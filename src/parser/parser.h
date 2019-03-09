@@ -114,6 +114,7 @@ struct ast_node
     size_t capacity;
     struct ast_node **children; // array of children
     char *(*to_string)(struct ast_node *);
+    int (*exec)(struct ast_node *);
     bool custom_to_string;
     void (*free)(void *);
 };
