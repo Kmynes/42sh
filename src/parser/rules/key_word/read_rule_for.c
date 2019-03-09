@@ -1,38 +1,6 @@
 #include <parser/rules/rules.h>
 
-bool read_multiple_word(struct parser *p, struct ast_rule_for *data)
-{
-    unsigned int tmp = p->cursor;
-    char buff[64];
-    sprintf(buff, "for_var_%ld", data->nb_word);
-
-    if (parser_begin_capture(p, buff)
-       && read_word(p)
-       && parser_end_capture(p, buff))
-    {
-        if (data->nb_word == data->capacity)
-        {
-            size_t new_size = sizeof(char) * data->capacity *2;
-            void *ptr = realloc(data->words, new_size);
-            if (!ptr)
-            {
-                //Catch this error
-                return false;
-            }
-
-            data->words = ptr;
-            data->capacity *= 2;
-        }
-
-        data->words[data->nb_word] = parser_get_capture(p, buff);
-        data->nb_word++;
-    }
-
-    p->cursor = tmp;
-    return true;
-}
-
-bool read_rule_for1(struct parser *p, struct ast_rule_for *data)
+bool read_rule_for1(struct parser *p, struct ast_multiple_word *data)
 {
     unsigned int tmp = p->cursor;
 
@@ -54,7 +22,7 @@ bool read_rule_for1(struct parser *p, struct ast_rule_for *data)
 bool read_rule_for(struct parser *p)
 {
     unsigned int tmp = p->cursor;
-    struct ast_rule_for *data = malloc(sizeof(struct ast_rule_for));
+    struct ast_multiple_word *data = malloc(sizeof(struct ast_multiple_word));
     data->words = malloc(sizeof(char*) * 16);
     data->nb_word = 1;
     data->capacity = 16;
@@ -86,7 +54,7 @@ bool read_rule_for(struct parser *p)
 
 void ast_rule_for_free(void *data)
 {
-    struct ast_rule_for *ast_for = data;
+    struct ast_multiple_word *ast_for = data;
 
     for (size_t i=0;i < ast_for->nb_word; i++)
         free(ast_for->words[i]);
@@ -99,7 +67,7 @@ char *ast_rule_for_to_string(struct ast_node *ast)
     return default_to_string(ast, "rule_for");
 }
 
-struct ast_node *ast_rule_for_init(struct ast_rule_for *data)
+struct ast_node *ast_rule_for_init(struct ast_multiple_word *data)
 {
     struct ast_node *ast = ast_init(AST_RULE_FOR, data);
     ast->to_string = ast_rule_for_to_string;
