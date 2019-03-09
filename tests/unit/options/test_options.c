@@ -28,8 +28,8 @@ void test_command_input(void)
     char **input = malloc(100);
     int argc = 3;
     input[1] = "-c";
-    input[2] = "find";
-    assert(options_parser(input, argc) == 0);
+    input[2] = "find;";
+    assert(options_parser(input, argc) == 1);
     free(input);
 }
 

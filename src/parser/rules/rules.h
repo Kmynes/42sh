@@ -52,6 +52,7 @@ struct ast_node *ast_assign_init(enum ast_node_type type, void *data);
 
 // Terminal rules
 bool read_word(struct parser *p);
+struct ast_node *ast_word_init(void *data);
 
 bool read_assignment_word(struct parser *p);
 struct ast_assignment_word
@@ -181,3 +182,6 @@ struct ast_node *ast_case_clause_init();
 
 bool read_case_item(struct parser *p);
 struct ast_node *ast_case_item_init(struct ast_multiple_word *data);
+
+char *default_to_string(struct ast_node *ast, char *type);
+char *ast_default_to_string(struct ast_node *ast);
