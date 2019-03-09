@@ -163,7 +163,6 @@ struct ast_else_clause
 {
     char *elt;
 };
-struct ast_else_clause{char *elt;};
 struct ast_node *ast_else_clause_init();
 
 bool read_do_group(struct parser *p);
