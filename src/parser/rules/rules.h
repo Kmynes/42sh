@@ -52,6 +52,7 @@ struct ast_node *ast_assign_init(enum ast_node_type type, void *data);
 
 // Terminal rules
 bool read_word(struct parser *p);
+struct ast_node *ast_word_init(void *data);
 
 bool read_assignment_word(struct parser *p);
 struct ast_assignment_word

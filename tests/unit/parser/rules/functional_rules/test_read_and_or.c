@@ -13,24 +13,35 @@ void test_read_and_or_simple(void)
 void test_read_and_or_and(void)
 {
     char *input = "toto&&\n\ntiti";
-    assert(test_rule(read_and_or, input, "AST_AND_OR(2)"));
+    assert(test_rule(read_and_or, input, "AST_AND_OR(3)"));
     struct ast_node *ast = ast_from_read(read_and_or, input);
-    assert(ast->nb_children == 2);
     assert(ast->children[0]->type == AST_PIPELINE);
-    assert(ast->children[1]->type == AST_PIPELINE);
+    assert(ast->children[1]->type == AST_WORD);
+    assert(ast->children[2]->type == AST_PIPELINE);
     ast_free(ast);
 }
 
 void test_read_and_or_or(void)
 {
     char *input = "toto||titi";
-    assert(test_rule(read_and_or, input, "AST_AND_OR(2)"));
+    test_rule(read_and_or, input, "AST_AND_OR(3)");
     struct ast_node *ast = ast_from_read(read_and_or, input);
     printf("children : %ld\n", ast->nb_children);
-//    printf("dfts: %s\n", ast_print_default(ast, "and_or"));
-//    assert(ast->nb_children == 2);
-//    assert(ast->children[0]->type == AST_PIPELINE);
-//    assert(ast->children[1]->type == AST_PIPELINE);
+    assert(ast->children[0]->type == AST_PIPELINE);
+    assert(ast->children[1]->type == AST_WORD);
+    assert(ast->children[2]->type == AST_PIPELINE);
+    ast_free(ast);
+}
+
+
+void test_read_and_or_multiple(void)
+{
+    char *input = "toto||titi&&tutu||tata";
+    test_rule(read_and_or, input, "AST_AND_OR(4)");
+    struct ast_node *ast = ast_from_read(read_and_or, input);
+    printf("children : %ld\n", ast->nb_children);
+    assert(ast->children[0]->type == AST_PIPELINE);
+    assert(ast->children[1]->type == AST_PIPELINE);
     ast_free(ast);
 }
 
@@ -44,6 +55,6 @@ void test_read_and_or(void)
 {
     test_read_and_or_simple();
     test_read_and_or_and();
-//    test_read_and_or_or();
+    test_read_and_or_or();
     test_read_and_or_fail();
 }
