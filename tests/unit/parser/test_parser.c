@@ -22,12 +22,16 @@ void test_rules(void)
     test_read_heredoc();
 
     //Functional
+    test_read_input();
+    test_read_list();
+    test_read_and_or();
+    test_read_pipeline();
+    test_read_command();
+    test_read_simple_command();
     test_read_redirection();
     test_read_prefix();
     test_read_element();
-    test_read_simple_command();
-    test_read_pipeline();
-    test_read_command();
+    test_read_compound_list();
 }
 
 void test_parser(void)
@@ -46,6 +50,6 @@ void test_parser(void)
 
 void test_suite_parser(void)
 {
-//    test_parser();
+    test_parser();
     test_rules();
 }

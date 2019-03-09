@@ -1,5 +1,4 @@
 #include "parser/parser.h"
-#include "execution/execute_ast.h"
 #include "options.h"
 
 int main(int argc, char ** argv)

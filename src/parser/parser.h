@@ -64,38 +64,47 @@ struct error_s
     } u;
 };
 
-enum ast_node_type
-{
-    AST_NODE_EMPTY = 1,
-    AST_NODE_INI_FILE,
-    AST_NODE_SECTION,
-    AST_NODE_KEY_VALUE,
-    AST_NODE_ASSIGN,
-    AST_INPUT,
-    AST_LIST,
-    AST_AND_OR,
-    AST_PIPELINE,
-    AST_COMMAND,
-    AST_SIMPLE_COMMAND,
-    AST_SHELL_COMMAND,
-    AST_FUNCDEC,
-    AST_REDIRECTION,
-    AST_PREFIX,
-    AST_ELEMENT,
-    AST_COMPOUND_LIST,
-    AST_RULE_FOR,
-    AST_RULE_WHILE,
-    AST_RULE_UNTIL,
-    AST_RULE_CASE,
-    AST_RULE_IF,
-    AST_ELSE_CLAUSE,
-    AST_DO_GROUP,
-    AST_CASE_CLAUSE,
-    AST_CASE_ITEM,
-    AST_HEREDOC,
-    AST_ASSIGNEMENT_WORD
+#define FOREACH_AST(AST) \
+        AST(AST_NODE_EMPTY)   \
+        AST(AST_NODE_INI_FILE)  \
+        AST(AST_NODE_SECTION)   \
+        AST(AST_NODE_KEY_VALUE)  \
+        AST(AST_NODE_ASSIGN)  \
+        AST(AST_INPUT)  \
+        AST(AST_LIST)  \
+        AST(AST_AND_OR)  \
+        AST(AST_PIPELINE)  \
+        AST(AST_COMMAND)  \
+        AST(AST_SIMPLE_COMMAND) \
+        AST(AST_SHELL_COMMAND) \
+        AST(AST_FUNCDEC) \
+        AST(AST_REDIRECTION) \
+        AST(AST_PREFIX) \
+        AST(AST_ELEMENT) \
+        AST(AST_COMPOUND_LIST) \
+        AST(AST_RULE_FOR) \
+        AST(AST_RULE_WHILE) \
+        AST(AST_RULE_UNTIL) \
+        AST(AST_RULE_CASE) \
+        AST(AST_RULE_IF) \
+        AST(AST_ELSE_CLAUSE) \
+        AST(AST_DO_GROUP) \
+        AST(AST_CASE_CLAUSE) \
+        AST(AST_CASE_ITEM) \
+        AST(AST_HEREDOC) \
+        AST(AST_ASSIGNEMENT_WORD) \
+        AST(AST_WORD) \
+
+#define GENERATE_ENUM(ENUM) ENUM,
+#define GENERATE_STRING(STRING) #STRING,
+
+enum ast_node_type {
+    FOREACH_AST(GENERATE_ENUM)
 };
 
+
+//extern const char *toto[];
+extern const char *AST_STRING[];
 // ast inifile
 struct ast_node
 {
@@ -105,6 +114,8 @@ struct ast_node
     size_t capacity;
     struct ast_node **children; // array of children
     char *(*to_string)(struct ast_node *);
+    int (*exec)(struct ast_node *);
+    bool custom_to_string;
     void (*free)(void *);
 };
 

@@ -43,15 +43,9 @@ bool read_simple_command(struct parser *p)
     return read_simple_command1(p) || read_simple_command2(p);
 }
 
-char *ast_simple_command_to_string(struct ast_node *ast)
-{
-    ast++;
-    return strdup("simple_command");
-}
 
 struct ast_node *ast_simple_command_init()
 {
     struct ast_node *ast = ast_init(AST_SIMPLE_COMMAND, NULL);
-    ast->to_string =  ast_simple_command_to_string;
     return ast;
 }

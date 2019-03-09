@@ -5,7 +5,8 @@ static bool read_input1(struct parser *p)
     unsigned int tmp = p->cursor;
 
     if (read_list(p)
-        && parser_readchar(p, '\n'))
+//        && parser_readchar(p, '\n') # put this back sometime
+        )
     {
         return true;
     }
@@ -56,14 +57,29 @@ bool read_input(struct parser *p)
     return false;
 }
 
-char *ast_input_to_string(struct ast_node *ast)
+int ast_input_exec(struct ast_node *ast)
 {
-    return default_to_string(ast, "input");
+    if (ast->type != AST_INPUT) {
+        return 0;
+    }
+
+    int res = 0;
+    for (size_t i = 0; i < ast->nb_children; i++)
+    {
+        res = ast->children[i]->exec(ast->children[i]);
+
+
+        if (!res) {
+            return 0;
+        }
+    }
+
+    return 1; // ok
 }
 
 struct ast_node *ast_input_init()
 {
     struct ast_node *ast = ast_init(AST_INPUT, NULL);
-    ast->to_string = ast_input_to_string;
+    ast->exec = ast_input_exec;
     return ast;
 }
