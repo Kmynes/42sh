@@ -42,6 +42,15 @@ void test_read_pipeline_multiple(void)
     ast_free(ast);
 }
 
+void test_read_pipeline_tricky(void)
+{
+    char *input = "toto||tutu";
+    assert(test_rule(read_pipeline, input, "AST_PIPELINE(1)"));
+    struct ast_node *ast = ast_from_read(read_pipeline, input);
+    assert(ast->children[0]->type == AST_COMMAND);
+    ast_free(ast);
+}
+
 void test_read_pipeline_fail(void)
 {
     test_not_rule(read_pipeline, " toto");
@@ -53,4 +62,5 @@ void test_read_pipeline(void)
     test_read_pipeline_negative();
     test_read_pipeline_multiple();
     test_read_pipeline_fail();
+    test_read_pipeline_tricky();
 }
