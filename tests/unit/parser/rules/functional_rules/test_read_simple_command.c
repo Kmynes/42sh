@@ -44,8 +44,12 @@ static void test_read_simple_command6(void)
 
 static void test_read_simple_command7(void)
 {
-    char *input = "school=epita foo=bar school2=epitech SOME_WORD_2 4566>&/dev/null 0<&.bashrc";
+    char *input = malloc(sizeof(char) *512);
+    strcpy(input, "school=epita foo=bar school2=epitech");
+    strcat(" SOME_WORD_2 4566>&/dev/null 0<&.bashrc");
+
     assert(test_rule(read_simple_command, input, "AST_SIMPLE_COMMAND(6)"));
+    free(input);
 }
 
 void test_read_simple_command8(void)
