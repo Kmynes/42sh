@@ -13,7 +13,7 @@ static bool read_list1(struct parser *p)
         return true;
     }
 
-    parser_remove_capture_by_tag(p, "and_or_op");
+    parser_remove_capture_by_tag(p, "list_op");
 
     p->cursor =tmp;
 
@@ -24,10 +24,7 @@ bool read_list(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (read_and_or(p)
-        && ZERO_OR_MANY(read_list1(p))
-        && (parser_readchar(p, ';')
-        || parser_readchar(p, '&')))
+    if (read_and_or(p))
     {
         struct ast_node *ast = ast_list_init();
 
@@ -43,9 +40,15 @@ bool read_list(struct parser *p)
             struct ast_node *ast_op = ast_word_init(op);
             ast_set_in_parent(ast, ast_op);
         }
-        ast_set_in_parser(p, ast);
-        return true;
+        if (parser_readchar(p, ';')
+         || parser_readchar(p, '&'))
+        {
+            ast_set_in_parser(p, ast);
+            return true;
+        }
     }
+
+    parser_remove_capture_by_tag(p, "list_op");
 
     p->cursor = tmp;
 

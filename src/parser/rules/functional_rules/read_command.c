@@ -96,5 +96,6 @@ int ast_command_exec(struct ast_node *ast)
 struct ast_node *ast_command_init()
 {
     struct ast_node *ast = ast_init(AST_COMMAND, NULL);
+    ast->exec = ast_command_exec;
     return ast;
 }
