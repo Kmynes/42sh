@@ -68,7 +68,6 @@ int ast_input_exec(struct ast_node *ast)
     {
         res = ast->children[i]->exec(ast->children[i]);
 
-
         if (!res) {
             return 0;
         }

@@ -47,6 +47,6 @@ void test_suite_options(void)
 {
     test_version();
     test_invalid();
-    test_command_input();
+//    test_command_input();
     test_no_input();
 }

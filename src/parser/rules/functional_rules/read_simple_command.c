@@ -87,7 +87,7 @@ int run_cmd(char **cmd, char **env)
 
     if (pid == 0)
     { // child
-        execve(cmd[0], cmd, env);
+        execvpe(cmd[0], cmd, env);
         errx(1, "cannot execve: an error occured");
     }
     else
