@@ -57,6 +57,8 @@ def coding_styler(file, filename):
             style_errors += operation_spacing(index, file, line_number, filename)
         if file[index] == '{' or file[index] == '}':
             style_errors += solo_braces(index, file, line_number, filename)
+        if file[index] == '{':
+            style_errors += indentation_check(index, file, line_number, filename)
         if file[index] == ',':
             style_errors += comma_space(index, file, line_number, filename)
         if file[index] == '\n':
@@ -92,6 +94,33 @@ def operation_spacing(index, file, line_number, filename):
         print(" "*(index-line_start-1) + "^")
         return 1
     return 0
+
+def indentation_check(index, file, line_number, filename):
+    """ Checks if there is an indent after anopening brace """
+    [line_start, line_end] = find_line(index, file)
+    if "struct" in file[line_start:line_end]:
+        return 0
+    if '"' in file[index-20:index] and '"' in file[index:index+20]:
+        return 0
+    if "'" in file[index-2:index] and "'" in file[index:index+2]:
+        return 0
+    preceding_spaces = index-file[0:index].rfind('\n')-1
+    succeeding_spaces = 0
+    special_index = index+1
+    while file[special_index+1] == ' ':
+        succeeding_spaces += 1
+        special_index += 1
+    print("preceded: " + str(preceding_spaces) + " succeed: "+str(succeeding_spaces))
+    
+    if succeeding_spaces == preceding_spaces:
+        print("Badly indented code at line "+str(line_number+1)
+                + " of file " + filename)
+        [line_start, line_end] = find_line(line_end+3, file)
+        print(file[line_start+1:line_end+10])
+        print(" "*(succeeding_spaces) + "^")
+        return 1
+    return 0
+    
 
 def dead_code(index, file, line_number, filename):
     """ Checks if there is dead code in the code """
