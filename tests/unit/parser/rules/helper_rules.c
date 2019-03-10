@@ -1,12 +1,13 @@
 #include "helper_rules.h"
 
-bool test_rule( bool (*read_func)(struct parser *),
+bool test_rule(bool (*read_func)(struct parser *),
     char *input, char *expected_string)
 {
     struct parser *p = parser_new_from_string(input);
     if (!read_func(p))
     {
-        printf("test_rule, for expected : %s, read function returned false\n", expected_string);
+        printf("test_rule, for expected : %s, read function returned false\n", 
+            expected_string);
         parser_free(p);
         return false;
     }
@@ -18,7 +19,8 @@ bool test_rule( bool (*read_func)(struct parser *),
         char *s = ast->to_string(ast);
         res = strcmp(s, expected_string) == 0;
         if (!res)
-            printf("test_rule '%s' didn't match expected '%s'\n", s, expected_string);
+            printf("test_rule '%s' didn't match expected '%s'\n", s, 
+                expected_string);
         free(s);
     }
     parser_free(p);
@@ -40,7 +42,8 @@ struct ast_node *ast_from_read( bool (*read_func)(struct parser *),
     struct parser *p = parser_new_from_string(input);
     if (!read_func(p))
     {
-        printf("test_rule, for input : %s, read function returned false\n", input);
+        printf("test_rule, for input : %s, read function returned false\n", 
+            input);
         parser_free(p);
         return NULL;
     }

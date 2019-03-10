@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-static bool read_optional_instructions(struct parser *p)
+bool read_optional_instructions(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
@@ -47,9 +47,7 @@ char *ast_pipeline_to_string(struct ast_node *ast)
     char *output = ast_node_default_to_string(ast);
     struct ast_pipeline *data = ast->data;
     if (data->is_negative)
-    {
         strcat(output, "_negative");
-    }
     return output;
 }
 
@@ -61,12 +59,7 @@ void ast_pipeline_free(void *data)
 int ast_pipeline_exec(struct ast_node *ast)
 {
     if (ast->type != AST_PIPELINE)
-        return 0;
-
-//    int link[2];
-//
-//    if (pipe(link) == -1)
-//        perror("pipe");
+        return 1;
 
     int res;
     for (size_t i = 0; i < ast->nb_children; i++)

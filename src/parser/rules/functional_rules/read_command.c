@@ -28,7 +28,7 @@
 //    return false;
 //}
 
-static void set_ast_redirection(struct parser *p, struct ast_node *ast,
+void set_ast_redirection(struct parser *p, struct ast_node *ast,
     struct ast_node *ast_child)
 {
     ast_set_in_parent(ast, ast_child);
@@ -79,18 +79,17 @@ bool read_command(struct parser *p)
 int ast_command_exec(struct ast_node *ast)
 {
      if (ast->type != AST_COMMAND)
-        return 0;
+        return 1;
 
     int res = 0;
     for (size_t i = 0; i < ast->nb_children; i++)
     {
         res = ast->children[i]->exec(ast->children[i]);
 
-        if (!res) {
-            return 0;
-        }
+        if (res == 1)
+            return 1;
     }
-    return 1;
+    return 0;
 }
 
 struct ast_node *ast_command_init()

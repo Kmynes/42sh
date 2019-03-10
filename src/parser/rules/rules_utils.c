@@ -12,7 +12,7 @@ bool read_multiple_word(struct parser *p, struct ast_multiple_word *data)
     {
         if (data->nb_word == data->capacity)
         {
-            size_t new_size = sizeof(char) * data->capacity *2;
+            size_t new_size = sizeof(char) * data->capacity * 2;
             void *ptr = realloc(data->words, new_size);
             if (!ptr)
             {
