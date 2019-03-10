@@ -2,5 +2,4 @@
 
 void test_ast_accessor(void)
 {
-
 }

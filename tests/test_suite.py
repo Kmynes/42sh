@@ -14,17 +14,17 @@ def run(code, arguments=[None]*3):
     # arguments list: [category, sanity, timer]
     file_directory = os.path.dirname(os.path.abspath(__file__))
     build_directory = file_directory.replace("tests", "build")
-
+    print(build_directory)
     if arguments[1]:
         code = "valgrind "+code
     if arguments[2]:
         try:
-            return subprocess.run(code, shell=True, cwd=directory,
+            return subprocess.run(code, shell=True, cwd=build_directory,
                               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                              timeout=int(arguments[2]))
         except:
             return "timeout"
-    return subprocess.run(code, shell=True,
+    return subprocess.run(code, shell=True, cwd=build_directory,
                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 def output_diff(test_name, ref_output, mycode_output, arguments):
@@ -41,6 +41,9 @@ def output_diff(test_name, ref_output, mycode_output, arguments):
     ref_stderr = str(ref_output.stderr)
     mycode_stdout = str(mycode_output.stdout)
     mycode_stderr = str(mycode_output.stderr)
+    print(ref_stderr)
+    print(mycode_stderr)
+    
     # valgrind checks
     if arguments[1]:
         if valgrind_error_extractor(mycode_stderr) > 0:
