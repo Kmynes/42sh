@@ -19,15 +19,14 @@ int options_parser(char **argv, int argc)
     for (int i = 1; i < argc; i++)
     {
         options = option_translator(options, argv[i]);
-        if (options[i-1] == 'c')
+        if (options[i - 1] == 'c')
         {
-            //printf("command1 = %s", argv[i+1]); REMOVE THIS - TESTING ONLY
-            if (i+1 >= argc)
+            if (i + 1 >= argc)
             {
                 printf("Expected argument after -c option\n");
                 return 1;
             }
-            command = argv[i+1];
+            command = argv[i + 1];
             i++;
         }
     }
@@ -38,21 +37,11 @@ int options_parser(char **argv, int argc)
 
 int execute_options(char *command, char *options)
 {
-    // printf("command is %s \n", command); REMOVE THIS - TESTING ONLY
-    // printf("option table is %s \n", options); REMOVE THIS - TESTING ONLY
-
     int AST_print_flag = 0;
     int norc_flag = 0;
     int res;
-    if (command)
-    {
-        norc_flag++; // REMOVE THIS - testing dummy
-        norc_flag--; // REMOVE THIS - testing dummy
-    }
     norc_flag++; // REMOVE THIS - testing dummy
     norc_flag--; // REMOVE THIS - testing dummy
-    AST_print_flag++; // REMOVE THIS - testing dummy
-    AST_print_flag--; // REMOVE THIS - testing dummy
 
     // do a first loop of options to get the flags (or fail if needed)
     for (unsigned i = 0; options[i]; i++)
@@ -75,18 +64,18 @@ int execute_options(char *command, char *options)
     for (unsigned i = 0; options[i]; i++)
         switch (options[i])
         {
-        case 'v':
-            version_display();
-            return 0;
-        case 'c':
-            res = execute_command(command);
-            // insert call to run function here!!
-            if (AST_print_flag)
-                // insert call to AST_print function here!!
-                AST_print_flag--; // REMOVE THIS - testing dummy
-            return res;
-        default:
-            break;
+            case 'v':
+                version_display();
+                return 0;
+            case 'c':
+                res = execute_command(command);
+                // insert call to run function here!!
+                if (AST_print_flag)
+                    // insert call to AST_print function here!!
+                    AST_print_flag--; // REMOVE THIS - testing dummy
+                return res;
+            default:
+                break;
         }
     return 0;
 }
@@ -133,17 +122,21 @@ int ast_print(struct parser *p)
         return 1;
 
     if (p->ast->type == AST_NODE_EMPTY)
-    {}
+    {
+    }
     else if (p->ast->type ==  AST_NODE_INI_FILE)
-    {}
+    {
+    }
     else if (p->ast->type ==  AST_NODE_SECTION)
-    {}
+    {
+    }
     else if (p->ast->type ==  AST_NODE_KEY_VALUE)
-    {}
+    {
+    }
     else if (p->ast->type ==  AST_NODE_ASSIGN)
 
     for (; (c = fgetc(fp)) != EOF ;)
-        printf("%c",c);
+        printf("%c", c);
 
     fclose(fp);
 
