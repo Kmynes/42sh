@@ -100,7 +100,8 @@ def full_test_suite(arguments=[None]*3):
 
     for category in os.listdir(directory):
         # only go check in folders whose name isn't "unit"
-        if not (os.path.isfile(directory+"/"+category) or category == "unit"):
+        if not (os.path.isfile(directory+"/"+category) or category == "unit" 
+                or category == "Dockerconfig" or category == "__pycache__"):
             # print category title
             arguments[0] = category
             [category_tests, category_fails] = category_test(arguments)

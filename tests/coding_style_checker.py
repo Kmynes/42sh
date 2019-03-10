@@ -20,11 +20,10 @@ def file_selector():
     print("= Coding style checks " + 58*"=")
     style_errors = 0
     directory = os.path.dirname(os.path.abspath(__file__))
-    directory = directory.replace("/tests","")
     all_files = get_file_list(directory)
-    #for filename in os.listdir(directory):
+    directory = directory.replace("/tests","/src")
+    all_files = get_file_list(directory) + all_files
     for filename in all_files:
-        #if os.path.isfile(directory+"/"+filename):
         if os.path.isfile(filename):
             if filename[len(filename)-2:len(filename)]==".c" or \
                 filename[len(filename)-2:len(filename)]==".h":
@@ -58,6 +57,10 @@ def coding_styler(file, filename):
             style_errors += operation_spacing(index, file, line_number, filename)
         if file[index] == '{' or file[index] == '}':
             style_errors += solo_braces(index, file, line_number, filename)
+        #if file[index] == '{':
+        #    style_errors += indentation_check(index, file, line_number, filename)
+        if file[index] == ',':
+            style_errors += comma_space(index, file, line_number, filename)
         if file[index] == '\n':
             col_err = False
             line_number+=1
@@ -92,13 +95,40 @@ def operation_spacing(index, file, line_number, filename):
         return 1
     return 0
 
+def indentation_check(index, file, line_number, filename):
+    """ Checks if there is an indent after anopening brace """
+    [line_start, line_end] = find_line(index, file)
+    if "struct" in file[line_start:line_end]:
+        return 0
+    if '"' in file[index-20:index] and '"' in file[index:index+20]:
+        return 0
+    if "'" in file[index-2:index] and "'" in file[index:index+2]:
+        return 0
+    preceding_spaces = index-file[0:index].rfind('\n')-1
+    succeeding_spaces = 0
+    special_index = index+1
+    while file[special_index+1] == ' ':
+        succeeding_spaces += 1
+        special_index += 1
+    print("preceded: " + str(preceding_spaces) + " succeed: "+str(succeeding_spaces))
+    
+    if succeeding_spaces == preceding_spaces:
+        print("Badly indented code at line "+str(line_number+1)
+                + " of file " + filename)
+        [line_start, line_end] = find_line(line_end+3, file)
+        print(file[line_start+1:line_end+10])
+        print(" "*(succeeding_spaces) + "^")
+        return 1
+    return 0
+    
+
 def dead_code(index, file, line_number, filename):
     """ Checks if there is dead code in the code """
     [line_start, line_end] = find_line(index, file)
     if "//" in file[line_start:index]:
         print("Dead code at line " +str(line_number)
             + " of file " + filename)
-        print(file[line_start+1:line_end]+"\n")
+        print(file[line_start+1:line_end] + "\n")
         return 1
     return 0
 
@@ -130,10 +160,23 @@ def trailing_spaces(index, file, line_number, filename):
     if '\\' in file[index:line_end]:
         return 0
     # check if space is part of string
-    if '"' in file[index-20:index] and '"' in file[index:index+20]:
+    if '"' in file[index-20:index] and '"' in file[index:index + 20]:
         return 0
-    if file[index+1] == " ":
+    if file[index + 1] == " ":
         print("Trailing space at line "+str(line_number)
+              + " of file " + filename)
+        print(file[line_start+1:line_end])
+        print(" "*(index-line_start) + "^")
+        return 1
+    return 0
+
+def comma_space(index, file, line_number, filename):
+    """ Checks if there is a space after a comma """
+    [line_start, line_end] = find_line(index, file)
+    if file[index+1] == '\n':
+        return 0
+    if file[index+1] != ' ':
+        print("Missing space after comma at line "+str(line_number)
               + " of file " + filename)
         print(file[line_start+1:line_end])
         print(" "*(index-line_start) + "^")
