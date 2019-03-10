@@ -5,5 +5,5 @@ services:
     image: archlinux/base:42sh_arch
     build: ./Dockerconfig
     volumes:
-      - .:/root/42sh
+      - ..:/root/42sh
     privileged: true

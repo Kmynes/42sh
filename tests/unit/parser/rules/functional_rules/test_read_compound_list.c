@@ -14,7 +14,7 @@ static void test_read_compound_list_simple_and_or(void)
 
 static void test_read_compound_list_medium(void)
 {
-    char *input = malloc(sizeof(char)*512);
+    char *input = malloc(sizeof(char) * 512);
     strcpy(input, "\n\nsome_boolean&&\n\nan_other_boolean");
     strcat(input, " ;\n\n");
     strcat(input, " easy_boolean&&\n\nan_other_easy_boolean");
@@ -30,7 +30,7 @@ static void test_read_compound_list_medium(void)
 
 static void test_read_compound_list_high(void)
 {
-    char *input = malloc(sizeof(char)*512);
+    char *input = malloc(sizeof(char) * 512);
     strcpy(input, "\n\nsome_boolean&&\nsome_test_bool");
     strcat(input, " ;\n\n");
     strcat(input, " next_boolean&&\n\nboolean");
