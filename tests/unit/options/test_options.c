@@ -28,7 +28,7 @@ void test_command_input(void)
     char **input = malloc(100);
     int argc = 3;
     input[1] = "-c";
-    input[2] = "find;";
+    input[2] = "/usr/bin/find;";
     assert(options_parser(input, argc) == 1);
     free(input);
 }
@@ -47,6 +47,6 @@ void test_suite_options(void)
 {
     test_version();
     test_invalid();
-//    test_command_input();
+    test_command_input();
     test_no_input();
 }

@@ -1,0 +1,3 @@
+desc: tests that basic commands work
+ref: bash -c find
+mycode: ./42sh -c 'find;'
