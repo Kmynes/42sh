@@ -1,0 +1,48 @@
+.TH 42SH 1 "20 February 2019" "version 0.3" 
+.SH NAME
+42sh - the BlueShell42 shell interpreter
+.SH SYNOPSIS
+.B 42sh
+[options] [command_string | file]
+.SH DESCRIPTION
+.BR 42sh " is an"
+.ss 12 0
+.BR sh- "compatible command language interpreter that executes commands read from the standard input or from a file."
+.SH OPTIONS
+.TP
+.B -c
+If the 
+.B -c 
+option is present, then commands are read from string. If there are arguments after the string, they are assigned to the positional parameters, starting with $0.
+.TP
+.B [-+]O
+shopt_option is one of the shell options accepted by the shopt builtin (see SHELL BUILTIN COMMANDS below). If shopt_option is present, -O sets the value of that option; +O unsets it. If shopt_option is not supplied, the names and values of the shell options accepted by shopt are printed on the standard output. If the invocation option is +O, the output is displayed in a format that may be reused as input.
+.TP
+.B --norc
+Do not read and execute the personal initialization file ~/.bashrc if the shell is interactive.
+.TP
+.B --ast-print
+This option activates the AST printer.
+.TP
+.B --version
+Show version information for this instance of 
+.BR 42sh " on the standard output and exit successfully."
+.SH BUGS
+Nothing works yet.
+.SH AUTHORS
+The BlueShell42 group:
+.PP 
+Daniel Sebton
+daniel.sebton@epita.fr
+
+Kevin Voyer
+kevin.voyer@epita.fr
+
+Thibault Lebrun
+thibault.lebrun@epita.fr
+
+Yann Moussan
+yann.moussan@epita.fr
+
+.SH SEE ALSO
+bash(1)
