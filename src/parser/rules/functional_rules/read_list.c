@@ -58,16 +58,12 @@ int ast_list_exec(struct ast_node *ast)
         return 0;
 
     int res = ast->children[0]->exec(ast->children[0]);
-
-    size_t i = 1;
-    while (ast->nb_children > i)
+    
+    for (size_t i = 1; ast->nb_children > i; i += 2)
     {
-        char *op = (char *)ast->children[i]->data;
+        char *op = ast->children[i]->data;
         if (res || strcmp(op, ";") == 0)
-        {
             res = ast->children[i + 1]->exec(ast->children[i + 1]);
-            i += 2;
-        }
         else
             return 0;
     }

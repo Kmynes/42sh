@@ -24,12 +24,10 @@ bool read_case_item(struct parser *p)
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
         && read_compound_list(p))
     {
+        
         data->words[0] = parser_get_capture(p, "case_item_0");
-
         struct ast_node *ast = ast_case_item_init(data);
-
         ast_recover_all_from_parser(ast, p, AST_COMPOUND_LIST);
-
         ast_set_in_parser(p, ast);
 
         return true;
