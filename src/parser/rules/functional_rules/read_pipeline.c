@@ -61,7 +61,7 @@ void ast_pipeline_free(void *data)
 int ast_pipeline_exec(struct ast_node *ast)
 {
     if (ast->type != AST_PIPELINE)
-        return 0;
+        return 1;
 
 //    int link[2];
 //
