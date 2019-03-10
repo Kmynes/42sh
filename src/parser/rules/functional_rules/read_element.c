@@ -27,13 +27,13 @@ bool read_element(struct parser *p)
         struct ast_node *ast = NULL;
         if (is_word)
         {
-            struct ast_element *data = malloc(sizeof(struct ast_element));
-            data->elt = parser_get_capture(p, "elt");
-            ast = ast_element_init(data);
+            struct ast_node *ast_word = ast_word_init(parser_get_capture(p, "elt"));
+            ast = ast_element_init();
+            ast_set_in_parent(ast, ast_word);
         }
         else
         {
-            ast = ast_element_init(NULL);
+            ast = ast_element_init();
             ast_recover_all_from_parser(ast, p, AST_REDIRECTION);
         }
 
@@ -42,35 +42,25 @@ bool read_element(struct parser *p)
     }
 
     p->cursor = tmp;
-
     return false;
 }
 
 char *ast_element_to_string(struct ast_node *ast)
 {
     // redirection stored in children
-    if (ast->data == NULL)
-        return ast_node_default_to_string(ast);
-
-    // word stored in data
+    struct ast_node *child = ast->children[0];
+    if (child->type == AST_REDIRECTION)
+        return strdup("AST_ELEMENT(1)");
+    
     char buff[512];
-    struct ast_element *data = ast->data;
-    sprintf(buff, "AST_ELEMENT(0)_%s", data->elt);
-    return default_to_string(ast, buff); 
+    char *word = child->data;
+    sprintf(buff, "AST_ELEMENT(1)_%s", word);
+    return strdup(buff); 
 }
 
-void ast_element_free(void *data)
+struct ast_node *ast_element_init()
 {
-    struct ast_element *ast_elt = data;
-    free(ast_elt->elt);
-    free(ast_elt);
-}
-
-struct ast_node *ast_element_init(struct ast_element *data)
-{
-    struct ast_node *ast = ast_init(AST_ELEMENT, data);
+    struct ast_node *ast = ast_init(AST_ELEMENT, NULL);
     ast->to_string = ast_element_to_string;
-    if (data != NULL)
-        ast->free = ast_element_free;
     return ast;
 }
