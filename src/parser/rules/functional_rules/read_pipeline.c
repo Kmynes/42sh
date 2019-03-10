@@ -1,4 +1,6 @@
 #include <parser/rules/rules.h>
+#include <unistd.h>
+#include <stdio.h>
 
 static bool read_optional_instructions(struct parser *p)
 {
@@ -56,10 +58,32 @@ void ast_pipeline_free(void *data)
     free(data);
 }
 
+int ast_pipeline_exec(struct ast_node *ast)
+{
+    if (ast->type != AST_PIPELINE)
+        return 0;
+
+    int link[2];
+
+    if (pipe(link) == -1)
+        perror("pipe");
+
+    int res;
+    for (size_t i = 0; i < ast->nb_children; i++)
+    {
+        res = ast->children[i]->exec(ast->children[i]);
+    }
+
+    struct ast_pipeline *data = ast->data;
+
+    return data->is_negative ? !res: res;
+}
+
 struct ast_node *ast_pipeline_init(void *data)
 {
     struct ast_node *ast = ast_init(AST_PIPELINE, data);
     ast->to_string = ast_pipeline_to_string;
     ast->free = ast_pipeline_free;
+    ast->exec = ast_pipeline_exec;
     return ast;
 }
