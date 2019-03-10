@@ -39,7 +39,7 @@ Then you can install ``make`` by running the following command
 ```choco install make```
 After that set the directory of ``make.exe`` in your environment variable ``path`` and you will be allowed to run ``make``
 
-When ``docker`` and ``make`` are installed ou just have to open a terminal in the project root and run the command ```make check``. Then the project will be compiled and tested.
+When ``docker`` and ``make`` are installed ou just have to open a terminal in the project root and run the command ```make check```. Then the project will be compiled and tested.
 
 ## Dev
 You should "make check" before every commit to check no bug have been introduced
