@@ -1,0 +1,3 @@
+desc: Checks that version is displayed correctly when version tag is called.
+ref: echo "Version 0.3"
+mycode: ./42sh --version
