@@ -52,8 +52,29 @@ bool read_and_or(struct parser *p)
 
 int ast_and_or_exec(struct ast_node *ast)
 {
-    if (ast->type != AST_AND_OR) {
+    if (ast->type != AST_AND_OR)
         return 0;
+
+    for (size_t i = 0; ast->nb_children > i; i++)
+    {
+        int param = ast->children[i]->exec(ast->children[i]);
+        char *opp = NULL;
+        if (i < ast->nb_children)
+        {
+            i++;
+            opp = ast->children[i]->data;
+        }
+
+        if (param == 1 && i == ast->nb_children)
+            break;
+        else if (param == 0 && i == ast->nb_children)
+            return 0;
+        else if (param == 1 && !strcmp(opp, "||"))
+            break;
+        else if (param == 0 && !strcmp(opp, "&&"))
+            return 0;
+        else if (param == 1 && !strcmp(opp, "&&"))
+            continue;
     }
 
     puts("executing and_or");
