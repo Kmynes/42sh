@@ -60,7 +60,7 @@ bool read_input(struct parser *p)
 int ast_input_exec(struct ast_node *ast)
 {
     if (ast->type != AST_INPUT) {
-        return 0;
+        return 1;
     }
 
     int res = 0;
@@ -68,12 +68,12 @@ int ast_input_exec(struct ast_node *ast)
     {
         res = ast->children[i]->exec(ast->children[i]);
 
-        if (!res) {
-            return 0;
+        if (res == 1) {
+            return 1;
         }
     }
 
-    return 1; // ok
+    return 0; // ok
 }
 
 struct ast_node *ast_input_init()
