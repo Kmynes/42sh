@@ -59,11 +59,13 @@ int ast_and_or_exec(struct ast_node *ast)
     {
         int param = ast->children[i]->exec(ast->children[i]);
         char *opp = NULL;
-        if (i < ast->nb_children)
+        if (i + 1 < ast->nb_children)
         {
             i++;
             opp = ast->children[i]->data;
         }
+        else
+            break;
 
         if (param == 1 && i == ast->nb_children)
             break;
@@ -76,8 +78,6 @@ int ast_and_or_exec(struct ast_node *ast)
         else if (param == 1 && !strcmp(opp, "&&"))
             continue;
     }
-
-    ast->children[0]->exec(ast->children[0]);
 
     return 1;
 }
