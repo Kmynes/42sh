@@ -31,7 +31,7 @@ struct ast_node *ast_get_from_parent(struct ast_node *parent,
             parent->children[i] = NULL;
             size_t n = (parent->nb_children - i) * sizeof(struct ast_node*);
             void *src = parent->children + (i + 1);
-            void *dest = parent->children + i; 
+            void *dest = parent->children + i;
             memmove(dest, src, n);
             parent->nb_children--;
             return child;

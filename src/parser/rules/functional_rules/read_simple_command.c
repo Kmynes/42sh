@@ -1,6 +1,6 @@
 #include <parser/rules/rules.h>
 
-static bool read_simple_command1(struct parser *p)
+bool read_simple_command1(struct parser *p)
 {
     unsigned int tmp = p->cursor;
     if (ONE_OR_MANY(read_prefix(p)))
@@ -19,7 +19,7 @@ static bool read_simple_command1(struct parser *p)
     return false;
 }
 
-static bool read_simple_command2(struct parser *p)
+bool read_simple_command2(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
@@ -43,7 +43,7 @@ bool read_simple_command(struct parser *p)
     return read_simple_command1(p) || read_simple_command2(p);
 }
 
-void add_assignment_word(struct ast_assignment_word *list, 
+void add_assignment_word(struct ast_assignment_word *list,
     void *data)
 {
     while (list->next != NULL)
@@ -86,12 +86,14 @@ int run_cmd(char **cmd, char **env)
         errx(1, "cannot do fork : an error occured, pid == -1");
 
     if (pid == 0)
-    { // child
+    { 
+        // child
         execvpe(cmd[0], cmd, env);
         errx(1, "cannot execve: an error occured");
     }
     else
-    { // father
+    { 
+        // father
         int status = 0;
         waitpid(pid, &status, 0);
 
@@ -113,7 +115,7 @@ int ast_simple_command_exec(struct ast_node *ast)
             if (sub_child->type == AST_ASSIGNEMENT_WORD)
             {
                 if (list == NULL)
-                    list = sub_child->data; 
+                    list = sub_child->data;
                 else
                     add_assignment_word(list, sub_child->data);
             }
@@ -134,7 +136,7 @@ int ast_simple_command_exec(struct ast_node *ast)
                 char **env = build_env_param(list, &count);
                 run_cmd(args, env);
 
-                for (size_t j=0;j < count; j++)
+                for (size_t j = 0; j < count; j++)
                     free(env[j]);
                 free(env);
             }
