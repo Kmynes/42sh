@@ -57,8 +57,8 @@ def coding_styler(file, filename):
             style_errors += operation_spacing(index, file, line_number, filename)
         if file[index] == '{' or file[index] == '}':
             style_errors += solo_braces(index, file, line_number, filename)
-        if file[index] == '{':
-            style_errors += indentation_check(index, file, line_number, filename)
+        #if file[index] == '{':
+        #    style_errors += indentation_check(index, file, line_number, filename)
         if file[index] == ',':
             style_errors += comma_space(index, file, line_number, filename)
         if file[index] == '\n':
