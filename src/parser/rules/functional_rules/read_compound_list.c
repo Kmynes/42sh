@@ -1,6 +1,6 @@
 #include <parser/rules/rules.h>
 
-static bool read_first_part(struct parser *p)
+bool read_first_part(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
@@ -19,7 +19,7 @@ static bool read_first_part(struct parser *p)
     return false;
 }
 
-static bool read_second_part(struct parser *p)
+bool read_second_part(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 

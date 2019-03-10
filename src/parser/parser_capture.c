@@ -34,7 +34,8 @@ void print_capture(struct parser *p, struct list_capt_s *capture)
  * @param capt_s
  */
 
-struct list_capt_s *list_capt_store(struct list_capt_s *c, const char *tag, struct capture_s *capt_s)
+struct list_capt_s *list_capt_store(struct list_capt_s *c, const char *tag,
+    struct capture_s *capt_s)
 {
     // let's store it at the beginning to get always the most recent first
     struct list_capt_s *capture = list_capt_init();
@@ -45,13 +46,13 @@ struct list_capt_s *list_capt_store(struct list_capt_s *c, const char *tag, stru
     return capture;
 }
 
-struct capture_s *list_capt_lookup(struct list_capt_s *capture, const char *tag)
+struct capture_s *list_capt_lookup(struct list_capt_s *capture,
+    const char *tag)
 {
     while (capture->next)
     {
-        if (strcmp(capture->tag, tag) == 0) {
+        if (strcmp(capture->tag, tag) == 0)
             return &capture->capt;
-        }
         capture = capture->next;
     }
 
