@@ -5,6 +5,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <err.h>
 
 #define OPTIONAL(R) \
 __extension__({     \

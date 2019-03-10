@@ -77,7 +77,8 @@ int ast_and_or_exec(struct ast_node *ast)
             continue;
     }
 
-    puts("executing and_or");
+    ast->children[0]->exec(ast->children[0]);
+
     return 1;
 }
 
