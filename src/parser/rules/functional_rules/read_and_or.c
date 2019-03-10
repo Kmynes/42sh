@@ -30,11 +30,11 @@ bool read_and_or(struct parser *p)
 
         while (true)
         {
-            struct ast_node *ast_pipeline = ast_get_from_parser(p, AST_PIPELINE);
+            struct ast_node *ast_pipeline = ast_get_from_parser(p,
+                AST_PIPELINE);
             ast_set_in_parent(ast, ast_pipeline);
-            if (!read_instructions(p)) {
+            if (!read_instructions(p))
                 break;
-            }
 
             char *op = parser_get_capture(p, "and_or_op");
             struct ast_node *ast_op = ast_word_init(op);

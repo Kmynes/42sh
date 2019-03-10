@@ -211,7 +211,8 @@ bool read_redirection_6(struct parser *p)
     {
         char *redirect = parser_get_capture(p, "redirect");
         char *word = parser_get_capture(p, "word");
-        struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
+        struct ast_node *ast = ast_redirection_init(ionumber,
+            redirect, word, NULL);
         ast_set_in_parser(p, ast);
 
         return true;
@@ -248,7 +249,8 @@ bool read_redirection_7(struct parser *p)
     {
         char *redirect = parser_get_capture(p, "redirect");
         char *word = parser_get_capture(p, "word");
-        struct ast_node *ast = ast_redirection_init(ionumber, redirect, word, NULL);
+        struct ast_node *ast = ast_redirection_init(ionumber,
+            redirect, word, NULL);
         ast_set_in_parser(p, ast);
 
         return true;

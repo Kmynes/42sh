@@ -28,7 +28,7 @@
 //    return false;
 //}
 
-static void set_ast_redirection(struct parser *p, struct ast_node *ast,
+void set_ast_redirection(struct parser *p, struct ast_node *ast,
     struct ast_node *ast_child)
 {
     ast_set_in_parent(ast, ast_child);

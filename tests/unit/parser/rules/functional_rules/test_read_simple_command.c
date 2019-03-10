@@ -14,7 +14,7 @@ static void test_read_simple_command2(void)
 
 static void test_read_simple_command2_5(void)
 {
-    assert(test_rule(read_simple_command, 
+    assert(test_rule(read_simple_command,
         "2>42.sh lastename=SH 54<file_name.sh", "AST_SIMPLE_COMMAND(3)"));
 }
 
@@ -44,9 +44,9 @@ static void test_read_simple_command6(void)
 
 static void test_read_simple_command7(void)
 {
-    char *input = malloc(sizeof(char) *512);
+    char *input = malloc(sizeof(char) * 512);
     strcpy(input, "school=epita foo=bar school2=epitech");
-    strcat(" SOME_WORD_2 4566>&/dev/null 0<&.bashrc");
+    strcat(input, " SOME_WORD_2 4566>&/dev/null 0<&.bashrc");
 
     assert(test_rule(read_simple_command, input, "AST_SIMPLE_COMMAND(6)"));
     free(input);

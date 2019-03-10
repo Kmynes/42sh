@@ -101,12 +101,11 @@ struct error_s
 #define GENERATE_ENUM(ENUM) ENUM,
 #define GENERATE_STRING(STRING) #STRING,
 
-enum ast_node_type {
+enum ast_node_type
+{
     FOREACH_AST(GENERATE_ENUM)
 };
 
-
-//extern const char *toto[];
 extern const char *AST_STRING[];
 // ast inifile
 struct ast_node
@@ -143,7 +142,7 @@ void parser_free_no_ast(struct parser *p);
 //parser_character
 bool parser_eof(struct parser *p);
 char parser_getchar(struct parser *p);
-bool parser_peekchar(struct parser * p, char c);
+bool parser_peekchar(struct parser *p, char c);
 bool parser_readchar(struct parser *p, char c);
 bool parser_readrange(struct parser *p, char begin, char end);
 
