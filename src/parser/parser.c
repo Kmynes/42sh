@@ -1,9 +1,9 @@
 #include "parser.h"
 
-const char *AST_STRING[] = {
+const char *AST_STRING[] =
+{
     FOREACH_AST(GENERATE_STRING)
 };
-
 
 static void get_number(size_t *capacity, size_t len)
 {
@@ -23,7 +23,7 @@ char *default_to_string(struct ast_node *ast, char *type)
     if (output == NULL)
         return NULL;
 
-    sprintf(output, "%s", type);    
+    sprintf(output, "%s", type);
     for (size_t i = 0; i < ast->nb_children; i++)
     {
         struct ast_node *child = ast->children[i];

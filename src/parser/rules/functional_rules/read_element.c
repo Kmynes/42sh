@@ -1,6 +1,6 @@
 #include <parser/rules/rules.h>
 
-static bool read_element1(struct parser *p)
+bool read_element1(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
@@ -27,7 +27,8 @@ bool read_element(struct parser *p)
         struct ast_node *ast = NULL;
         if (is_word)
         {
-            struct ast_node *ast_word = ast_word_init(parser_get_capture(p, "elt"));
+            struct ast_node *ast_word = ast_word_init(
+                parser_get_capture(p, "elt"));
             ast = ast_element_init();
             ast_set_in_parent(ast, ast_word);
         }
@@ -55,7 +56,7 @@ char *ast_element_to_string(struct ast_node *ast)
     char buff[512];
     char *word = child->data;
     sprintf(buff, "AST_ELEMENT(1)_%s", word);
-    return strdup(buff); 
+    return strdup(buff);
 }
 
 struct ast_node *ast_element_init()

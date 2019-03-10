@@ -12,7 +12,6 @@ struct ast_node *ast_get_from_parser(struct parser *p,
     enum ast_node_type type_ast_search);
 void ast_recover_all_from_parser(struct ast_node *parent, struct parser *p,
     enum ast_node_type type);
-
 // ast_init
 struct ast_node *ast_init(enum ast_node_type type, void *data);
 char *ast_node_default_to_string(struct ast_node *ast);
