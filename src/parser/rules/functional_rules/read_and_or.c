@@ -54,32 +54,24 @@ int ast_and_or_exec(struct ast_node *ast)
 {
     if (ast->type != AST_AND_OR)
         return 0;
-
+    int res;
     for (size_t i = 0; ast->nb_children > i; i++)
     {
-        int param = ast->children[i]->exec(ast->children[i]);
+        res = ast->children[i]->exec(ast->children[i]);
         char *opp = NULL;
-        if (i + 1 < ast->nb_children)
-        {
-            i++;
-            opp = ast->children[i]->data;
-        }
-        else
+        if (i + 1 >= ast->nb_children)
             break;
 
-        if (param == 1 && i == ast->nb_children)
-            break;
-        else if (param == 0 && i == ast->nb_children)
-            return 0;
-        else if (param == 1 && !strcmp(opp, "||"))
-            break;
-        else if (param == 0 && !strcmp(opp, "&&"))
-            return 0;
-        else if (param == 1 && !strcmp(opp, "&&"))
-            continue;
+        i++;
+        opp = ast->children[i]->data;
+
+        if (res == 0 && !strcmp(opp, "||"))
+            i += 2;
+        else if (res == 1 && !strcmp(opp, "&&"))
+            i += 2;
     }
 
-    return 1;
+    return res;
 }
 
 struct ast_node *ast_and_or_init()
