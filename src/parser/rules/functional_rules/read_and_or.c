@@ -56,8 +56,8 @@ int ast_and_or_exec(struct ast_node *ast)
         return 0;
     }
 
+    ast->children[0]->exec(ast->children[0]);
 
-    puts("executing and_or");
     return 1;
 }
 

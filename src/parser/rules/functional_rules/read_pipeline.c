@@ -63,10 +63,10 @@ int ast_pipeline_exec(struct ast_node *ast)
     if (ast->type != AST_PIPELINE)
         return 0;
 
-    int link[2];
-
-    if (pipe(link) == -1)
-        perror("pipe");
+//    int link[2];
+//
+//    if (pipe(link) == -1)
+//        perror("pipe");
 
     int res;
     for (size_t i = 0; i < ast->nb_children; i++)
