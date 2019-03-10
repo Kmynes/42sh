@@ -17,7 +17,7 @@ bool read_assignment_word(struct parser *p)
             ast_assignment_word));
         data->key = parser_get_capture(p, "key");
         data->value = parser_get_capture(p, "value");
-
+        data->next = NULL;
         struct ast_node *ast = ast_assignment_word_init(data);
         ast_set_in_parser(p, ast);
         return true;

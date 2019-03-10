@@ -49,7 +49,6 @@ struct ast_assign
 };
 struct ast_node *ast_assign_init(enum ast_node_type type, void *data);
 
-
 // Terminal rules
 bool read_word(struct parser *p);
 struct ast_node *ast_word_init(void *data);
@@ -59,6 +58,7 @@ struct ast_assignment_word
 {
     char *key;
     char *value;
+    struct ast_assignment_word *next;
 };
 struct ast_node *ast_assignment_word_init(struct ast_assignment_word *data);
 
@@ -117,11 +117,7 @@ bool read_prefix(struct parser *p);
 struct ast_node *ast_prefix_init();
 
 bool read_element(struct parser *p);
-struct ast_element
-{
-    char *elt;
-};
-struct ast_node *ast_element_init(struct ast_element *data);
+struct ast_node *ast_element_init();
 
 bool read_compound_list(struct parser *p);
 struct ast_node *ast_compound_list_init();
