@@ -1,3 +1,0 @@
-desc: this is a test scenario that should succeed as well
-ref: echo "Version 0.3"
-mycode: ./42sh --version

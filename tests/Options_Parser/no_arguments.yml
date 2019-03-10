@@ -1,0 +1,3 @@
+desc: Checks that 42sh doesn't hang when no arguments are given
+ref: ./42sh
+mycode: ./42sh
