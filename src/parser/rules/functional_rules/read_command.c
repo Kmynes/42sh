@@ -76,6 +76,23 @@ bool read_command(struct parser *p)
     return false;
 }
 
+int ast_command_exec(struct ast_node *ast)
+{
+     if (ast->type != AST_COMMAND)
+        return 0;
+
+    int res = 0;
+    for (size_t i = 0; i < ast->nb_children; i++)
+    {
+        res = ast->children[i]->exec(ast->children[i]);
+
+        if (!res) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 struct ast_node *ast_command_init()
 {
     struct ast_node *ast = ast_init(AST_COMMAND, NULL);
