@@ -50,3 +50,19 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Editor
+.idea
+.vscode
+
+# CMake
+cmake-build-debug
+build/
+/.vs
+
+# python
+venv
+*.pyc
+
+# Debug gdb
+debug

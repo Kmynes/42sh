@@ -1,0 +1,3 @@
+desc: this is a test scenario that should succeed as well
+ref: echo "success"
+mycode: echo "success"
