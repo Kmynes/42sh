@@ -13,4 +13,4 @@ check_docker:
 	./build/test_42sh
 
 check:
-	docker-compose run 42sh_arch make check_docker
+	docker-compose --file tests/docker-compose.yml run 42sh_arch make check_docker

@@ -1,13 +1,12 @@
 #include <parser/rules/rules.h>
 
-static bool read_input1(struct parser *p)
+bool read_input1(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (read_list(p)
-//        && parser_readchar(p, '\n') # put this back sometime
-        )
+    if (read_list(p))
     {
+        //# put this back sometime
         return true;
     }
 
@@ -16,14 +15,12 @@ static bool read_input1(struct parser *p)
     return false;
 }
 
-static bool read_input2(struct parser *p)
+bool read_input2(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
     if (read_list(p) && parser_readchar(p, EOF))
-    {
         return true;
-    }
 
     p->cursor = tmp;
 
@@ -59,21 +56,19 @@ bool read_input(struct parser *p)
 
 int ast_input_exec(struct ast_node *ast)
 {
-    if (ast->type != AST_INPUT) {
+    if (ast->type != AST_INPUT)
         return 1;
-    }
 
     int res = 0;
     for (size_t i = 0; i < ast->nb_children; i++)
     {
         res = ast->children[i]->exec(ast->children[i]);
 
-        if (res == 1) {
+        if (res == 1)
             return 1;
-        }
     }
 
-    return 0; // ok
+    return 0;
 }
 
 struct ast_node *ast_input_init()

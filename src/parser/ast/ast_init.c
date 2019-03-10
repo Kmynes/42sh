@@ -22,7 +22,8 @@ struct ast_node *ast_init(enum ast_node_type type, void *data)
 char *ast_node_default_to_string(struct ast_node *ast)
 {
     char *output = malloc(30);
-    sprintf(output, "%s(%ld)", (char *)AST_STRING[ast->type], ast->nb_children);
+    sprintf(output, "%s(%ld)", (char *)AST_STRING[ast->type],
+        ast->nb_children);
     return output;
 }
 

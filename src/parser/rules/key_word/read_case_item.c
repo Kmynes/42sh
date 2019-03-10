@@ -1,6 +1,7 @@
 #include <parser/rules/rules.h>
 
-bool test_ZERO_OR_MANY_case_item(struct parser *p, struct ast_multiple_word *data)
+bool test_ZERO_OR_MANY_case_item(struct parser *p,
+    struct ast_multiple_word *data)
 {
     while(parser_readchar(p, '|') && read_multiple_word(p, data));
 
