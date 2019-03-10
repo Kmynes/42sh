@@ -31,7 +31,8 @@ bool read_rule_for(struct parser *p)
         && parser_begin_capture(p, "for_var_0")
         && read_word(p)
         && parser_end_capture(p, "for_var_0")
-        && (OPTIONAL(parser_readchar(p, ';')) || OPTIONAL(read_rule_for1(p, data)))
+        && (OPTIONAL(parser_readchar(p, ';')) ||
+            OPTIONAL(read_rule_for1(p, data)))
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
         && read_do_group(p))
     {

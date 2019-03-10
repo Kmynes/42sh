@@ -1,6 +1,6 @@
 #include <parser/rules/rules.h>
 
-static bool read_list1(struct parser *p)
+bool read_list1(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
@@ -32,9 +32,8 @@ bool read_list(struct parser *p)
         {
             struct ast_node *ast_and_or = ast_get_from_parser(p, AST_AND_OR);
             ast_set_in_parent(ast, ast_and_or);
-            if (!read_list1(p)) {
+            if (!read_list1(p))
                 break;
-            }
 
             char *op = parser_get_capture(p, "list_op");
             struct ast_node *ast_op = ast_word_init(op);
@@ -71,7 +70,7 @@ int ast_list_exec(struct ast_node *ast)
             return 1;
     }
 
-    return 0; // ok
+    return 0;
 }
 
 struct ast_node *ast_list_init()

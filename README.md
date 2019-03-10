@@ -1,7 +1,6 @@
 # 42sh
 BlueShell42's 42sh project
 
-
 ## Dev
 You should "make check" before every commit to check no bug have been introduced
 
