@@ -55,7 +55,7 @@ void test_read_simple_command8(void)
 
 void test_simple_command_exec(void)
 {
-    char *input= "i=0 j=23 /usr/sbin/printenv"; 
+    char *input= "i=0 j=23 /usr/bin/printenv";
     struct parser *p = parser_new_from_string(input);
     read_simple_command(p);
     struct ast_node *ast_simple_cmd = p->ast->children[0];
