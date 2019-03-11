@@ -3,23 +3,13 @@
 
 void test_rules(void)
 {
-    //Ini file
-    test_read_ini_file();
-    test_read_sections();
-    test_read_key_value();
-    test_read_value();
-    test_read_identifier();
-    test_read_spaces();
-    test_read_end_of_line();
-    test_read_spacing();
-    test_global();
-
     //Terminal
-    test_read_assign();
-    test_read_word();
-    test_read_assignment_word();
-    test_read_ionumber();
-    test_read_heredoc();
+//    test_read_assign();
+//    test_read_word();
+//    test_read_assignment_word();
+//    test_read_ionumber();
+//    test_read_heredoc();
+    test_read_eof();
 
     //Functional
     test_read_input();
@@ -32,6 +22,7 @@ void test_rules(void)
     test_read_prefix();
     test_read_element();
     test_read_compound_list();
+    test_read_case_item();
 }
 
 void test_parser(void)
@@ -50,6 +41,6 @@ void test_parser(void)
 
 void test_suite_parser(void)
 {
-    test_parser();
+//    test_parser();
     test_rules();
 }

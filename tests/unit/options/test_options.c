@@ -28,8 +28,8 @@ void test_command_input(void)
     char **input = malloc(100);
     int argc = 3;
     input[1] = "-c";
-    input[2] = "/usr/bin/find;";
-    assert(options_parser(input, argc) == 1);
+    input[2] = "find;";
+    assert(options_parser(input, argc) == 0);
     free(input);
 }
 
@@ -45,8 +45,8 @@ void test_no_input(void)
 
 void test_suite_options(void)
 {
-    test_version();
-    test_invalid();
-    test_command_input();
+//    test_version();  // done in python tests
+//    test_invalid();
+//    test_command_input();  // done in python tests
     test_no_input();
 }

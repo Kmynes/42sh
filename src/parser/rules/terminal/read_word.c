@@ -4,7 +4,7 @@ bool read_word(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (ONE_OR_MANY(parser_readoutset(p, " \t\r\n\"'`|><;=&")))
+    if (ONE_OR_MANY(parser_readoutset(p, " \t\r\n\"'`()|><;=&")))
         return 1;
 
     p->cursor = tmp;
