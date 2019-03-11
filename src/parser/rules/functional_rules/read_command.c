@@ -86,10 +86,10 @@ int ast_command_exec(struct ast_node *ast)
     {
         res = ast->children[i]->exec(ast->children[i]);
 
-        if (res == 1)
-            return 1;
+        if (res != 0)
+            return res;
     }
-    return 0;
+    return res;
 }
 
 struct ast_node *ast_command_init()

@@ -134,11 +134,12 @@ int ast_simple_command_exec(struct ast_node *ast)
                 args[1] = NULL;
                 size_t count = 0;
                 char **env = build_env_param(list, &count);
-                run_cmd(args, env);
+                int res = run_cmd(args, env);
 
                 for (size_t j = 0; j < count; j++)
                     free(env[j]);
                 free(env);
+                return res;
             }
         }
     }

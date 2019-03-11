@@ -64,11 +64,11 @@ int ast_input_exec(struct ast_node *ast)
     {
         res = ast->children[i]->exec(ast->children[i]);
 
-        if (res == 1)
+        if (res != 0)
             return 1;
     }
 
-    return 0;
+    return res;
 }
 
 struct ast_node *ast_input_init()

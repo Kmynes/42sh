@@ -13,6 +13,7 @@ struct ast_node *ast_init(enum ast_node_type type, void *data)
     ast->capacity = 10;
     ast->free = NULL;
     ast->exec = NULL;
+    ast->exec_arg = NULL;
     ast->to_string = ast_node_default_to_string;
     ast->custom_to_string = false;
 

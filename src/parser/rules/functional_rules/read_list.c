@@ -72,7 +72,7 @@ int ast_list_exec(struct ast_node *ast)
             return 1;
     }
 
-    return 0;
+    return res;
 }
 
 struct ast_node *ast_list_init()

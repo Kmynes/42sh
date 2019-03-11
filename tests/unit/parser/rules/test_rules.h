@@ -36,3 +36,4 @@ void test_read_element(void);
 void test_funcdec(void);
 void test_read_compound_list(void);
 void test_read_case_item(void);
+void test_read_case_clause(void);
