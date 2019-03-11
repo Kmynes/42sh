@@ -67,6 +67,8 @@ struct ast_node *ast_heredoc_init(void *data);
 
 bool read_ionumber(struct parser *p);
 
+bool read_eof(struct parser *p);
+
 // Functional rules
 bool read_input(struct parser *p);
 struct ast_node *ast_input_init();
@@ -181,3 +183,4 @@ struct ast_node *ast_case_item_init(struct ast_multiple_word *data);
 
 char *default_to_string(struct ast_node *ast, char *type);
 char *ast_default_to_string(struct ast_node *ast);
+void ast_default_print(struct ast_node *ast);

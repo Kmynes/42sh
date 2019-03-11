@@ -97,3 +97,10 @@ char *ast_default_to_string(struct ast_node *ast)
     output[current_size] = '\0';
     return output;
 }
+
+void ast_default_print(struct ast_node *ast)
+{
+    char *s = ast_default_to_string(ast);
+    printf("%s\n", s);
+    free(s);
+}

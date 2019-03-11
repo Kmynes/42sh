@@ -45,6 +45,8 @@ bool read_list(struct parser *p)
             ast_set_in_parser(p, ast);
             return true;
         }
+        else
+            ast_free(ast);
     }
 
     parser_remove_capture_by_tag(p, "list_op");

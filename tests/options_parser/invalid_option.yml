@@ -1,0 +1,3 @@
+desc: Checks error is displayed when wrong option is given
+ref: echo "Unknown option"
+mycode: ./42sh --vern

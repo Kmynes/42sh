@@ -1,18 +1,16 @@
 #include <parser/rules/rules.h>
 
 bool test_ZERO_OR_MANY_case_item(struct parser *p,
-    struct ast_multiple_word *data)
-{
-    while(parser_readchar(p, '|') && read_multiple_word(p, data));
+                                 struct ast_multiple_word *data) {
+    while (parser_readchar(p, '|') && read_multiple_word(p, data));
 
     return true;
 }
 
-bool read_case_item(struct parser *p)
-{
+bool read_case_item(struct parser *p) {
     unsigned int tmp = p->cursor;
     struct ast_multiple_word *data = malloc(sizeof(struct ast_multiple_word));
-    data->words = malloc(sizeof(char*) * 16);
+    data->words = malloc(sizeof(char *) * 16);
     data->nb_word = 1;
     data->capacity = 16;
 
@@ -23,9 +21,9 @@ bool read_case_item(struct parser *p)
         && test_ZERO_OR_MANY_case_item(p, data)
         && parser_readchar(p, ')')
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
-        && read_compound_list(p))
-    {
-        
+        && read_compound_list(p)
+            ) {
+
         data->words[0] = parser_get_capture(p, "case_item_0");
         struct ast_node *ast = ast_case_item_init(data);
         ast_recover_all_from_parser(ast, p, AST_COMPOUND_LIST);
@@ -34,7 +32,7 @@ bool read_case_item(struct parser *p)
         return true;
     }
 
-    for (size_t i=1;i < data->nb_word; i++)
+    for (size_t i = 1; i < data->nb_word; i++)
         free(data->words[i]);
     free(data->words);
     free(data);
@@ -44,25 +42,17 @@ bool read_case_item(struct parser *p)
     return false;
 }
 
-void ast_case_item_free(void *data)
-{
+void ast_case_item_free(void *data) {
     struct ast_multiple_word *ast_for = data;
 
-    for (size_t i=0;i < ast_for->nb_word; i++)
+    for (size_t i = 0; i < ast_for->nb_word; i++)
         free(ast_for->words[i]);
     free(ast_for->words);
     free(ast_for);
 }
 
-char *ast_case_item_to_string(struct ast_node *ast)
-{
-    return default_to_string(ast, "case_item");
-}
-
-struct ast_node *ast_case_item_init(struct ast_multiple_word *data)
-{
+struct ast_node *ast_case_item_init(struct ast_multiple_word *data) {
     struct ast_node *ast = ast_init(AST_CASE_ITEM, data);
-    ast->to_string = ast_case_item_to_string;
     ast->free = ast_case_item_free;
     return ast;
 }
