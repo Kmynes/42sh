@@ -4,11 +4,11 @@
 void test_rules(void)
 {
     //Terminal
-//    test_read_assign();
-//    test_read_word();
-//    test_read_assignment_word();
-//    test_read_ionumber();
-//    test_read_heredoc();
+    test_read_assign();
+    test_read_word();
+    test_read_assignment_word();
+    test_read_ionumber();
+    test_read_heredoc();
     test_read_eof();
 
     //Functional
@@ -23,6 +23,7 @@ void test_rules(void)
     test_read_element();
     test_read_compound_list();
     test_read_case_item();
+    test_read_case_clause();
 }
 
 void test_parser(void)

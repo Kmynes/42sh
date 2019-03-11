@@ -53,7 +53,8 @@ bool read_and_or(struct parser *p)
 int ast_and_or_exec(struct ast_node *ast)
 {
     if (ast->type != AST_AND_OR)
-        return 0;
+        return 1;
+
     int res;
     for (size_t i = 0; ast->nb_children > i; i++)
     {
@@ -67,7 +68,7 @@ int ast_and_or_exec(struct ast_node *ast)
 
         if (res == 0 && !strcmp(opp, "||"))
             i += 2;
-        else if (res == 1 && !strcmp(opp, "&&"))
+        else if (res != 0 && !strcmp(opp, "&&"))
             i += 2;
     }
 

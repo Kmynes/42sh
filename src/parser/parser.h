@@ -117,6 +117,7 @@ struct ast_node
     struct ast_node **children; // array of children
     char *(*to_string)(struct ast_node *);
     int (*exec)(struct ast_node *);
+    int (*exec_arg)(struct ast_node *, char *arg);
     bool custom_to_string;
     void (*free)(void *);
 };
