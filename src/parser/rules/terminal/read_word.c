@@ -4,8 +4,21 @@ bool read_word(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    char *protected_words[] = {
-            "for", "while", "until", "case", "esac", "if", "then", "fi", "else", "elif", "do", "done", NULL
+    char *protected_words[] =
+    {
+        "for",
+        "while",
+        "until",
+        "case",
+        "esac",
+        "if",
+        "then",
+        "fi",
+        "else",
+        "elif",
+        "do",
+        "done",
+        NULL
     };
 
     if (ONE_OR_MANY(parser_readoutset(p, " \t\r\n\"'`()|><;=&")))
@@ -13,9 +26,11 @@ bool read_word(struct parser *p)
         for (size_t i = 0; protected_words[i] != NULL; i++)
         {
             size_t len = strlen(protected_words[i]);
-            if (p->cursor - tmp == len && strncmp(p->input + tmp, protected_words[i], len) == 0)
+            if (p->cursor - tmp == len && strncmp(p->input + tmp,
+                protected_words[i], len) == 0)
                 return false;
         }
+
         return true;
     }
 
