@@ -57,6 +57,12 @@ void test_read_simple_command8(void)
     assert(test_rule(read_simple_command, "toto", "AST_SIMPLE_COMMAND(1)"));
 }
 
+void test_read_simple_command_fail(void)
+{
+    // protected_word
+    assert(test_not_rule(read_simple_command, "for"));
+}
+
 void test_simple_command_exec(void)
 {
     char *input= "i=0 j=23 find";
@@ -98,6 +104,8 @@ void test_read_simple_command(void)
 
     // just one command
     test_read_simple_command8();
+
+    test_read_simple_command_fail();
 
     //Test exec command
     test_simple_command_exec();

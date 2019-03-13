@@ -18,7 +18,7 @@ void test_read_input_new_line(void)
 
 void test_read_input_simple(void)
 {
-    char *input = "toto;\n";
+    char *input = "toto\n";
     assert(test_rule(read_input, input, "AST_INPUT(1)"));
     struct ast_node *ast = ast_from_read(read_input, input);
     assert(ast->children[0]->type == AST_LIST);
@@ -39,7 +39,7 @@ void test_read_input_simple2(void)
 
 void test_read_input_fail(void)
 {
-    char *input = "toto;tit\n";
+    char *input = ";\n";
     assert(test_not_rule(read_input, input));
 }
 

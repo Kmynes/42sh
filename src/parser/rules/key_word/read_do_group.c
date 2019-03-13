@@ -21,14 +21,17 @@ bool read_do_group(struct parser *p)
     return false;
 }
 
-char *ast_do_group_to_string(struct ast_node *ast)
+int ast_do_group_exec(struct ast_node *ast)
 {
-    return default_to_string(ast, "do_group");
+    if (ast->type != AST_DO_GROUP)
+        return 1;
+
+    return ast->children[0]->exec(ast->children[0]);
 }
 
 struct ast_node *ast_do_group_init()
 {
-    struct ast_node *ast = ast_init(AST_RULE_UNTIL, NULL);
-    ast->to_string = ast_do_group_to_string;
+    struct ast_node *ast = ast_init(AST_DO_GROUP, NULL);
+    ast->exec = ast_do_group_exec;
     return ast;
 }

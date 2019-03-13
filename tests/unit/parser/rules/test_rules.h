@@ -40,3 +40,4 @@ void test_read_compound_list(void);
 void test_read_case_item(void);
 void test_read_case_clause(void);
 void test_read_rule_else_clause(void);
+void test_read_do_group(void);
