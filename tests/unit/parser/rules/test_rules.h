@@ -41,3 +41,4 @@ void test_read_case_item(void);
 void test_read_case_clause(void);
 void test_read_rule_else_clause(void);
 void test_read_do_group(void);
+void test_read_rule_if(void);
