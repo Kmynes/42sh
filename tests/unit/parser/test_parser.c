@@ -21,9 +21,12 @@ void test_rules(void)
     test_read_redirection();
     test_read_prefix();
     test_read_element();
+
+    //Key word
     test_read_compound_list();
     test_read_case_item();
     test_read_case_clause();
+    test_read_rule_else_clause();
 }
 
 void test_parser(void)
