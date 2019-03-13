@@ -85,9 +85,9 @@ def valgrind_error_extractor(stderr):
 def category_list():
     """ This function prints a list of all test categories """
     number_of_categories = 0
-    directory = os.path.dirname(os.path.abspath(__file__))
+    directory = os.path.dirname(os.path.abspath(__file__))+"/integration"
     for category in os.listdir(directory):
-        if not (os.path.isfile(directory+"/"+category) or category == "unit"):
+        if not os.path.isfile(directory+"/"+category):
             number_of_categories+=1
             print(category)
     print(str(number_of_categories)+" categories were succesfully printed.")
@@ -96,12 +96,10 @@ def category_list():
 def full_test_suite(arguments=[None]*3):
     """ Executes a full test suite """
     total_tests = total_fails = 0
-    directory = os.path.dirname(os.path.abspath(__file__))
+    directory = os.path.dirname(os.path.abspath(__file__))+"/integration"
 
     for category in os.listdir(directory):
-        # only go check in folders whose name isn't "unit"
-        if not (os.path.isfile(directory+"/"+category) or category == "unit" 
-                or category == "Dockerconfig" or category == "__pycache__"):
+        if not os.path.isfile(directory+"/"+category):
             # print category title
             arguments[0] = category
             [category_tests, category_fails] = category_test(arguments)
@@ -121,7 +119,7 @@ def category_test(arguments):
     category = arguments[0]
     print("= "+category+" "+"="*(77-len(category)))
     category_fails = category_tests = 0
-    directory = os.path.dirname(os.path.abspath(__file__))
+    directory = os.path.dirname(os.path.abspath(__file__))+"/integration"
     for test_file in os.listdir(directory+"/"+category):
         test_name = test_file.replace(".yml", "")
         category_tests += 1
