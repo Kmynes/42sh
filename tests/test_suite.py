@@ -272,10 +272,17 @@ def check_if_made():
     if not os.path.isdir(build_directory):
         print("Could not access executable, did you run make?")
         quit(2)
+
+def clean_cache():
+    print("Cleaning cache")
+    file_directory = os.path.dirname(os.path.abspath(__file__))
+    subprocess.run("rm -r __pycache__", shell=True, cwd=file_directory)
+
 # main function
 def main():
     check_if_made()
     exit_code = argument_parser()
+    clean_cache()
     if exit_code[0] > 1:
         error_code_display(exit_code)
         quit(2)
