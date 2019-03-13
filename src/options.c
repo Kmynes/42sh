@@ -1,15 +1,14 @@
-#include "options.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <parser/parser.h>
 #include <execution/execute_command.h>
+#include "options.h"
 
 int execute_options(char *command, char *options);
 char *option_translator(char *options, char *current_option);
 unsigned first_empty(char *table);
 void version_display(void);
-
 
 int options_parser(char **argv, int argc)
 // parses arguments directly from command line
@@ -142,4 +141,3 @@ int ast_print(struct parser *p)
 
     return 0;
 }
-
