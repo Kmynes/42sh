@@ -28,7 +28,9 @@ bool read_rule_else_clause(struct parser *p)
 
 char *ast_else_clause_to_string(struct ast_node *ast)
 {
-    return default_to_string(ast, "else_clause");
+    char *str = malloc(sizeof(char) * 32);
+    sprintf(str, "AST_ELSE_CLAUSE(%ld)", ast->nb_children);
+    return str;
 }
 
 struct ast_node *ast_else_clause_init()
