@@ -1,7 +1,8 @@
 #pragma once
-#include "../../test.h"
+
 #include <parser/rules/rules.h>
 #include "helper_rules.h"
+#include "../../test.h"
 
 //Test inifile
 void test_read_ini_file(void);
