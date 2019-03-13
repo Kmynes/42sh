@@ -29,6 +29,7 @@ void test_rules(void)
     test_read_case_clause();
     test_read_rule_else_clause();
     test_read_do_group();
+    test_read_rule_if();
 }
 
 void test_parser(void)
