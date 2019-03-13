@@ -1,5 +1,8 @@
 language: c
 sudo: false # only for faster builds
 script:
-#  - make && make test
-  - make && make unit
+  - pip install -r requirements.txt
+  - make && make test
+ 
+#  - make && make unit
+
