@@ -18,18 +18,26 @@ bool read_case_clause(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (read_case_item(p)
-        && ZERO_OR_MANY(read_case_clause_element(p))
-        && OPTIONAL(parser_readtext(p, ";;"))
-	    && ZERO_OR_MANY(parser_readchar(p, '\n')))
+    if (read_case_item(p))
     {
-        struct ast_node *ast = ast_case_clause_init();
+        // specific case when compound_list finished wih ';'
+        if (p->input[p->cursor - 1] == ';' && p->input[p->cursor] == ';' && p->input[p->cursor + 1] != ';')
+            p->cursor--;
 
-        ast_recover_all_from_parser(ast, p, AST_CASE_ITEM);
+        if (
+            ZERO_OR_MANY(read_case_clause_element(p))
+           && OPTIONAL(parser_readtext(p, ";;"))
+           && ZERO_OR_MANY(parser_readchar(p, '\n')))
+        {
+            struct ast_node *ast = ast_case_clause_init();
 
-        ast_set_in_parser(p, ast);
+            ast_recover_all_from_parser(ast, p, AST_CASE_ITEM);
 
-        return true;
+            ast_set_in_parser(p, ast);
+
+            return true;
+        }
+
     }
 
     p->cursor = tmp;
