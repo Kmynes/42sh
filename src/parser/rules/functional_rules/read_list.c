@@ -39,14 +39,15 @@ bool read_list(struct parser *p)
             struct ast_node *ast_op = ast_word_init(op);
             ast_set_in_parent(ast, ast_op);
         }
+
         if (parser_readchar(p, ';')
          || parser_readchar(p, '&'))
         {
-            ast_set_in_parser(p, ast);
-            return true;
+
         }
-        else
-            ast_free(ast);
+
+        ast_set_in_parser(p, ast);
+        return true;
     }
 
     parser_remove_capture_by_tag(p, "list_op");

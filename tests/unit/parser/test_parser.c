@@ -27,6 +27,7 @@ void test_rules(void)
     test_read_case_item();
     test_read_case_clause();
     test_read_rule_else_clause();
+    test_read_do_group();
 }
 
 void test_parser(void)
@@ -45,6 +46,6 @@ void test_parser(void)
 
 void test_suite_parser(void)
 {
-//    test_parser();
+    test_parser();
     test_rules();
 }

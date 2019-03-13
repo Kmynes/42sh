@@ -1,0 +1,12 @@
+set breakpoint pending on
+
+def pp
+    printf "%s, %d\n", p->input, p->cursor
+end
+
+b test_read_do_group_simple
+run
+n
+s
+n
+s
