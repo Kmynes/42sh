@@ -31,6 +31,7 @@ void test_rules(void)
     test_read_do_group();
     test_read_rule_if();
     test_read_rule_until();
+    test_read_rule_while();
 }
 
 void test_parser(void)
