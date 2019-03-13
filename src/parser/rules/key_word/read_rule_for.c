@@ -68,10 +68,17 @@ char *ast_rule_for_to_string(struct ast_node *ast)
     return default_to_string(ast, "rule_for");
 }
 
+int ast_rule_for_exec(struct ast_node *ast)
+{
+    struct ast_node *first_child = ast->children[0];
+    return first_child->exec(first_child);
+}
+
 struct ast_node *ast_rule_for_init(struct ast_multiple_word *data)
 {
     struct ast_node *ast = ast_init(AST_RULE_FOR, data);
     ast->to_string = ast_rule_for_to_string;
     ast->free = ast_rule_for_free;
+    ast->exec = ast_rule_for_exec;
     return ast;
 }
