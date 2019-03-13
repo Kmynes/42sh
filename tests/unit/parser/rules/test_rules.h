@@ -36,6 +36,7 @@ void test_funcdec(void);
 
 //Test key word
 void test_read_compound_list(void);
+void test_read_rule_case(void);
 void test_read_case_item(void);
 void test_read_case_clause(void);
 void test_read_rule_else_clause(void);

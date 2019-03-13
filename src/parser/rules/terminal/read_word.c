@@ -8,8 +8,6 @@ bool read_word(struct parser *p)
             "for", "while", "until", "case", "esac", "if", "then", "fi", "else", "elif", "do", "done", NULL
     };
 
-
-
     if (ONE_OR_MANY(parser_readoutset(p, " \t\r\n\"'`()|><;=&")))
     {
         for (size_t i = 0; protected_words[i] != NULL; i++)

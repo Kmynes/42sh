@@ -24,6 +24,7 @@ void test_rules(void)
 
     //Key word
     test_read_compound_list();
+    test_read_rule_case();
     test_read_case_item();
     test_read_case_clause();
     test_read_rule_else_clause();
