@@ -35,7 +35,8 @@ def file_selector():
         return 0
 
 def coding_styler(file, filename):
-    """ takes a file in string format """
+    """ loops through each character of given file and calls coding style rules
+    depending on what character is at current index. """
     line_number = 1
     style_errors = 0
     col_err = False
