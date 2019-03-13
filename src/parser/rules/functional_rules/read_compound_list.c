@@ -67,15 +67,15 @@ int ast_compound_list_exec(struct ast_node *ast)
     }
     else if (ast->nb_children > 1)
     {
-        size_t i = 0;
-        struct ast_node *child = ast->children[i];
-        while (i < ast->nb_children && child->exec(child))
-            child = ast->children[++i];
+        struct ast_node *child = NULL;
+        int code = 0;
+        for (size_t i = 0; i < ast->nb_children; i++)
+        {
+            child = ast->children[i];
+            code = child->exec(child);
+        }
 
-        if (i != ast->nb_children)
-            return 0;
-
-        return 1;
+        return code;
     }
     return 0;
 }
