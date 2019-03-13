@@ -12,6 +12,8 @@ struct ast_multiple_word
     size_t capacity;
 };
 bool read_multiple_word(struct parser *p, struct ast_multiple_word *data);
+struct ast_multiple_word *multiple_word_init(void);
+void multiple_word_free(struct ast_multiple_word *data);
 
 bool read_ini_file(struct parser *p);
 struct ast_node *ast_ini_file_init();

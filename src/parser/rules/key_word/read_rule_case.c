@@ -3,10 +3,7 @@
 bool read_rule_case(struct parser *p)
 {
     unsigned int tmp = p->cursor;
-    struct ast_multiple_word *data = malloc(sizeof(struct ast_multiple_word));
-    data->words = malloc(sizeof(char*) * 16);
-    data->nb_word = 1;
-    data->capacity = 16;
+    struct ast_multiple_word *data = multiple_word_init();
 
     if (parser_readtext(p, "case")
         && parser_begin_capture(p, "rule_case_0")
@@ -18,27 +15,29 @@ bool read_rule_case(struct parser *p)
         && OPTIONAL(read_case_clause(p))
         && parser_readtext(p, "esac"))
     {
-
+        data->nb_word += 1;
         data->words[0] = parser_get_capture(p, "rule_case_0");
-        struct ast_node *ast = ast_rule_case_init();
+        struct ast_node *ast = ast_rule_case_init(data);
+        ast_recover_all_from_parser(ast, p, AST_CASE_CLAUSE);
         ast_set_in_parser(p, ast);
 
         return true;
     }
 
     p->cursor = tmp;
+    multiple_word_free(data);
 
     return false;
 }
 
-char *ast_rule_case_to_string(struct ast_node *ast)
+void ast_rule_case_free(void *data)
 {
-    return default_to_string(ast, "rule_case");
+    multiple_word_free(data);
 }
 
-struct ast_node *ast_rule_case_init()
+struct ast_node *ast_rule_case_init(void *data)
 {
-    struct ast_node *ast = ast_init(AST_RULE_CASE, NULL);
-    ast->to_string = ast_rule_case_to_string;
+    struct ast_node *ast = ast_init(AST_RULE_CASE, data);
+    ast->free = ast_rule_case_free;
     return ast;
 }
