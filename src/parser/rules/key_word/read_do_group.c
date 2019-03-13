@@ -10,8 +10,9 @@ bool read_do_group(struct parser *p)
     {
         struct ast_node *ast = ast_do_group_init();
 
-        ast_recover_all_from_parser(ast, p, AST_COMPOUND_LIST);
+        struct ast_node *compound_list = ast_get_from_parser(p, AST_COMPOUND_LIST);
 
+        ast_set_in_parent(ast, compound_list);
         ast_set_in_parser(p, ast);
         return true;
     }

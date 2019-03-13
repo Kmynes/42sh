@@ -1,4 +1,5 @@
 language: c
 sudo: false # only for faster builds
 script:
-  - make && make test
+#  - make && make test
+  - make && make unit

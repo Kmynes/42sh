@@ -57,6 +57,11 @@ void test_read_simple_command8(void)
     assert(test_rule(read_simple_command, "toto", "AST_SIMPLE_COMMAND(1)"));
 }
 
+void test_read_simple_command9(void)
+{
+    assert(test_rule(read_simple_command, "echo toto", "AST_SIMPLE_COMMAND(2)"));
+}
+
 void test_read_simple_command_fail(void)
 {
     // protected_word
@@ -104,6 +109,7 @@ void test_read_simple_command(void)
 
     // just one command
     test_read_simple_command8();
+    test_read_simple_command9();
 
     test_read_simple_command_fail();
 
