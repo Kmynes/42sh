@@ -10,8 +10,10 @@ bool read_rule_until(struct parser *p)
     {
         struct ast_node *ast = ast_rule_until_init();
 
-        ast_recover_all_from_parser(ast, p, AST_COMPOUND_LIST);
-        ast_recover_all_from_parser(ast, p, AST_DO_GROUP);
+        struct ast_node *compound_list = ast_get_from_parser(p, AST_COMPOUND_LIST);
+        ast_set_in_parent(ast, compound_list);
+        struct ast_node *do_group = ast_get_from_parser(p, AST_DO_GROUP);
+        ast_set_in_parent(ast, do_group);
 
         ast_set_in_parser(p, ast);
         return true;
