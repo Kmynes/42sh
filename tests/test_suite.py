@@ -112,9 +112,9 @@ def full_test_suite(arguments=[None]*3):
     print("\nThere were " + str(total_tests) + " tests total, of which " \
         + str(total_fails) + " were failures.")
     if (total_fails):
-        return 1
+        return [1]
     else:
-        return 0
+        return [0]
 
 def category_test(arguments):
     """ Executes tests for a specific category given in argument """
@@ -163,8 +163,8 @@ def helper():
 def argument_parser():
     """ parses command line arguments, returns error code """
     if len(sys.argv) == 1:
-        full_test_suite()
-        return [0]
+        fails = full_test_suite()
+        return fails
     check_value = argument_checker()
     if check_value[0]:
         return check_value
@@ -237,8 +237,7 @@ def argument_manager(arguments):
             [tests, fails] = category_test(arguments)
         except FileNotFoundError:
             return [2, arguments[0]]
-    else:
-        fails = full_test_suite(arguments)
+    fails = full_test_suite(arguments)
     if fails:
         return [1]
     else:
@@ -280,7 +279,7 @@ def main():
     if exit_code[0] > 1:
         error_code_display(exit_code)
         quit(2)
-    if exit_code[0] == 1:
+    if exit_code[0]:
         quit(1)
     else:
         quit(0)
