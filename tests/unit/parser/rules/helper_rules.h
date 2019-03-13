@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../test.h"
 #include <parser/rules/rules.h>
+#include "../../test.h"
 
 bool test_rule( bool (*read_func)(struct parser *),
                             char *input, char *expected_string);

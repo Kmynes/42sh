@@ -21,7 +21,7 @@ bool read_case_clause(struct parser *p)
     if (read_case_item(p)
         && ZERO_OR_MANY(read_case_clause_element(p))
         && OPTIONAL(parser_readtext(p, ";;"))
-	    && ZERO_OR_MANY(parser_readchar(p, '\n')))
+        && ZERO_OR_MANY(parser_readchar(p, '\n')))
     {
         struct ast_node *ast = ast_case_clause_init();
 

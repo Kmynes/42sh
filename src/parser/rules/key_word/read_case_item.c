@@ -1,7 +1,8 @@
 #include <parser/rules/rules.h>
 
 bool read_case_item_element(struct parser *p,
-                            struct ast_multiple_word *data) {
+    struct ast_multiple_word *data)
+{
     unsigned int tmp = p->cursor;
 
     if (parser_readchar(p, '|') && read_multiple_word(p, data))
@@ -11,7 +12,8 @@ bool read_case_item_element(struct parser *p,
     return false;
 }
 
-bool read_case_item(struct parser *p) {
+bool read_case_item(struct parser *p)
+{
     unsigned int tmp = p->cursor;
     struct ast_multiple_word *data = malloc(sizeof(struct ast_multiple_word));
     data->words = malloc(sizeof(char *) * 16);
@@ -26,7 +28,8 @@ bool read_case_item(struct parser *p) {
         && parser_readchar(p, ')')
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
         && OPTIONAL(read_compound_list(p))
-            ) {
+            )
+    {
 
         data->words[0] = parser_get_capture(p, "case_item_0");
         struct ast_node *ast = ast_case_item_init(data);
@@ -46,7 +49,8 @@ bool read_case_item(struct parser *p) {
     return false;
 }
 
-void ast_case_item_free(void *data) {
+void ast_case_item_free(void *data)
+{
     struct ast_multiple_word *ast_for = data;
 
     for (size_t i = 0; i < ast_for->nb_word; i++)
@@ -55,7 +59,8 @@ void ast_case_item_free(void *data) {
     free(ast_for);
 }
 
-int ast_case_item_exec(struct ast_node *ast) {
+int ast_case_item_exec(struct ast_node *ast)
+{
     if (ast->type != AST_CASE_ITEM)
         return 1;
 
@@ -65,7 +70,8 @@ int ast_case_item_exec(struct ast_node *ast) {
     return 0;
 }
 
-struct ast_node *ast_case_item_init(struct ast_multiple_word *data) {
+struct ast_node *ast_case_item_init(struct ast_multiple_word *data)
+{
     struct ast_node *ast = ast_init(AST_CASE_ITEM, data);
     ast->free = ast_case_item_free;
     ast->exec = ast_case_item_exec;
