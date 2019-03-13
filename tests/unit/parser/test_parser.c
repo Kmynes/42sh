@@ -32,6 +32,7 @@ void test_rules(void)
     test_read_rule_if();
     test_read_rule_until();
     test_read_rule_while();
+    test_read_rule_for();
 }
 
 void test_parser(void)

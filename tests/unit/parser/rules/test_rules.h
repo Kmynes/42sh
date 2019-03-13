@@ -45,3 +45,4 @@ void test_read_do_group(void);
 void test_read_rule_if(void);
 void test_read_rule_until(void);
 void test_read_rule_while(void);
+void test_read_rule_for(void);
