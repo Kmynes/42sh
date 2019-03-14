@@ -5,7 +5,6 @@
 int main(void)
 {
     test_suite_parser();
-    test_suite_options();
     printf("\n\033[1;32mUNIT TESTS : PASSED\033[1;0m\n");
 
     return 0;

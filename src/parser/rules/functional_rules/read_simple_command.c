@@ -89,7 +89,7 @@ int run_cmd(char **cmd, char **env)
     { 
         // child
         execvpe(cmd[0], cmd, env);
-        errx(1, "cannot execve: an error occured");
+        errx(1, "%s: not found", cmd[0]);
     }
     else
     { 

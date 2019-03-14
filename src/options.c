@@ -3,6 +3,7 @@
 #include <string.h>
 #include <parser/parser.h>
 #include <execution/execute_command.h>
+#include <interactive/prompt.h>
 #include "options.h"
 
 int execute_options(char *command, char *options);
@@ -59,7 +60,7 @@ int execute_options(char *command, char *options)
                 break;
         }
 
-    // do a second loop of the options to execute in the right order
+    // do a second loop of the options to execute in tder
     for (unsigned i = 0; options[i]; i++)
         switch (options[i])
         {
@@ -76,7 +77,20 @@ int execute_options(char *command, char *options)
             default:
                 break;
         }
+
+    if (!(has_options(options, 'c') || has_options(options, 'v')))
+        create_prompt();
+
     return 0;
+}
+
+bool has_options(char *options, char option)
+{
+    for (size_t i = 0; options[i]; i++)
+        if (options[i] == option)
+            return true;
+
+    return false;
 }
 
 char *option_translator(char *options, char *current_option)
