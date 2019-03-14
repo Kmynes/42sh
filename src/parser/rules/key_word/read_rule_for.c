@@ -1,6 +1,17 @@
 #include <parser/rules/rules.h>
 
-bool read_rule_for1(struct parser *p, struct ast_multiple_word *data)
+bool read_rule_for1_sub2(struct parser *p, struct ast_multiple_word *data)
+{
+    unsigned int tmp = p->cursor;
+    if (read_multiple_word(p, data) && read_spaces(p))
+    {
+        return true;
+    }
+    p->cursor = tmp;
+    return false;
+}
+
+bool read_rule_for1_sub(struct parser *p, struct ast_multiple_word *data)
 {
     unsigned int tmp = p->cursor;
 
@@ -8,14 +19,29 @@ bool read_rule_for1(struct parser *p, struct ast_multiple_word *data)
         && read_spaces(p)
         && parser_readtext(p, "in")
         && read_spaces(p)
-        && ZERO_OR_MANY(read_multiple_word(p, data))
+        && ZERO_OR_MANY(read_rule_for1_sub2(p, data))
         && read_spaces(p)
-        && (parser_readchar(p, ';') || parser_readchar(p, '\n')))
+        && (parser_readchar(p, ';') || parser_readchar(p, '\n'))
+        && read_spaces(p))
     {
         return true;
     }
 
     p->cursor = tmp;
+    return false;
+}
+
+bool read_rule_for1(struct parser *p, struct ast_multiple_word *data)
+{
+    unsigned int tmp = p->cursor;
+    if (parser_readchar(p, ';')
+        || read_rule_for1_sub(p, data))
+    {
+        return true;
+    }
+
+    p->cursor = tmp;
+
     return false;
 }
 
@@ -28,11 +54,12 @@ bool read_rule_for(struct parser *p)
     data->capacity = 16;
 
     if (parser_readtext(p, "for")
+        && read_spaces(p)
         && parser_begin_capture(p, "for_var_0")
         && read_word(p)
         && parser_end_capture(p, "for_var_0")
-        && (OPTIONAL(parser_readchar(p, ';')) ||
-            OPTIONAL(read_rule_for1(p, data)))
+        && read_spaces(p)
+        && OPTIONAL(read_rule_for1(p, data))
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
         && read_do_group(p))
     {
@@ -50,7 +77,7 @@ bool read_rule_for(struct parser *p)
     free(data);
 
     p->cursor = tmp;
-    return true;
+    return false;
 }
 
 void ast_rule_for_free(void *data)
@@ -65,7 +92,9 @@ void ast_rule_for_free(void *data)
 
 char *ast_rule_for_to_string(struct ast_node *ast)
 {
-    return default_to_string(ast, "rule_for");
+    char *str = malloc(sizeof(char) * 512);
+    sprintf(str, "AST_RULE_FOR(%ld)", ast->nb_children);
+    return str;
 }
 
 int ast_rule_for_exec(struct ast_node *ast)

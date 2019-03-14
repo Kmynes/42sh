@@ -12,7 +12,7 @@ bool read_rule_if(struct parser *p)
         struct ast_node *ast = ast_rule_if_init();
         ast_recover_all_from_parser(ast, p, AST_COMPOUND_LIST);
 
-        if (OPTIONAL(read_rule_else_clause(p))
+        if (OPTIONAL(read_else_clause(p))
             && parser_readtext(p, "fi"))
         {
             ast_recover_all_from_parser(ast, p, AST_ELSE_CLAUSE);

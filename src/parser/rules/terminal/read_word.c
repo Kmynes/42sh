@@ -21,7 +21,10 @@ bool read_word(struct parser *p)
         NULL
     };
 
-    if (ONE_OR_MANY(parser_readoutset(p, " \t\r\n\"'`()|><;=&")))
+    if (parser_eof(p))
+        return false;
+
+    if (ONE_OR_MANY(parser_readoutset(p, " \t\r\n\"'`()|><;=&{}")))
     {
         for (size_t i = 0; protected_words[i] != NULL; i++)
         {

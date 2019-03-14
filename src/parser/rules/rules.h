@@ -159,7 +159,7 @@ struct ast_if
 };
 struct ast_node *ast_rule_if_init();
 
-bool read_rule_else_clause(struct parser *p);
+bool read_else_clause(struct parser *p);
 struct ast_else_clause
 {
     char *elt;

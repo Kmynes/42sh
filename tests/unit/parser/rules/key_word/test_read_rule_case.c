@@ -2,7 +2,7 @@
 
 void test_read_rule_case_simple(void)
 {
-    char *input = "casevar\n\nin\ncase1)\nstart\n;;esac";
+    char *input = "case var in\ncase1)\nstart\n;;esac";
     assert(test_rule(read_rule_case, input, "AST_RULE_CASE(1)"));
     struct ast_node *ast = ast_from_read(read_rule_case, input);
     assert(ast->children[0]->type == AST_CASE_CLAUSE);
@@ -11,7 +11,7 @@ void test_read_rule_case_simple(void)
 
 void test_read_rule_case_double(void)
 {
-    char *input = "casevar\n\nin\ncase1)\nstart;;\ncase2)\nstop;;;\nesac";
+    char *input = "case var\n\nin\ncase1)\nstart;;\ncase2)\nstop;;;\nesac";
     test_rule(read_rule_case, input, "AST_RULE_CASE(1)");
     struct ast_node *ast = ast_from_read(read_rule_case, input);
     assert(ast->children[0]->type == AST_CASE_CLAUSE);
