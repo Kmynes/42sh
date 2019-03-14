@@ -48,6 +48,7 @@ void test_parser(void)
     test_parser_read_alphanum();
     test_parser_read_interval();
     test_parser_string_includes();
+    test_variable();
 }
 
 void test_suite_parser(void)

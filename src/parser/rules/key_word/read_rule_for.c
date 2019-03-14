@@ -66,6 +66,9 @@ bool read_rule_for(struct parser *p)
         data->words[0] = parser_get_capture(p, "for_var_0");
         struct ast_node *ast = ast_rule_for_init(data);
 
+        if (data->nb_word > 1)
+            variables_add(strdup(data->words[0]), strdup(data->words[1]));
+
         ast_recover_all_from_parser(ast, p, AST_DO_GROUP);
         ast_set_in_parser(p, ast);
         return true;
@@ -84,7 +87,7 @@ void ast_rule_for_free(void *data)
 {
     struct ast_multiple_word *ast_for = data;
 
-    for (size_t i=0;i < ast_for->nb_word; i++)
+    for (size_t i=0; i < ast_for->nb_word; i++)
         free(ast_for->words[i]);
     free(ast_for->words);
     free(ast_for);
@@ -99,13 +102,24 @@ char *ast_rule_for_to_string(struct ast_node *ast)
 
 int ast_rule_for_exec(struct ast_node *ast)
 {
+    struct ast_multiple_word *data = ast->data;
     struct ast_node *first_child = ast->children[0];
-    return first_child->exec(first_child);
+    char *word = data->words[0];
+    int res = 0;
+
+    for (size_t i = 1; i < data->nb_word; i++)
+    {
+        variables_update(word, data->words[i]);
+        res = first_child->exec(first_child);
+    }
+
+    return res;
 }
 
 struct ast_node *ast_rule_for_init(struct ast_multiple_word *data)
 {
     struct ast_node *ast = ast_init(AST_RULE_FOR, data);
+
     ast->to_string = ast_rule_for_to_string;
     ast->free = ast_rule_for_free;
     ast->exec = ast_rule_for_exec;
