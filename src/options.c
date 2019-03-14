@@ -110,34 +110,3 @@ void version_display()
 {
     printf("Version 0.3\n");
 }
-
-// ast print le fichier DOT ouvert est \"ast.dot\"
-int ast_print(struct parser *p)
-{
-    FILE *fp = fopen("../ast.dot", "w");
-    char c;
-
-    if (fp == NULL)
-        return 1;
-
-    if (p->ast->type == AST_NODE_EMPTY)
-    {
-    }
-    else if (p->ast->type ==  AST_NODE_INI_FILE)
-    {
-    }
-    else if (p->ast->type ==  AST_NODE_SECTION)
-    {
-    }
-    else if (p->ast->type ==  AST_NODE_KEY_VALUE)
-    {
-    }
-    else if (p->ast->type ==  AST_NODE_ASSIGN)
-
-    for (; (c = fgetc(fp)) != EOF ;)
-        printf("%c", c);
-
-    fclose(fp);
-
-    return 0;
-}
