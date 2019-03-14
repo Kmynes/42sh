@@ -1,4 +1,4 @@
-.PHONY: all check
+.PHONY: all check doc
 
 all:
 	./autogen.sh
@@ -7,6 +7,9 @@ unit:
 	$(MAKE) -s all
 	clear
 	./build/test_42sh
+
+doc:
+	doxygen doxy-config
 
 test:
 	$(MAKE) -s unit

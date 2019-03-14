@@ -1,4 +1,5 @@
 #include "ast_print.h"
+#include "./parser/parser.h"
 
 int ast_print(struct parser *p)
 {
