@@ -5,7 +5,16 @@
 #include <execution/execute_command.h>
 #include <interactive/prompt.h>
 #include "options.h"
-
+/**
+ * \file options.c
+ * \brief option parser called by 42sh main function.
+ * \author Blueshell42
+ * \version 0.3
+ * \date mars 2019
+ *
+ * Manages options sent by main and calls different parts of the code..
+ *
+ */
 int execute_options(char *command, char *options);
 char *option_translator(char *options, char *current_option);
 unsigned first_empty(char *table);
