@@ -23,3 +23,5 @@ void test_parser_read_interval(void);
 void test_parser_string_includes(void);
 
 void test_parser(void);
+
+void test_variable(void);

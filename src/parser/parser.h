@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <err.h>
 #include <errors.h>
-
+#include "variables.h"
 
 #define OPTIONAL(R) \
 __extension__({     \
@@ -108,7 +108,9 @@ enum ast_node_type
     FOREACH_AST(GENERATE_ENUM)
 };
 
+//Global
 extern const char *AST_STRING[];
+
 // ast inifile
 struct ast_node
 {
@@ -206,4 +208,4 @@ static inline bool parser_end_capture(struct parser *p, const char *tag)
 }
 
 //ast_print
-int ast_print(struct parser *p);
+int ast_print(struct ast_node *ast);
