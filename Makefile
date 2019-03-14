@@ -7,6 +7,7 @@ unit:
 	$(MAKE) -s all
 	clear
 	./build/test_42sh
+
 test:
 	$(MAKE) -s unit
 	python3 tests/test_suite.py

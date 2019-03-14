@@ -30,6 +30,10 @@ void test_rules(void)
     test_read_rule_else_clause();
     test_read_do_group();
     test_read_rule_if();
+    test_read_rule_until();
+    test_read_rule_while();
+    test_read_rule_for();
+    test_read_shell_command();
 }
 
 void test_parser(void)

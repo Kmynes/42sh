@@ -63,6 +63,7 @@ build/
 # python
 venv
 *.pyc
+pycache
 
 # Debug gdb
 debug
