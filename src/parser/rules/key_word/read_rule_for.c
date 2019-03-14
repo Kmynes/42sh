@@ -84,7 +84,7 @@ void ast_rule_for_free(void *data)
 {
     struct ast_multiple_word *ast_for = data;
 
-    for (size_t i=0;i < ast_for->nb_word; i++)
+    for (size_t i=0; i < ast_for->nb_word; i++)
         free(ast_for->words[i]);
     free(ast_for->words);
     free(ast_for);
