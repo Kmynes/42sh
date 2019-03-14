@@ -1,6 +1,6 @@
 #include <parser/rules/rules.h>
 
-bool read_rule_else_clause(struct parser *p)
+bool read_else_clause(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
@@ -14,7 +14,7 @@ bool read_rule_else_clause(struct parser *p)
         struct ast_node *ast = ast_else_clause_init();
 
         ast_recover_all_from_parser(ast, p, AST_COMPOUND_LIST);
-        read_rule_else_clause(p);
+        read_else_clause(p);
         ast_recover_all_from_parser(ast, p, AST_ELSE_CLAUSE);
 
         ast_set_in_parser(p, ast);
