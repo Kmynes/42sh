@@ -5,6 +5,7 @@ bool read_funcdec(struct parser *p)
     unsigned int tmp = p->cursor;
 
     if (parser_readtext(p, "function")
+        && read_spaces(p)
         && parser_begin_capture(p, "func_n")
         && read_word(p)
         && parser_end_capture(p, "func_n")
@@ -27,15 +28,6 @@ bool read_funcdec(struct parser *p)
     return false;
 }
 
-char *ast_funcdec_to_string(struct ast_node *ast)
-{
-    char buff[512];
-    struct ast_funcdec *data = ast->data;
-    char *func_name = data->function;
-    sprintf(buff, "AST_FUNCDEC(1)_%s", func_name);
-    return default_to_string(ast, buff);
-}
-
 void ast_funcdec_free(void *data)
 {
     struct ast_funcdec *funcdec = data;
@@ -43,10 +35,18 @@ void ast_funcdec_free(void *data)
     free(funcdec);
 }
 
+int ast_funcdec_exec(struct ast_node *ast)
+{
+    if (ast->type != AST_FUNCDEC)
+        error_ast_exec("ast_funcdec_exec");
+
+    return ast->children[0]->exec(ast->children[0]);
+}
+
 struct ast_node *ast_funcdec_init(void *data)
 {
     struct ast_node *ast = ast_init(AST_FUNCDEC, data);
-    ast->to_string = ast_funcdec_to_string;
     ast->free = ast_funcdec_free;
+    ast->exec = ast_funcdec_exec;
     return ast;
 }

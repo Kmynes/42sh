@@ -33,7 +33,7 @@ void test_read_command(void);
 void test_read_simple_command(void);
 void test_read_prefix(void);
 void test_read_element(void);
-void test_funcdec(void);
+void test_read_funcdec(void);
 
 //Test key word
 void test_read_compound_list(void);
