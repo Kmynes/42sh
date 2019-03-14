@@ -70,13 +70,13 @@ void test_read_simple_command_fail(void)
 
 void test_simple_command_exec(void)
 {
-    char *input= "i=0 j=23 find";
+    char *input= "i=0 j=23 ls";
     struct parser *p = parser_new_from_string(input);
     read_simple_command(p);
     struct ast_node *ast_simple_cmd = p->ast->children[0];
     char *s = ast_simple_cmd->to_string(ast_simple_cmd);
     assert(strcmp(s, "AST_SIMPLE_COMMAND(3)") == 0);
-//    ast_simple_cmd->exec(ast_simple_cmd);
+    ast_simple_cmd->exec(ast_simple_cmd);
     parser_free(p);
     free(s);
 }
