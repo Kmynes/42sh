@@ -11,12 +11,13 @@ struct parser *parser_new_from_string(const char *text)
     parser->capture = list_capt_init();
     parser->ast = ast_init(AST_NODE_EMPTY, NULL);
     parser->error = malloc(sizeof(struct error_s));
-
+    variables_init();
     return parser;
 }
 
 void parser_free(struct parser *p)
 {
+    variables_free();
     if (p)
     {
         free(p->input);
@@ -30,6 +31,7 @@ void parser_free(struct parser *p)
 // free parser but not ast
 void parser_free_no_ast(struct parser *p)
 {
+    variables_free();
     if (p)
     {
         free(p->input);
