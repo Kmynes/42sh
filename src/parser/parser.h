@@ -204,3 +204,6 @@ static inline bool parser_end_capture(struct parser *p, const char *tag)
     pcapt->end = p->cursor;
     return true;
 }
+
+//ast_print
+int ast_print(struct parser *p);
