@@ -9,14 +9,6 @@ static bool read_simple_command1(struct parser *p)
     {
         struct ast_node *ast = ast_simple_command_init();
         ast_recover_all_from_parser(ast, p, AST_PREFIX);
-        for (size_t i =0;i < ast->nb_children; i++)
-        {
-            if (ast->children[i]->data) //It is possible a redirection
-            {
-                struct ast_assignment_word *data = ast->children[i]->data;
-                variables_add(strdup(data->key), strdup(data->value));
-            }
-        }
 
         if (ONE_OR_MANY(read_element(p)))
             ast_recover_all_from_parser(ast, p, AST_ELEMENT);
@@ -37,7 +29,6 @@ static bool read_simple_command2(struct parser *p)
     {
         struct ast_node *ast = ast_simple_command_init();
         ast_recover_all_from_parser(ast, p, AST_PREFIX);
-
         ast_recover_all_from_parser(ast, p, AST_ELEMENT);
 
         ast_set_in_parser(p, ast);
@@ -69,7 +60,7 @@ static char **build_env_param(struct ast_assignment_word *list, size_t *count)
     {
         size_t size = sizeof(char) * (strlen(list->key) + strlen(list->value));
         char *var = malloc(size + 2);
-   
+
         strcpy(var, list->key);
         strcat(var, "=");
         strcat(var, list->value);
@@ -108,22 +99,17 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
     struct ast_node *sub_child = NULL;
     struct ast_assignment_word *list = NULL;
 
-    size_t i;
-    for (i = 0; ast->children[i]->type == AST_PREFIX; i++)
+    for (size_t i = 0; ast->children[i]->type == AST_PREFIX; i++)
     {
         sub_child = ast->children[i]->children[0];
         if (sub_child->type == AST_ASSIGNEMENT_WORD)
         {
             if (list == NULL)
-            {
                 list = sub_child->data;
-            }
             else
-            {
                 add_assignment_word(list, sub_child->data);
-            }
         }
-        else if(sub_child->type == AST_REDIRECTION)
+        else if (sub_child->type == AST_REDIRECTION)
         {
 
         }
@@ -147,7 +133,7 @@ static char *read_variable(char *arg)
             strncpy(key, arg, i);
         }
         else
-            strcpy(key, arg+1);
+            strcpy(key, arg + 1);
         struct key_value *kv = variables_get(key);
         free(key);
 
