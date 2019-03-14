@@ -274,9 +274,10 @@ def check_if_made():
         quit(2)
 
 def clean_cache():
-    print("Cleaning cache")
+    print("Cleaning cache...", end = "")
     file_directory = os.path.dirname(os.path.abspath(__file__))
     subprocess.run("rm -r __pycache__", shell=True, cwd=file_directory)
+    print("...done")
 
 # main function
 def main():
