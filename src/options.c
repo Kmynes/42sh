@@ -8,18 +8,23 @@
 /**
  * \file options.c
  * \brief option parser called by 42sh main function.
- * \author Blueshell42
+ * \author Daniel
  * \version 0.3
- * \date mars 2019
- *
- * Manages options sent by main and calls different parts of the code..
- *
+ * \date February 2019
+ * Manages arguments sent by main and calls different parts of the code..
  */
 int execute_options(char *command, char *options);
 char *option_translator(char *options, char *current_option);
 unsigned first_empty(char *table);
 void version_display(void);
 
+/**
+ * \brief Main function that is called and parses arguments directly from 
+ * command line.
+ * \param argv a list of strings given as argument
+ * \param argc an integer representing the number of arguments
+ * \return error code. 1 for error, 0 for success.
+ */
 int options_parser(char **argv, int argc)
 // parses arguments directly from command line
 {
@@ -44,6 +49,13 @@ int options_parser(char **argv, int argc)
     return error_code;
 }
 
+/**
+ * \brief executes options
+ * Does two loops. one to
+ * \param command a string representing the command given as argument to 42sh.
+ * \param options a string representing the options given as argument to 42sh.
+ * \return error code. 1 for error, 0 for success.
+ */
 int execute_options(char *command, char *options)
 {
     int AST_print_flag = 0;
@@ -93,6 +105,7 @@ int execute_options(char *command, char *options)
     return 0;
 }
 
+
 bool has_options(char *options, char option)
 {
     for (size_t i = 0; options[i]; i++)
@@ -102,6 +115,12 @@ bool has_options(char *options, char option)
     return false;
 }
 
+/**
+ * \brief translates options given as argument to be in string format.
+ * \param current_option a string representing the current otion to translate.
+ * \param options a string representing the options given as argument to 42sh.
+ * \return string options
+ */
 char *option_translator(char *options, char *current_option)
 // translates options into single character flags
 {
@@ -119,6 +138,11 @@ char *option_translator(char *options, char *current_option)
     return options;
 }
 
+/**
+ * \brief Calculates first available index in a table
+ * \param table a string
+ * \return unsigned integer representing the first empty index
+ */
 unsigned first_empty(char *table)
 // returns the first empty index in an array
 {
@@ -128,6 +152,9 @@ unsigned first_empty(char *table)
     return first_free_index;
 }
 
+/**
+ * \brief Prints out current version number
+ */
 void version_display()
 // prints current version
 {
