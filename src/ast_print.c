@@ -1,6 +1,12 @@
 #include "ast_print.h"
 #include "./parser/parser.h"
-
+/**
+ * \file ast_print.c
+ * \brief Contains functions related to printing the AST
+ * \author Yann
+ * \version v0.3
+ * \date March 2019
+ */
 int ast_print(struct ast_node *ast)
 {
     /*
