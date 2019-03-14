@@ -1,7 +1,7 @@
 #include "ast_print.h"
 #include "./parser/parser.h"
 
-int ast_print(struct parser *p)
+int ast_print(struct ast_node *ast)
 {
     /*
     FILE *fp = fopen("../ast.dot", "w");
@@ -18,7 +18,7 @@ int ast_print(struct parser *p)
     fclose(fp);
     */
 
-    if (p == NULL)
+    if (ast == NULL)
         return 1;
 
     return 0;
