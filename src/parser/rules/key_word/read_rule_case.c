@@ -6,9 +6,11 @@ bool read_rule_case(struct parser *p)
     struct ast_multiple_word *data = multiple_word_init();
 
     if (parser_readtext(p, "case")
+        && read_spaces(p)
         && parser_begin_capture(p, "rule_case_0")
         && read_word(p)
         && parser_end_capture(p, "rule_case_0")
+        && read_spaces(p)
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
         && parser_readtext(p, "in")
         && ZERO_OR_MANY(parser_readchar(p, '\n'))

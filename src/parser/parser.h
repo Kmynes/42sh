@@ -8,6 +8,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <err.h>
+#include <errors.h>
+
 
 #define OPTIONAL(R) \
 __extension__({     \
