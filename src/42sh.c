@@ -8,7 +8,7 @@
  * \version 0.3
  * \date mars 2019
  *
- * Programme de test pour l'objet de gestion des chaînes de caractères Str_t.
+ * 
  *
  */
 int main(int argc, char ** argv)
