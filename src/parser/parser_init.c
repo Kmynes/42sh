@@ -14,7 +14,8 @@ struct parser *parser_new_from_string(const char *text)
     parser->error = malloc(sizeof(struct error_s));
     builtin_table_init();
 
-    variables_init();
+    if (variables == NULL)
+        variables_init();
     return parser;
 }
 
