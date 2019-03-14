@@ -1,8 +1,7 @@
 #include "test_parser.h"
 #include "rules/test_rules.h"
 
-void test_rules(void)
-{
+void test_rules(void) {
     //Terminal
     test_read_assign();
     test_read_word();
@@ -34,6 +33,7 @@ void test_rules(void)
     test_read_rule_while();
     test_read_rule_for();
     test_read_shell_command();
+    test_read_funcdec();
 }
 
 void test_parser(void)

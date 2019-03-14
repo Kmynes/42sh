@@ -67,3 +67,5 @@ pycache
 
 # Debug gdb
 debug
+/doc/latex
+/doc/html
