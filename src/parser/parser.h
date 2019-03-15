@@ -1,10 +1,6 @@
 #pragma once
 
-#include <stddef.h>
-#include <stdbool.h>
-#include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <err.h>
@@ -23,15 +19,15 @@ __extension__({        \
     1;                 \
 })
 
-#define ONE_OR_MANY(R)    \
-__extension__({     \
-    int res = 0;\
-    if (R)          \
-    {               \
-        while (R);  \
-        res = 1; \
-    }               \
-    res;	        \
+#define ONE_OR_MANY(R) \
+__extension__({        \
+    int res = 0;       \
+    if (R)             \
+    {                  \
+        while (R);     \
+        res = 1;       \
+    }                  \
+    res;	           \
 })
 
 struct parser
