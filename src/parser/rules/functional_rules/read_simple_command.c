@@ -1,6 +1,8 @@
 #include <parser/rules/rules.h>
 #include <utils/assignment_word.h>
 #include <utils/string.h>
+#include <utils/exec.h>
+#include <execution/builtins/builtins.h>
 
 static bool read_simple_command1(struct parser *p)
 {
@@ -72,28 +74,6 @@ static char **build_env_param(struct ast_assignment_word *list, size_t *count)
     return env;
 }
 
-static int run_cmd(char **cmd, char **env)
-{
-    pid_t pid = fork();
-    if (pid == -1)
-        errx(1, "cannot do fork : an error occured, pid == -1");
-
-    if (pid == 0)
-    {
-        // child
-        execvpe(cmd[0], cmd, env);
-        errx(1, "%s: not found", cmd[0]);
-    }
-    else
-    {
-        // father
-        int status = 0;
-        waitpid(pid, &status, 0);
-
-        return status;
-    }
-}
-
 static struct ast_assignment_word *create_env_list(struct ast_node *ast)
 {
     struct ast_node *sub_child = NULL;
@@ -139,6 +119,16 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count)
     }
     args[j] = NULL;
     return args;
+}
+
+static int run_cmd(char **cmd, char **env)
+{
+//    int (*func)(char **args) = get_builtin(cmd[0]);
+//
+//    if (func)
+//        return func(cmd);
+
+    return exec_cmd(cmd, env);
 }
 
 int ast_simple_command_exec(struct ast_node *ast)
