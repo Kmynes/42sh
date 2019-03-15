@@ -6,5 +6,7 @@ script:
 
 notifications:
   email:
-    - thibaultlebrun@live.fr
-    - dsebton@gmail.com
+    - yann.moussan@epita.fr
+    - thibault.lebrun@epita.fr
+    - kevin.voyer@epita.fr
+    - daniel.sebton@epita.fr
