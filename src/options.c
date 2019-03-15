@@ -8,10 +8,10 @@
 /**
  * \file options.c
  * \brief option parser called by 42sh main function.
+ * Manages arguments sent by main and calls different parts of the code..
  * \author Daniel
  * \version 0.3
  * \date February 2019
- * Manages arguments sent by main and calls different parts of the code..
  */
 int execute_options(char *command, char *options);
 char *option_translator(char *options, char *current_option);
@@ -21,11 +21,12 @@ void version_display(void);
 /**
  * \brief Main function that is called and parses arguments directly from 
  * command line.
- * \param argv a list of strings given as argument
+ * \param argv a list of strings given as argument to 42sh
  * \param argc an integer representing the number of arguments
+ * \param env a list of strings rep. environment variables
  * \return error code. 1 for error, 0 for success.
  */
-int options_parser(char **argv, int argc)
+int options_parser(char **argv, int argc, char **env)
 // parses arguments directly from command line
 {
     char *options = calloc(argc, 1);
@@ -44,6 +45,27 @@ int options_parser(char **argv, int argc)
             i++;
         }
     }
+
+    while (*env)
+    {
+        char *var_env = *env;
+
+        size_t len_name = 0;
+        while (var_env[len_name] != '=')
+            len_name++;
+
+        char *key = calloc(sizeof(char), len_name);
+        strncpy(key, *env, len_name);
+
+        char *val_env = var_env + len_name + 1;
+        size_t len_val_env = strlen(val_env);
+        char *value = calloc(sizeof(char), len_val_env);
+        strncpy(value, val_env, len_val_env);
+
+        variables_add(key, value);
+        env++;
+    }
+
     int error_code = execute_options(command, options);
     free(options);
     return error_code;
