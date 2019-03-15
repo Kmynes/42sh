@@ -1,10 +1,6 @@
 #pragma once
 
-#include <stddef.h>
-#include <stdbool.h>
-#include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <err.h>
@@ -208,4 +204,4 @@ static inline bool parser_end_capture(struct parser *p, const char *tag)
 }
 
 //ast_print
-int ast_print(struct ast_node *ast);
+int ast_print(struct ast_node *ast, FILE *stream);
