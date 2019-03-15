@@ -34,7 +34,7 @@ int options_parser(char **argv, int argc, char **env)
     for (int i = 1; i < argc; i++)
     {
         options = option_translator(options, argv[i]);
-        if (options[i - 1] == 'c' || options[i-1] == 'f')
+        if (options[i - 1] == 'c' || options[i - 1] == 'f')
         {
             if (i + 1 >= argc)
             {
