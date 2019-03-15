@@ -66,6 +66,8 @@ venv
 pycache
 
 # Debug gdb
+scripts
 debug
 /doc/latex
 /doc/html
+
