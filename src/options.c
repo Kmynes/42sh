@@ -111,7 +111,7 @@ int execute_options(char *command, char *options)
                 version_display();
                 return 0;
             case 'c':
-                if (!strcmp(command, "test.sh"))
+                if (!strcmp(command, "../test.sh"))
                     res = exec_file(command);
                 else 
                     res = execute_command(command);
