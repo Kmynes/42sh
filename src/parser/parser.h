@@ -19,15 +19,15 @@ __extension__({        \
     1;                 \
 })
 
-#define ONE_OR_MANY(R)    \
-__extension__({     \
-    int res = 0;\
-    if (R)          \
-    {               \
-        while (R);  \
-        res = 1; \
-    }               \
-    res;	        \
+#define ONE_OR_MANY(R) \
+__extension__({        \
+    int res = 0;       \
+    if (R)             \
+    {                  \
+        while (R);     \
+        res = 1;       \
+    }                  \
+    res;	           \
 })
 
 struct parser
