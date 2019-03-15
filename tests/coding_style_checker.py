@@ -44,6 +44,12 @@ def coding_styler(file, filename):
     for index in range(0, len(file)-1):
         if file[index:index+10] == "#include \"":
             style_errors += include_priority(index, file, line_number, filename)
+        if file[index:index+2] == "if":
+            style_errors += if_space(index+1, file, line_number, filename)
+        if file[index:index+3] == "for":
+            style_errors += for_space(index+2, file, line_number, filename)
+        if file[index:index+5] == "while":
+            style_errors += while_space(index+4, file, line_number, filename)
         if file[index] == '#':
             style_errors += pre_proc_directive(index, file, line_number, filename)
         if file[index] == '\t':
@@ -259,8 +265,50 @@ def solo_braces(index, file, line_number, filename):
     for character in file[line_start:line_end]:
         if character.isalpha() or character == ")" or character == "(":
             print("Badly indented brace at line "+str(line_number)
-                    + " of file " + filename)
+                  + " of file " + filename)
             print(file[line_start+1:line_end])
             print(" "*(index-line_start-1) + "^")
             return 1
     return 0
+
+def if_space(index, file, line_number, filename):
+    """ checks if there is a space after an if statement """
+    [line_start, line_end] = find_line(index, file)
+    if file[index+1] == ' ':
+        return 0
+    if file[index-2] != ' ':
+        return 0
+    else:
+        print("Missing space after if statement at line "+str(line_number)
+              + " of file " + filename)
+        print(file[line_start+1:line_end])
+        print(" "*(index-line_start) + "^")
+        return 1
+
+def for_space(index, file, line_number, filename):
+    """ checks if there is a space after an if statement """
+    [line_start, line_end] = find_line(index, file)
+    if file[index+1] == ' ':
+        return 0
+    if file[index-3] != ' ':
+        return 0
+    else:
+        print("Missing space after for statement at line "+str(line_number)
+              + " of file " + filename)
+        print(file[line_start+1:line_end])
+        print(" "*(index-line_start) + "^")
+        return 1
+
+def while_space(index, file, line_number, filename):
+    """ checks if there is a space after an if statement """
+    [line_start, line_end] = find_line(index, file)
+    if file[index+1] == ' ':
+        return 0
+    if file[index-5] != ' ':
+        return 0
+    else:
+        print("Missing space after while statement at line "+str(line_number)
+              + " of file " + filename)
+        print(file[line_start+1:line_end])
+        print(" "*(index-line_start) + "^")
+        return 1
