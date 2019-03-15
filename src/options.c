@@ -111,7 +111,10 @@ int execute_options(char *command, char *options)
                 version_display();
                 return 0;
             case 'c':
-                res = execute_command(command);
+                if (!strcmp(command, "test.sh"))
+                    res = exec_file(command);
+                else 
+                    res = execute_command(command);
                 // insert call to run function here!!
                 if (AST_print_flag)
                     // insert call to AST_print function here!!
