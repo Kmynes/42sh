@@ -36,6 +36,8 @@ char *get_content_file(const char *file_name)
         nb_element++;
     }
 
+    fclose(fp);
+
     return buff;
 }
 

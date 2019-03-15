@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "ast.h"
 
 struct ast_node *ast_init(enum ast_node_type type, void *data)
