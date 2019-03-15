@@ -126,7 +126,7 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count)
 {
     struct ast_node *sub_child = NULL;
 
-    char **args = malloc(sizeof(char *) * (ast->nb_children - prefix_count));
+    char **args = malloc(sizeof(char *) * (ast->nb_children - prefix_count + 1));
     size_t j = 0;
     while (j + prefix_count < ast->nb_children)
     {
