@@ -1,6 +1,12 @@
 #include <parser/rules/rules.h>
+/**
+ * \file read_and_or.c
+ * \brief Functions for implement rule [read_and_or]
+ * \version 0.3
+ * \date March 2019
+ */
 
-bool read_instructions(struct parser *p)
+static bool read_instructions(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
@@ -20,6 +26,10 @@ bool read_instructions(struct parser *p)
     return false;
 }
 
+/**
+ * \param struct parser *p
+ * \brief Allow to read an [and_or] rule, return a [true]
+*/
 bool read_and_or(struct parser *p)
 {
     unsigned int tmp = p->cursor;
