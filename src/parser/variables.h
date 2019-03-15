@@ -20,3 +20,4 @@ void variables_delete(char *key);
 //Utils
 struct key_value *create_variable(char *key, char *value);
 void variables_free(void);
+char *read_variable(char *arg);
