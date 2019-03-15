@@ -1,21 +1,31 @@
 #include "variables.h" 
+/**
+ * \file variables.c
+ * Manages arguments sent by main and calls different parts of the code..
+ * \author Kevin
+ * \version 0.3
+ * \date March 2019
+ * \brief 
+ */
 
 struct key_value *variables = NULL;
 
-static struct key_value *create_variable(char *key, char *value)
-{
-    struct key_value *v = malloc(sizeof(struct key_value));
-    v->key = key;
-    v->value = value;
-    v->next = NULL;
-    return v;
-}
 
+/** 
+ * \biref Initialize the globale variable [variables]
+ * \return void.
+ */
 void variables_init()
 {
     variables = create_variable(NULL, NULL);
 }
 
+/** 
+ * \param char *key
+ * \param char *value
+ * \return struct key_value *.
+ * \biref Add a variable to the liste of global variable
+ */
 struct key_value *variables_add(char *key, char *value)
 {
     if (variables == NULL)
@@ -41,6 +51,11 @@ struct key_value *variables_add(char *key, char *value)
     return buff->next;
 }
 
+/**
+ * \param char *key
+ * \brief Get a key value by his key
+ * \return struct key_value *
+ */
 struct key_value *variables_get(char *key)
 {
     if (strcmp(key, variables->key) == 0)
@@ -60,6 +75,12 @@ struct key_value *variables_get(char *key)
     return found;
 }
 
+/**
+ * \param char *key
+ * \param char *value
+ * \return struct key_value *
+ * \brief Update a value by taking his key in parameter
+ */
 struct key_value *variables_update(char *key, char *value)
 {
     struct key_value *kv = variables_get(key);
@@ -72,6 +93,10 @@ struct key_value *variables_update(char *key, char *value)
     return kv;
 }
 
+/**
+ * \param char *key
+ * \brief Delete a key_value from the list
+ */
 void variables_delete(char *key)
 {
 
@@ -105,18 +130,5 @@ void variables_delete(char *key)
 
         current = next;
         next = current->next;
-    }
-}
-
-void variables_free()
-{
-    struct key_value *buff = NULL;
-    while (variables)
-    {
-        buff = variables;
-        variables = variables->next;
-        free(buff->key);
-        free(buff->value);
-        free(buff);
     }
 }
