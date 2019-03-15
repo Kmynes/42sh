@@ -34,11 +34,11 @@ int options_parser(char **argv, int argc, char **env)
     for (int i = 1; i < argc; i++)
     {
         options = option_translator(options, argv[i]);
-        if (options[i - 1] == 'c')
+        if (options[i - 1] == 'c' || options[i - 1] == 'f')
         {
             if (i + 1 >= argc)
             {
-                printf("Expected argument after -c option\n");
+                printf("Expected argument after -c/-f option\n");
                 return 1;
             }
             command = argv[i + 1];
@@ -107,12 +107,14 @@ int execute_options(char *command, char *options)
     for (unsigned i = 0; options[i]; i++)
         switch (options[i])
         {
+            case 'f':
+                res = exec_file(command);
+                return res;
             case 'v':
                 version_display();
                 return 0;
             case 'c':
                 res = execute_command(command);
-                // insert call to run function here!!
                 if (AST_print_flag)
                     // insert call to AST_print function here!!
                     AST_print_flag--; // REMOVE THIS - testing dummy
@@ -154,6 +156,10 @@ char *option_translator(char *options, char *current_option)
         options[first_empty(options)] = 'n';
     else if (!strcmp(current_option, "--ast-print"))
         options[first_empty(options)] = 'a';
+    else if (!strcmp(current_option, "-f"))
+        options[first_empty(options)] = 'f';
+    else if (!strcmp(current_option, "--file"))
+        options[first_empty(options)] = 'f';
     else
         // default case throws an error
         options[0] = 'x';

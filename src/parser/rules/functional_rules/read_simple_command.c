@@ -78,10 +78,12 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
 {
     struct ast_node *sub_child = NULL;
     struct ast_assignment_word *list = NULL;
+    struct ast_node *child = ast->children[0];;
 
-    for (size_t i = 0; ast->children[i]->type == AST_PREFIX; i++)
+    size_t i = 0;
+    do
     {
-        sub_child = ast->children[i]->children[0];
+        sub_child = child->children[0];
         if (sub_child->type == AST_ASSIGNEMENT_WORD)
         {
             if (list == NULL)
@@ -90,38 +92,14 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
                 add_assignment_word(list, sub_child->data);
         }
         else if (sub_child->type == AST_REDIRECTION)
-        {
+        {}
 
-        }
+        i++;
+        child = ast->children[i];
     }
+    while (child && child->type == AST_PREFIX);
 
     return list;
-}
-
-static char *read_variable(char *arg)
-{
-    char *begin = arg;
-    if (arg[0] == '$')
-    {
-        char *key = calloc(sizeof(char), strlen(arg));
-        if (arg[1] == '{')
-        {
-            size_t i = 0;
-            arg += 2;
-            while (arg[i] != '}')
-                i++;
-            strncpy(key, arg, i);
-        }
-        else
-            strcpy(key, arg + 1);
-        struct key_value *kv = variables_get(key);
-        free(key);
-
-        if (kv)
-            return kv->value;
-    }
-
-    return begin;
 }
 
 static char **create_command_list(struct ast_node *ast, size_t prefix_count)
@@ -158,6 +136,16 @@ int ast_simple_command_exec(struct ast_node *ast)
     struct ast_assignment_word *list = create_env_list(ast);
     size_t prefix_count = assignment_word_list_len(list);
     char **args = create_command_list(ast, prefix_count);
+
+    if (prefix_count == ast->nb_children)
+    {
+        while (list)
+        {
+            variables_add(strdup(list->key), strdup(list->value));
+            list = list->next;
+        }
+        return 0;
+    }
 
     size_t count = 0;
     char **env = build_env_param(list, &count);
