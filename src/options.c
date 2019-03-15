@@ -8,10 +8,10 @@
 /**
  * \file options.c
  * \brief option parser called by 42sh main function.
+ * Manages arguments sent by main and calls different parts of the code..
  * \author Daniel
  * \version 0.3
  * \date February 2019
- * Manages arguments sent by main and calls different parts of the code..
  */
 int execute_options(char *command, char *options);
 char *option_translator(char *options, char *current_option);
@@ -21,8 +21,9 @@ void version_display(void);
 /**
  * \brief Main function that is called and parses arguments directly from 
  * command line.
- * \param argv a list of strings given as argument
+ * \param argv a list of strings given as argument to 42sh
  * \param argc an integer representing the number of arguments
+ * \param env a list of strings rep. environment variables
  * \return error code. 1 for error, 0 for success.
  */
 int options_parser(char **argv, int argc, char **env)
