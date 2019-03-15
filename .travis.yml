@@ -3,6 +3,10 @@ sudo: false # only for faster builds
 script:
 #  - pip install -r requirements.txt
   - make && make test
- 
+ notifications:
+  email:
+    - yann.moussan@epita.fr
+    - thibault.lebrun@epita.fr
+    - kevin.voyer@epita.fr
 #  - make && make unit
 
