@@ -38,7 +38,7 @@ int ast_print(struct ast_node *ast, FILE *stream)
     {
         struct ast_node *child = ast->children[i];
 	char *ast_child_str = child->to_string(child);
-        fprintf(stream, "\t%s -> %s\n", ast_string, ast_child_str);
+        fprintf(stream, "\t%s -> %s;\n", ast_string, ast_child_str);
 	ast_print(child, stream);
     }
 
@@ -50,3 +50,10 @@ int ast_print(struct ast_node *ast, FILE *stream)
 
     return 0;
 }
+
+/**
+ * \brief This function read the DOT file and print it on the output
+ * \
+ * \
+ * \
+ */
