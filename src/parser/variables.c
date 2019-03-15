@@ -2,15 +2,6 @@
 
 struct key_value *variables = NULL;
 
-static struct key_value *create_variable(char *key, char *value)
-{
-    struct key_value *v = malloc(sizeof(struct key_value));
-    v->key = key;
-    v->value = value;
-    v->next = NULL;
-    return v;
-}
-
 void variables_init()
 {
     variables = create_variable(NULL, NULL);
@@ -105,18 +96,5 @@ void variables_delete(char *key)
 
         current = next;
         next = current->next;
-    }
-}
-
-void variables_free()
-{
-    struct key_value *buff = NULL;
-    while (variables)
-    {
-        buff = variables;
-        variables = variables->next;
-        free(buff->key);
-        free(buff->value);
-        free(buff);
     }
 }
