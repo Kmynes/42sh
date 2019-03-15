@@ -37,9 +37,11 @@ int ast_print(struct ast_node *ast, FILE *stream)
     for (size_t i = 0; i < ast->nb_children; i++)
     {
         struct ast_node *child = ast->children[i];
-	char *ast_child_str = child->to_string(child);
-        fprintf(stream, "\t%s -> %s;\n", ast_string, ast_child_str);
-	ast_print(child, stream);
+	    char *ast_child_str = child->to_string(child);
+        int node_number_plus = node_number + 1;
+        fprintf(stream, "\t%s%d -> %s%d;\n", ast_string, node_number, ast_child_str, node_number_plus);
+        node_number += 2;
+	    ast_print(child, stream);
     }
 
     if (first_one == 1)
