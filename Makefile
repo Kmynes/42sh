@@ -13,12 +13,12 @@ doc:
 
 test:
 	$(MAKE) -s unit
-	python3 tests/test_suite.py
+	python tests/test_suite.py
 
 check_docker:
 	$(MAKE) -s all
 	./build/test_42sh
-	python3 tests/test_suite.py
+	python tests/test_suite.py
 
 check:
 	docker-compose --file tests/docker-compose.yml build 42sh_arch
