@@ -22,7 +22,7 @@ int ast_print(struct ast_node *ast, FILE *stream)
 
     if (stream == NULL)
     {
-        FILE *stream = fopen("../ast.dot", "w");
+        FILE *stream = fopen("../doc/ast.dot", "w");
         first_one = 1;
 
         if (stream == NULL)
@@ -50,10 +50,3 @@ int ast_print(struct ast_node *ast, FILE *stream)
 
     return 0;
 }
-
-/**
- * \brief This function read the DOT file and print it on the output
- * \
- * \
- * \
- */
