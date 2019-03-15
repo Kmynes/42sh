@@ -1,10 +1,6 @@
 #pragma once
 
-#include <stddef.h>
-#include <stdbool.h>
-#include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <err.h>
@@ -23,15 +19,15 @@ __extension__({        \
     1;                 \
 })
 
-#define ONE_OR_MANY(R)    \
-__extension__({     \
-    int res = 0;\
-    if (R)          \
-    {               \
-        while (R);  \
-        res = 1; \
-    }               \
-    res;	        \
+#define ONE_OR_MANY(R) \
+__extension__({        \
+    int res = 0;       \
+    if (R)             \
+    {                  \
+        while (R);     \
+        res = 1;       \
+    }                  \
+    res;	           \
 })
 
 struct parser
@@ -120,9 +116,9 @@ struct ast_node
     size_t capacity;
     struct ast_node **children; // array of children
     char *(*to_string)(struct ast_node *);
+    bool custom_to_string;
     int (*exec)(struct ast_node *);
     int (*exec_arg)(struct ast_node *, char *arg);
-    bool custom_to_string;
     void (*free)(void *);
 };
 
@@ -208,4 +204,4 @@ static inline bool parser_end_capture(struct parser *p, const char *tag)
 }
 
 //ast_print
-int ast_print(struct ast_node *ast);
+int ast_print(struct ast_node *ast, FILE *stream);

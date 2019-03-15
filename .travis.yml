@@ -1,8 +1,12 @@
-language: c
-sudo: false # only for faster builds
+language: python
+python: 3.5
 script:
   - pip install -r requirements.txt
   - make && make test
- 
-#  - make && make unit
 
+notifications:
+  email:
+    - yann.moussan@epita.fr
+    - thibault.lebrun@epita.fr
+    - kevin.voyer@epita.fr
+    - daniel.sebton@epita.fr
