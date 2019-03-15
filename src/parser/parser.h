@@ -208,4 +208,4 @@ static inline bool parser_end_capture(struct parser *p, const char *tag)
 }
 
 //ast_print
-int ast_print(struct ast_node *ast);
+int ast_print(struct ast_node *ast, FILE *stream);
