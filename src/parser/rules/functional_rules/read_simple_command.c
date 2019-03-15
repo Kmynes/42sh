@@ -2,18 +2,28 @@
 #include <utils/assignment_word.h>
 #include <utils/string.h>
 
+static bool sub_command1(struct parser *p)
+{
+    unsigned int tmp = p->cursor;
+    if (read_prefix(p))
+    {
+        ZERO_OR_MANY(parser_readeol(p));
+        return true;
+    }
+
+    p->cursor = tmp;
+    return false;
+}
+
 static bool read_simple_command1(struct parser *p)
 {
     unsigned int tmp = p->cursor;
-    if (ONE_OR_MANY(read_prefix(p)))
+    if (ONE_OR_MANY(sub_command1(p)))
     {
         struct ast_node *ast = ast_simple_command_init();
         ast_recover_all_from_parser(ast, p, AST_PREFIX);
-
-        if (ONE_OR_MANY(read_element(p)))
-            ast_recover_all_from_parser(ast, p, AST_ELEMENT);
-
         ast_set_in_parser(p, ast);
+
         return true;
     }
 
@@ -35,13 +45,15 @@ static bool read_simple_command2(struct parser *p)
         return true;
     }
 
+    ast_delete_all_from_parser(p, AST_PREFIX);
+
     p->cursor = tmp;
     return false;
 }
 
 bool read_simple_command(struct parser *p)
 {
-    return read_simple_command1(p) || read_simple_command2(p);
+    return read_simple_command2(p) || read_simple_command1(p);
 }
 
 static char **build_env_param(struct ast_assignment_word *list, size_t *count)
@@ -98,7 +110,7 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
 {
     struct ast_node *sub_child = NULL;
     struct ast_assignment_word *list = NULL;
-    struct ast_node *child = ast->children[0];;
+    struct ast_node *child = ast->children[0];
 
     size_t i = 0;
     do
@@ -124,20 +136,25 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
 
 static char **create_command_list(struct ast_node *ast, size_t prefix_count)
 {
+    struct ast_node *child = NULL;
     struct ast_node *sub_child = NULL;
 
-    char **args = malloc(sizeof(char *) * (ast->nb_children - prefix_count + 1));
-    size_t j = 0;
-    while (j + prefix_count < ast->nb_children)
+    char **args = malloc(sizeof(char *) *
+        (ast->nb_children - prefix_count + 1));
+
+    size_t i = 0;
+    size_t range = prefix_count;
+    while (range < ast->nb_children)
     {
-        sub_child = ast->children[j + prefix_count]->children[0];
+        child = ast->children[range];
+        sub_child = child->children[0];
         if (sub_child->type == AST_WORD)
         {
-            args[j] = read_variable(sub_child->data);
-            j++;
+            args[i++] = read_variable(sub_child->data);
+            range++;
         }
     }
-    args[j] = NULL;
+    args[i] = NULL;
     return args;
 }
 
@@ -145,7 +162,6 @@ int ast_simple_command_exec(struct ast_node *ast)
 {
     struct ast_assignment_word *list = create_env_list(ast);
     size_t prefix_count = assignment_word_list_len(list);
-    char **args = create_command_list(ast, prefix_count);
 
     if (prefix_count == ast->nb_children)
     {
@@ -156,6 +172,8 @@ int ast_simple_command_exec(struct ast_node *ast)
         }
         return 0;
     }
+
+    char **args = create_command_list(ast, prefix_count);
 
     size_t count = 0;
     char **env = build_env_param(list, &count);

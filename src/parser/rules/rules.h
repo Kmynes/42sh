@@ -1,6 +1,5 @@
 #pragma once
 
-#include <parser/parser.h>
 #include <parser/ast/ast.h>
 
 //Global
