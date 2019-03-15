@@ -158,6 +158,8 @@ char *option_translator(char *options, char *current_option)
         options[first_empty(options)] = 'a';
     else if (!strcmp(current_option, "-f"))
         options[first_empty(options)] = 'f';
+    else if (!strcmp(current_option, "--file"))
+        options[first_empty(options)] = 'f';
     else
         // default case throws an error
         options[0] = 'x';
