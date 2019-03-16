@@ -2,7 +2,6 @@
 
 #include <parser/parser.h>
 
-
 // ast_accessor
 void ast_set_in_parent(struct ast_node *parent, struct ast_node *ast);
 struct ast_node *ast_get_from_parent(struct ast_node *parent,

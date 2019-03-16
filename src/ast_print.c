@@ -33,8 +33,9 @@ void remouve_parenthesis(char *input)
 
 /**
  * \brief This function generates the DOT file
- * \param ast : this represent the ast that will be used to print into the dotfile
- * \param stream : represents the file stream in witch the datas of the ast will be printed
+ * \param ast: represents the ast that will be used to print into the dotfile
+ * \param stream: represents the file stream in which the data of the ast will
+ * be printed
  */
 int ast_print(struct ast_node *ast, FILE *stream)
 {
@@ -70,7 +71,7 @@ int ast_print(struct ast_node *ast, FILE *stream)
         fprintf(stream, "\t%s%d -> %s%d;\n", ast_string, node_level, ast_child_str, node_level+1);
         free(ast_child_str);
         node_level++;
-	    ast_print(child, stream);
+        ast_print(child, stream);
         node_level--;
     }
 

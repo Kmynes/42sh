@@ -1,4 +1,4 @@
-#include "variables.h" 
+#include <parser/rules/rules.h>
 /**
  * \file variables.c
  * Manages arguments sent by main and calls different parts of the code..
@@ -99,7 +99,6 @@ struct key_value *variables_update(char *key, char *value)
  */
 void variables_delete(char *key)
 {
-
     struct key_value *current = variables;
     struct key_value *next;
     if (strcmp(current->key, key) == 0)

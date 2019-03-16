@@ -62,12 +62,14 @@ bool read_command(struct parser *p)
         {
             ast_set_in_parent(ast, ast_child);
             set_ast_redirection(p, ast, ast_child);
+            ast_set_in_parser(p, ast);
             return true;
         }
 
         ast_child = ast_get_from_parser(p, AST_FUNCDEC);
         ast_set_in_parent(ast, ast_child);
         set_ast_redirection(p, ast, ast_child);
+        ast_set_in_parser(p, ast);
 
         return true;
     }

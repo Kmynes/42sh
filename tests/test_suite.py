@@ -101,10 +101,17 @@ def print_debug(ref_stdout, ref_stderr, mycode_stdout, mycode_stderr, type):
         print(" "*8 + "\033[93m"+"42sh stderr: \033[m")
         print(" "*12 + mycode_stderr)
     if type == "out":
-        print(" "*8 + "\033[93m"+"ref stdout: \033[m")
-        print(" "*12 + ref_stdout)
+        if ref_stdout == "":
+            print(" "*8+"There was no standard output for ref."\
+               +" Printing stderr instead...")
+            print(" "*8 + "\033[93m"+"ref stderr: \033[m")
+            print(" "*12 + ref_stderr)
+        else:
+            print(" "*8 + "\033[93m"+"ref stdout: \033[m")
+            print(" "*12 + ref_stdout)
         print(" "*8 + "\033[93m"+"42sh stdout: \033[m")
         print(" "*12 + mycode_stdout)
+    return
 
 def valgrind_cleanup(stderr):
     """ Cleans stderr by removing valgrind output """
@@ -289,7 +296,7 @@ def argument_manager(arguments):
         except FileNotFoundError:
             return [2, arguments[0]]
     fails = full_test_suite(arguments)
-    if fails:
+    if fails[0]:
         return [1]
     else:
         return [0]

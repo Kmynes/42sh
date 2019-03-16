@@ -1,8 +1,8 @@
-#include "exec.h"
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <err.h>
+#include "exec.h"
 
 int exec_cmd(char **cmd, char **env)
 {

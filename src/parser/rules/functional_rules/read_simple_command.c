@@ -109,7 +109,7 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
         i++;
         child = ast->children[i];
     }
-    while (child && child->type == AST_PREFIX);
+    while (i < ast->nb_children && child && child->type == AST_PREFIX);
 
     return list;
 }
@@ -130,7 +130,9 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count)
         sub_child = child->children[0];
         if (sub_child->type == AST_WORD)
         {
-            args[i++] = read_variable(sub_child->data);
+            args[i] = read_variable(sub_child->data);
+            manage_variable_str(&args[i]);
+            i++;
             range++;
         }
     }
@@ -140,11 +142,10 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count)
 
 static int run_cmd(char **cmd, char **env)
 {
-//    int (*func)(char **args) = get_builtin(cmd[0]);
-//
-//    if (func)
-//        return func(cmd);
-
+    //    int (*func)(char **args) = get_builtin(cmd[0]);
+    //
+    //    if (func)
+    //        return func(cmd);
     return exec_cmd(cmd, env);
 }
 
@@ -157,9 +158,13 @@ int ast_simple_command_exec(struct ast_node *ast)
     {
         while (list)
         {
+            char *value = list->value;
+            manage_variable_str(&value);
+            list->value = value;
             variables_add(strdup(list->key), strdup(list->value));
             list = list->next;
         }
+
         return 0;
     }
 

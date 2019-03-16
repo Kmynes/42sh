@@ -5,8 +5,11 @@ bool read_rule_if(struct parser *p)
     unsigned int tmp = p->cursor;
 
     if (parser_readtext(p, "if")
+        && read_spaces(p)
         && read_compound_list(p)
+        && read_spaces(p)
         && parser_readtext(p, "then")
+        && (read_spaces(p) || read_end_of_line(p))
         && read_compound_list(p))
     {
         struct ast_node *ast = ast_rule_if_init();
