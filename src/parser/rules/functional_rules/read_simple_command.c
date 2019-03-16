@@ -157,9 +157,18 @@ int ast_simple_command_exec(struct ast_node *ast)
     {
         while (list)
         {
+            size_t len_value = strlen(list->value);
+            if (list->value[0] == '\'' && list->value[len_value - 1] == '\'')
+            {
+                char *val_replaced = calloc(sizeof(char), len_value -2);
+                strncpy(val_replaced, list->value + 1, len_value -2);
+                free(list->value);
+                list->value = val_replaced;
+            }
             variables_add(strdup(list->key), strdup(list->value));
             list = list->next;
         }
+
         return 0;
     }
 
