@@ -9,8 +9,10 @@ void builtin_table_init(void)
 {
     struct builtin table[] = 
     {
-        // {"echo", builtin_echo},
-        {NULL, NULL}
+        {
+            NULL,
+            NULL
+        }
     };
 
     builtin_table = table;
