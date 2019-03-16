@@ -21,7 +21,8 @@ bool read_case_clause(struct parser *p)
     if (read_case_item(p))
     {
         // specific case when compound_list finished wih ';'
-        if (p->input[p->cursor - 1] == ';' && p->input[p->cursor] == ';' && p->input[p->cursor + 1] != ';')
+        if (p->input[p->cursor - 1] == ';' && p->input[p->cursor] == ';'
+            && p->input[p->cursor + 1] != ';')
             p->cursor--;
 
         if (

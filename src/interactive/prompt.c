@@ -8,10 +8,10 @@
 
 void create_prompt(void)
 {
-    setvbuf(stdin,NULL,_IONBF,0);
+    setvbuf(stdin, NULL, _IONBF, 0);
     setbuf(stdout, NULL);
     char *input = calloc(1, MAX_INPUT);
-    while(true)
+    while (true)
     {
         printf("42sh$ ");
         size_t i = 0;
@@ -24,7 +24,8 @@ void create_prompt(void)
                 break;
             input[i] = c;
             i++;
-            if (c == 0 || c == -1) {
+            if (c == 0 || c == -1)
+            {
                 break;
             }
         }
