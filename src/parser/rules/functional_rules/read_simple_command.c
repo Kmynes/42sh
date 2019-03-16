@@ -109,7 +109,7 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
         i++;
         child = ast->children[i];
     }
-    while (child && child->type == AST_PREFIX);
+    while (i < ast->nb_children && child && child->type == AST_PREFIX);
 
     return list;
 }

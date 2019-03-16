@@ -14,7 +14,6 @@ struct key_value *create_variable(char *key, char *value)
     return v;
 }
 
-
 /**
  * \brief Free all globales [key_value]
  */
@@ -60,7 +59,7 @@ char *read_variable(char *arg)
 
 static char *take_of_quote(char *value, size_t len_value)
 {
-    char *val_replaced = calloc(sizeof(char), len_value - 2);
+    char *val_replaced = calloc(sizeof(char), len_value);
     strncpy(val_replaced, value + 1, len_value - 2);
     free(value);
     return val_replaced;
