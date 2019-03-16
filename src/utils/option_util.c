@@ -44,7 +44,7 @@ char *get_content_file(const char *file_name)
 int exec_file(char *file_name)
 {
     char *content = get_content_file(file_name);
-    int res = execute_command(content);
+    int res = execute_command(content, 0);
     free(content);
 
     return res;

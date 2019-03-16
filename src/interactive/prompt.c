@@ -33,7 +33,7 @@ void create_prompt(void)
         if (i != 0 && (input[0] == 0 || input[0] == -1))
             break;
 
-        execute_command(input);
+        execute_command(input, 0);
         memset(input, 0, MAX_INPUT);
     }
 }

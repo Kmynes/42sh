@@ -1,6 +1,5 @@
 #include <libgen.h>
 #include "ast_print.h"
-#include "./parser/parser.h"
 
 /**
  * \file ast_print.c
@@ -9,6 +8,8 @@
  * \version v0.3
  * \date March 2019
  */
+
+int node_level = 0;
 
 /**
  * \brief This function remouves any "(*)" pathern in strings

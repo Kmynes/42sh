@@ -1,7 +1,8 @@
 #include <parser/rules/rules.h>
 #include "execute_command.h"
+#include <ast_print.h>
 
-int execute_command(char *command)
+int execute_command(char *command, int ast_print_flag)
 {
     struct parser *p = parser_new_from_string(command);
     do
@@ -22,6 +23,9 @@ int execute_command(char *command)
         ast = p->ast->children[i];
         res = ast->exec(ast);
     }
+
+    if (ast_print_flag)
+        ast_print(p->ast, NULL);
 
     parser_free(p);
     return res;
