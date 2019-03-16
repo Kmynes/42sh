@@ -16,8 +16,14 @@ void test_read_word_helper(char *input, char *expected)
 void test_read_word(void)
 {
     test_read_word_helper("abc", NULL);
-    test_not_rule(read_word, " abc");
-    test_not_rule(read_word, "'abc");
+    assert(test_not_rule(read_word, " abc"));
+
+    // protected words
+    assert(test_not_rule(read_word, "for"));
+    assert(test_not_rule(read_word, "else"));
+    assert(test_not_rule(read_word, "fi"));
+
+    assert(test_not_rule(read_word, "'abc"));
     test_read_word_helper("'abc'", NULL);
     test_read_word_helper("`abc`", NULL);
     test_read_word_helper("`abc`", NULL);

@@ -57,9 +57,21 @@ void test_read_simple_command8(void)
     assert(test_rule(read_simple_command, "toto", "AST_SIMPLE_COMMAND(1)"));
 }
 
+void test_read_simple_command9(void)
+{
+    assert(test_rule(read_simple_command, "echo toto",
+        "AST_SIMPLE_COMMAND(2)"));
+}
+
+void test_read_simple_command_fail(void)
+{
+    // protected_word
+    assert(test_not_rule(read_simple_command, "for"));
+}
+
 void test_simple_command_exec(void)
 {
-    char *input= "i=0 j=23 /usr/bin/printenv";
+    char *input= "i=0 j=23 ls";
     struct parser *p = parser_new_from_string(input);
     read_simple_command(p);
     struct ast_node *ast_simple_cmd = p->ast->children[0];
@@ -98,6 +110,9 @@ void test_read_simple_command(void)
 
     // just one command
     test_read_simple_command8();
+    test_read_simple_command9();
+
+    test_read_simple_command_fail();
 
     //Test exec command
     test_simple_command_exec();

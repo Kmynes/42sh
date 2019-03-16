@@ -1,6 +1,12 @@
 #include <parser/rules/rules.h>
+/**
+ * \file read_and_or.c
+ * \brief Functions for implement rule [read_and_or]
+ * \version 0.3
+ * \date March 2019
+ */
 
-bool read_instructions(struct parser *p)
+static bool read_instructions(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
@@ -20,6 +26,10 @@ bool read_instructions(struct parser *p)
     return false;
 }
 
+/**
+ * \param struct parser *p
+ * \brief Allow to read an [and_or] rule, return a [true]
+*/
 bool read_and_or(struct parser *p)
 {
     unsigned int tmp = p->cursor;
@@ -53,7 +63,8 @@ bool read_and_or(struct parser *p)
 int ast_and_or_exec(struct ast_node *ast)
 {
     if (ast->type != AST_AND_OR)
-        return 0;
+        return 1;
+
     int res;
     for (size_t i = 0; ast->nb_children > i; i++)
     {
@@ -67,7 +78,7 @@ int ast_and_or_exec(struct ast_node *ast)
 
         if (res == 0 && !strcmp(opp, "||"))
             i += 2;
-        else if (res == 1 && !strcmp(opp, "&&"))
+        else if (res != 0 && !strcmp(opp, "&&"))
             i += 2;
     }
 

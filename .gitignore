@@ -63,6 +63,14 @@ build/
 # python
 venv
 *.pyc
+pycache
 
 # Debug gdb
+scripts
 debug
+/doc/latex
+/doc/html
+
+# ast_print
+*.dot
+*.png

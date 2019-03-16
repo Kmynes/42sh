@@ -76,8 +76,17 @@ bool read_shell_command(struct parser *p)
     return false;
 }
 
+int ast_shell_command_exec(struct ast_node *ast)
+{
+    if (ast->type != AST_SHELL_COMMAND)
+        error_ast_exec("ast_shell_command_exec");
+
+    return ast->children[0]->exec(ast->children[0]);
+}
+
 struct ast_node *ast_shell_command_init()
 {
     struct ast_node *ast = ast_init(AST_SHELL_COMMAND, NULL);
+    ast->exec = ast_shell_command_exec;
     return ast;
 }

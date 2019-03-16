@@ -1,0 +1,12 @@
+set breakpoint pending on
+
+def pp
+    printf "input : %s, cursor: %d, p->input[p->cursor]: %s\n", p->input, p->cursor, p->input + p->cursor
+end
+
+b test_read_rule_case_simple
+run
+n
+s
+n
+s

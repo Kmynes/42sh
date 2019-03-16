@@ -58,8 +58,31 @@ bool read_compound_list(struct parser *p)
     return false;
 }
 
+int ast_compound_list_exec(struct ast_node *ast)
+{
+    if (ast->nb_children == 1)
+    {
+        struct ast_node *first_child = ast->children[0];
+        return first_child->exec(first_child);
+    }
+    else if (ast->nb_children > 1)
+    {
+        struct ast_node *child = NULL;
+        int code = 0;
+        for (size_t i = 0; i < ast->nb_children; i++)
+        {
+            child = ast->children[i];
+            code = child->exec(child);
+        }
+
+        return code;
+    }
+    return 0;
+}
+
 struct ast_node *ast_compound_list_init()
 {
     struct ast_node *ast = ast_init(AST_COMPOUND_LIST, NULL);
+    ast->exec = ast_compound_list_exec;
     return ast;
 }

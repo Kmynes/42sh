@@ -32,3 +32,27 @@ bool read_multiple_word(struct parser *p, struct ast_multiple_word *data)
     p->cursor = tmp;
     return false;
 }
+
+struct ast_multiple_word *multiple_word_init(void)
+{
+    struct ast_multiple_word *data = malloc(sizeof(struct ast_multiple_word));
+    data->words = malloc(sizeof(char*) * 16);
+    data->nb_word = 0;
+    data->capacity = 16;
+
+    return data;
+}
+
+void multiple_word_free(struct ast_multiple_word *data)
+{
+    if (data == NULL)
+        return;
+
+    for (size_t i = 0; i < data->nb_word; i++)
+    {
+        free(data->words[i]);
+    }
+
+    free(data->words);
+    free(data);
+}

@@ -4,37 +4,29 @@ LABEL author=mynes
 
 RUN pacman -Syu --noconfirm
 
-RUN pacman -Su man --noconfirm
+RUN pacman -Syu make --noconfirm
 
-RUN pacman -Su core/man-pages --noconfirm
+RUN pacman -Syu cmake --noconfirm
 
-RUN pacman -Su vim --noconfirm
+RUN pacman -Syu gcc --noconfirm
 
-RUN pacman -Su git --noconfirm
+RUN pacman -Syu python --noconfirm
 
-RUN pacman -Su make --noconfirm
+RUN pacman -Syu curl --noconfirm
 
-RUN pacman -Su cmake --noconfirm
+RUN pacman -Syu wget --noconfirm
 
-RUN pacman -Su gcc --noconfirm
+RUN pacman -Syu tree --noconfirm
 
-RUN pacman -Su python --noconfirm
+RUN pacman -Syu extra/valgrind --noconfirm
 
-RUN pacman -Su curl --noconfirm
+RUN pacman -Syu gdb --noconfirm
 
-RUN pacman -Su wget --noconfirm
+RUN pacman -Syu file --noconfirm
 
-RUN pacman -Su tree --noconfirm
+RUN pacman -Syu python-pip --noconfirm
 
-RUN pacman -Su extra/valgrind --noconfirm
-
-RUN pacman -Su gdb --noconfirm
-
-RUN pacman -Su file --noconfirm
-
-ADD edit/.vim /root/.vim
-
-ADD edit/.vimrc /root/.vimrc
+RUN pip install pyyaml
 
 ADD scripts /scripts
 
@@ -43,3 +35,5 @@ RUN chmod +x /scripts/init.sh
 VOLUME /root/42sh
 
 WORKDIR /root/42sh
+
+CMD "/scripts/init.sh"

@@ -1,18 +1,22 @@
 #include <parser/rules/rules.h>
 
-bool test_ZERO_OR_MANY_case_item(struct parser *p,
+bool read_case_item_element(struct parser *p,
     struct ast_multiple_word *data)
 {
-    while(parser_readchar(p, '|') && read_multiple_word(p, data));
+    unsigned int tmp = p->cursor;
 
-    return true;
+    if (parser_readchar(p, '|') && read_multiple_word(p, data))
+        return true;
+
+    p->cursor = tmp;
+    return false;
 }
 
 bool read_case_item(struct parser *p)
 {
     unsigned int tmp = p->cursor;
     struct ast_multiple_word *data = malloc(sizeof(struct ast_multiple_word));
-    data->words = malloc(sizeof(char*) * 16);
+    data->words = malloc(sizeof(char *) * 16);
     data->nb_word = 1;
     data->capacity = 16;
 
@@ -20,12 +24,13 @@ bool read_case_item(struct parser *p)
         && parser_begin_capture(p, "case_item_0")
         && read_word(p)
         && parser_end_capture(p, "case_item_0")
-        && test_ZERO_OR_MANY_case_item(p, data)
+        && ZERO_OR_MANY(read_case_item_element(p, data))
         && parser_readchar(p, ')')
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
-        && read_compound_list(p))
+        && OPTIONAL(read_compound_list(p))
+            )
     {
-        
+
         data->words[0] = parser_get_capture(p, "case_item_0");
         struct ast_node *ast = ast_case_item_init(data);
         ast_recover_all_from_parser(ast, p, AST_COMPOUND_LIST);
@@ -34,7 +39,7 @@ bool read_case_item(struct parser *p)
         return true;
     }
 
-    for (size_t i=1;i < data->nb_word; i++)
+    for (size_t i = 1; i < data->nb_word; i++)
         free(data->words[i]);
     free(data->words);
     free(data);
@@ -48,21 +53,27 @@ void ast_case_item_free(void *data)
 {
     struct ast_multiple_word *ast_for = data;
 
-    for (size_t i=0;i < ast_for->nb_word; i++)
+    for (size_t i = 0; i < ast_for->nb_word; i++)
         free(ast_for->words[i]);
     free(ast_for->words);
     free(ast_for);
 }
 
-char *ast_case_item_to_string(struct ast_node *ast)
+int ast_case_item_exec(struct ast_node *ast)
 {
-    return default_to_string(ast, "case_item");
+    if (ast->type != AST_CASE_ITEM)
+        return 1;
+
+    if (ast->nb_children)
+        return ast->children[0]->exec(ast->children[0]);
+
+    return 0;
 }
 
 struct ast_node *ast_case_item_init(struct ast_multiple_word *data)
 {
     struct ast_node *ast = ast_init(AST_CASE_ITEM, data);
-    ast->to_string = ast_case_item_to_string;
     ast->free = ast_case_item_free;
+    ast->exec = ast_case_item_exec;
     return ast;
 }

@@ -1,17 +1,15 @@
 #include <parser/rules/rules.h>
+#include <utils/assignment_word.h>
+#include <utils/string.h>
+#include <utils/exec.h>
+#include <execution/builtins/builtins.h>
 
-bool read_simple_command1(struct parser *p)
+static bool sub_command1(struct parser *p)
 {
     unsigned int tmp = p->cursor;
-    if (ONE_OR_MANY(read_prefix(p)))
+    if (read_prefix(p))
     {
-        struct ast_node *ast = ast_simple_command_init();
-        ast_recover_all_from_parser(ast, p, AST_PREFIX);
-
-        if (ONE_OR_MANY(read_element(p)))
-            ast_recover_all_from_parser(ast, p, AST_ELEMENT);
-
-        ast_set_in_parser(p, ast);
+        ZERO_OR_MANY(parser_readeol(p));
         return true;
     }
 
@@ -19,7 +17,23 @@ bool read_simple_command1(struct parser *p)
     return false;
 }
 
-bool read_simple_command2(struct parser *p)
+static bool read_simple_command1(struct parser *p)
+{
+    unsigned int tmp = p->cursor;
+    if (ONE_OR_MANY(sub_command1(p)))
+    {
+        struct ast_node *ast = ast_simple_command_init();
+        ast_recover_all_from_parser(ast, p, AST_PREFIX);
+        ast_set_in_parser(p, ast);
+
+        return true;
+    }
+
+    p->cursor = tmp;
+    return false;
+}
+
+static bool read_simple_command2(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
@@ -27,12 +41,13 @@ bool read_simple_command2(struct parser *p)
     {
         struct ast_node *ast = ast_simple_command_init();
         ast_recover_all_from_parser(ast, p, AST_PREFIX);
-
         ast_recover_all_from_parser(ast, p, AST_ELEMENT);
 
         ast_set_in_parser(p, ast);
         return true;
     }
+
+    ast_delete_all_from_parser(p, AST_PREFIX);
 
     p->cursor = tmp;
     return false;
@@ -40,18 +55,10 @@ bool read_simple_command2(struct parser *p)
 
 bool read_simple_command(struct parser *p)
 {
-    return read_simple_command1(p) || read_simple_command2(p);
+    return read_simple_command2(p) || read_simple_command1(p);
 }
 
-void add_assignment_word(struct ast_assignment_word *list,
-    void *data)
-{
-    while (list->next != NULL)
-        list = list->next;
-    list->next = data;
-}
-
-char **build_env_param(struct ast_assignment_word *list, size_t *count)
+static char **build_env_param(struct ast_assignment_word *list, size_t *count)
 {
     struct ast_assignment_word *tmp = list;
     while (tmp)
@@ -67,7 +74,7 @@ char **build_env_param(struct ast_assignment_word *list, size_t *count)
     {
         size_t size = sizeof(char) * (strlen(list->key) + strlen(list->value));
         char *var = malloc(size + 2);
-   
+
         strcpy(var, list->key);
         strcat(var, "=");
         strcat(var, list->value);
@@ -79,71 +86,94 @@ char **build_env_param(struct ast_assignment_word *list, size_t *count)
     return env;
 }
 
-int run_cmd(char **cmd, char **env)
+static struct ast_assignment_word *create_env_list(struct ast_node *ast)
 {
-    pid_t pid = fork();
-    if (pid == -1)
-        errx(1, "cannot do fork : an error occured, pid == -1");
+    struct ast_node *sub_child = NULL;
+    struct ast_assignment_word *list = NULL;
+    struct ast_node *child = ast->children[0];
 
-    if (pid == 0)
-    { 
-        // child
-        execvpe(cmd[0], cmd, env);
-        errx(1, "cannot execve: an error occured");
-    }
-    else
-    { 
-        // father
-        int status = 0;
-        waitpid(pid, &status, 0);
+    size_t i = 0;
+    do
+    {
+        sub_child = child->children[0];
+        if (sub_child->type == AST_ASSIGNEMENT_WORD)
+        {
+            if (list == NULL)
+                list = sub_child->data;
+            else
+                add_assignment_word(list, sub_child->data);
+        }
+        else if (sub_child->type == AST_REDIRECTION)
+        {}
 
-        return status;
+        i++;
+        child = ast->children[i];
     }
+    while (i < ast->nb_children && child && child->type == AST_PREFIX);
+
+    return list;
+}
+
+static char **create_command_list(struct ast_node *ast, size_t prefix_count)
+{
+    struct ast_node *child = NULL;
+    struct ast_node *sub_child = NULL;
+
+    char **args = malloc(sizeof(char *) *
+        (ast->nb_children - prefix_count + 1));
+
+    size_t i = 0;
+    size_t range = prefix_count;
+    while (range < ast->nb_children)
+    {
+        child = ast->children[range];
+        sub_child = child->children[0];
+        if (sub_child->type == AST_WORD)
+        {
+            args[i] = read_variable(sub_child->data);
+            manage_variable_str(&args[i]);
+            i++;
+            range++;
+        }
+    }
+    args[i] = NULL;
+    return args;
+}
+
+static int run_cmd(char **cmd, char **env)
+{
+    return exec_cmd(cmd, env);
 }
 
 int ast_simple_command_exec(struct ast_node *ast)
 {
-    struct ast_node *child = NULL;
-    struct ast_node *sub_child = NULL;
-    struct ast_assignment_word *list = NULL;
-    for (size_t i = 0; i < ast->nb_children; i++)
+    struct ast_assignment_word *list = create_env_list(ast);
+    size_t prefix_count = assignment_word_list_len(list);
+
+    if (prefix_count == ast->nb_children)
     {
-        child = ast->children[i];
-        if (child->type == AST_PREFIX)
+        while (list)
         {
-            sub_child = child->children[0];
-            if (sub_child->type == AST_ASSIGNEMENT_WORD)
-            {
-                if (list == NULL)
-                    list = sub_child->data;
-                else
-                    add_assignment_word(list, sub_child->data);
-            }
-            else if(sub_child->type == AST_REDIRECTION)
-            {
-
-            }
+            char *value = list->value;
+            manage_variable_str(&value);
+            list->value = value;
+            variables_add(strdup(list->key), strdup(list->value));
+            list = list->next;
         }
-        else if(child->type == AST_ELEMENT)
-        {
-            sub_child = child->children[0];
-            if (sub_child->type == AST_WORD)
-            {
-                char *args[2];
-                args[0] = sub_child->data;
-                args[1] = NULL;
-                size_t count = 0;
-                char **env = build_env_param(list, &count);
-                run_cmd(args, env);
 
-                for (size_t j = 0; j < count; j++)
-                    free(env[j]);
-                free(env);
-            }
-        }
+        return 0;
     }
 
-    return 0;
+    char **args = create_command_list(ast, prefix_count);
+
+    size_t count = 0;
+    char **env = build_env_param(list, &count);
+    int res = run_cmd(args, env);
+
+    string_list_free(env, count);
+    free(args);
+
+    return res;
 }
 
 struct ast_node *ast_simple_command_init()
