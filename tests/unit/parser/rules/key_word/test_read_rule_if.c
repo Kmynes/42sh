@@ -16,7 +16,7 @@ char *get_else_clause(void)
 void test_read_rule_if1(void)
 {
     char *input = "if\n\n!shool=Epita;\n\n\nthen\n\n!shool=Epita;\n\n\nfi";
-    test_rule(read_rule_if, input, "AST_RULE_IF(2)");   
+    test_rule(read_rule_if, input, "AST_RULE_IF(2)");
 }
 
 void test_read_rule_if2(void)
