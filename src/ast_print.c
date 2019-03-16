@@ -68,7 +68,8 @@ int ast_print(struct ast_node *ast, FILE *stream)
         char *ast_child_str = child->to_string(child);
         remouve_parenthesis(ast_child_str);
 
-        fprintf(stream, "\t%s%d -> %s%d;\n", ast_string, node_level, ast_child_str, node_level+1);
+        fprintf(stream, "\t%s%d -> %s%d;\n", ast_string, node_level,
+            ast_child_str, node_level + 1);
         free(ast_child_str);
         node_level++;
         ast_print(child, stream);
