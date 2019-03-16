@@ -12,8 +12,9 @@
 
 /**
  * \brief This function generates the DOT file
- * \param ast : this represent the ast that will be used to print into the dotfile
- * \param stream : represents the file stream in witch the datas of the ast will be printed
+ * \param ast: represents the ast that will be used to print into the dotfile
+ * \param stream: represents the file stream in which the data of the ast will
+ * be printed
  */
 int ast_print(struct ast_node *ast, FILE *stream)
 {
@@ -43,11 +44,12 @@ int ast_print(struct ast_node *ast, FILE *stream)
     for (size_t i = 0; i < ast->nb_children; i++)
     {
         struct ast_node *child = ast->children[i];
-	    char *ast_child_str = child->to_string(child);
+        char *ast_child_str = child->to_string(child);
         int node_number_plus = node_number + 1;
-        fprintf(stream, "\t%s%d -> %s%d;\n", ast_string, node_number, ast_child_str, node_number_plus);
+        fprintf(stream, "\t%s%d -> %s%d;\n", ast_string, node_number,
+            ast_child_str, node_number_plus);
         node_number += 2;
-	    ast_print(child, stream);
+        ast_print(child, stream);
     }
 
     if (first_one == 1)

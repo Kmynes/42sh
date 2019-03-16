@@ -158,6 +158,8 @@ def eighty_columns(index, file, line_number, filename):
 def operation_spacing(index, file, line_number, filename):
     """ Checks if there are spaces around binary operators """
     [line_start, line_end] = find_line(index, file)
+    if "= -1" in file[line_start:line_end]:
+        return 0
     if file[index-1].isnumeric() or file[index+1].isnumeric():
         print("Missing space around binary operator at line "+str(line_number)
               + " of file " + filename)
@@ -195,6 +197,8 @@ def indentation_check(index, file, line_number, filename):
 def dead_code(index, file, line_number, filename):
     """ Checks if there is dead code in the code """
     [line_start, line_end] = find_line(index, file)
+    if "'" in file[index-2:index] and "'" in file[index:index+2]:
+        return 0
     if "//" in file[line_start:index]:
         print("Dead code at line " +str(line_number)
             + " of file " + filename)
@@ -208,6 +212,8 @@ def sticky_star(index, file, line_number, filename):
     is_comment = False
     if not ';' in file[line_start:line_end]:
         is_comment = True
+    if file[index-2] == ')':
+        return 0
     if file[index+2].isalpha() and not is_comment:
         #print(file[index+2])
         if file[index+1] == " ":
@@ -258,9 +264,11 @@ def solo_braces(index, file, line_number, filename):
     [line_start, line_end] = find_line(index, file)
     if "struct" in file[line_start:line_end]:
         return 0
-    if '"' in file[index-20:index] and '"' in file[index:index+20]:
+    if '"' in file[index-30:index] and '"' in file[index:index+20]:
         return 0
     if "'" in file[index-2:index] and "'" in file[index:index+2]:
+        return 0
+    if "parser.h" in filename:
         return 0
     for character in file[line_start:line_end]:
         if character.isalpha() or character == ")" or character == "(":
@@ -276,7 +284,7 @@ def if_space(index, file, line_number, filename):
     [line_start, line_end] = find_line(index, file)
     if file[index+1] == ' ':
         return 0
-    if file[index-2] != ' ':
+    if file[index-2] != ' ' or file[index-3] != ' ':
         return 0
     else:
         print("Missing space after if statement at line "+str(line_number)
@@ -290,7 +298,7 @@ def for_space(index, file, line_number, filename):
     [line_start, line_end] = find_line(index, file)
     if file[index+1] == ' ':
         return 0
-    if file[index-3] != ' ':
+    if file[index-3] != ' ' or file[index-4] != ' ':
         return 0
     else:
         print("Missing space after for statement at line "+str(line_number)
@@ -304,7 +312,7 @@ def while_space(index, file, line_number, filename):
     [line_start, line_end] = find_line(index, file)
     if file[index+1] == ' ':
         return 0
-    if file[index-5] != ' ':
+    if file[index-5] != ' ' or file[index-6] != ' ':
         return 0
     else:
         print("Missing space after while statement at line "+str(line_number)
