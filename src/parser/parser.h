@@ -5,6 +5,9 @@
 #include <unistd.h>
 #include <err.h>
 #include <errors.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 #include "variables.h"
 
 #define OPTIONAL(R) \
