@@ -11,6 +11,27 @@
  */
 
 /**
+ * \brief This function remouves any "(*)" pathern in strings
+ * \param input : the string from witch the patern will be remouved from
+ */
+void remouve_parenthesis(char *input)
+{
+    for (size_t i = 0; input[i] != '\0'; i++)
+    {
+        if (input[i] == '(')
+        {
+            size_t k = i;
+            for (; input[k] != ')'; k++)
+
+            k = i - k + 1;
+
+            for (size_t z = i; input[z] != '\0'; z++)
+                input[z] = input[z+k];
+        }
+    }
+}
+
+/**
  * \brief This function generates the DOT file
  * \param ast : this represent the ast that will be used to print into the dotfile
  * \param stream : represents the file stream in witch the datas of the ast will be printed
@@ -21,7 +42,6 @@ int ast_print(struct ast_node *ast, FILE *stream)
         return 1;
 
     int first_one = 0;
-    printf("p: %p\n", (void *)stream);
 
     if (stream == NULL)
     {
@@ -39,11 +59,14 @@ int ast_print(struct ast_node *ast, FILE *stream)
         fprintf(stream, "digraph ast {\n");
 
     char *ast_string = ast->to_string(ast);
+    remouve_parenthesis(ast_string);
 
     for (size_t i = 0; i < ast->nb_children; i++)
     {
         struct ast_node *child = ast->children[i];
-	    char *ast_child_str = child->to_string(child);
+        char *ast_child_str = child->to_string(child);
+        remouve_parenthesis(ast_child_str);
+
         int node_number_plus = node_number + 1;
         fprintf(stream, "\t%s%d -> %s%d;\n", ast_string, node_number, ast_child_str, node_number_plus);
         node_number += 2;
