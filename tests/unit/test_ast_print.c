@@ -9,7 +9,6 @@ void test_ast_print(void)
     struct parser *p = parser_new_from_string(input);
     read_input(p);
     struct ast_node *ast = p->ast->children[0];
-//    ast_default_print(ast);
     ast_print(ast, NULL);
     parser_free(p);
 }

@@ -7,6 +7,4 @@
 extern struct builtin *builtin_table;
 void test_get_builtin(void)
 {
-//    builtin_table_init();
-//    assert(get_builtin("echo"));
 }
