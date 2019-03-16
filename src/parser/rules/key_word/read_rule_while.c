@@ -10,7 +10,8 @@ bool read_rule_while(struct parser *p)
     {
         struct ast_node *ast = ast_rule_while_init();
 
-        struct ast_node *compound_list = ast_get_from_parser(p, AST_COMPOUND_LIST);
+        struct ast_node *compound_list = ast_get_from_parser(p,
+            AST_COMPOUND_LIST);
         ast_set_in_parent(ast, compound_list);
         struct ast_node *do_group = ast_get_from_parser(p, AST_DO_GROUP);
         ast_set_in_parent(ast, do_group);

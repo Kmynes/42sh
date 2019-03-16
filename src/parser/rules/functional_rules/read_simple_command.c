@@ -140,11 +140,10 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count)
 
 static int run_cmd(char **cmd, char **env)
 {
-//    int (*func)(char **args) = get_builtin(cmd[0]);
-//
-//    if (func)
-//        return func(cmd);
-
+    //    int (*func)(char **args) = get_builtin(cmd[0]);
+    //
+    //    if (func)
+    //        return func(cmd);
     return exec_cmd(cmd, env);
 }
 

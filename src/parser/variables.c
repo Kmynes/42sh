@@ -99,7 +99,6 @@ struct key_value *variables_update(char *key, char *value)
  */
 void variables_delete(char *key)
 {
-
     struct key_value *current = variables;
     struct key_value *next;
     if (strcmp(current->key, key) == 0)

@@ -27,7 +27,7 @@ __extension__({        \
         while (R);     \
         res = 1;       \
     }                  \
-    res;	           \
+    res;               \
 })
 
 struct parser
