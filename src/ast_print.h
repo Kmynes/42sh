@@ -1,3 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-int node_level = 0;
+#include "./parser/parser.h"
+
+int ast_print(struct ast_node *ast, FILE *stream);

@@ -80,7 +80,7 @@ int options_parser(char **argv, int argc, char **env)
  */
 int execute_options(char *command, char *options)
 {
-    int AST_print_flag = 0;
+    int ast_print_flag = 0;
     int norc_flag = 0;
     int res;
     norc_flag++; // REMOVE THIS - testing dummy
@@ -94,7 +94,7 @@ int execute_options(char *command, char *options)
                 printf("Unknown option\n");
                 return 1;
             case 'a':
-                AST_print_flag = 1;
+                ast_print_flag = 1;
                 break;
             case 'n':
                 norc_flag = 1;
@@ -114,10 +114,7 @@ int execute_options(char *command, char *options)
                 version_display();
                 return 0;
             case 'c':
-                res = execute_command(command);
-                if (AST_print_flag)
-                    // insert call to AST_print function here!!
-                    AST_print_flag--; // REMOVE THIS - testing dummy
+                res = execute_command(command, ast_print_flag);
                 return res;
             default:
                 break;
