@@ -1,8 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/afs/cri.epita.net/user/k/ke/kevin.voyer/u/21-09/kevin.voyer-piscine-d12/csv'
-let g:netrw_dirhist_2='/afs/cri.epita.net/user/k/ke/kevin.voyer/u/23-09/kevin.voyer-piscine-d14/functional_programming'
-let g:netrw_dirhist_3='/afs/cri.epita.net/user/k/ke/kevin.voyer/u/24-09/kevin.voyer-piscine-d15/hash_set'
-let g:netrw_dirhist_4='/afs/cri.epita.net/user/k/ke/kevin.voyer/u/finaleProject/kevin.voyer-libstream/libstream/include'
-let g:netrw_dirhist_5='/afs/cri.epita.net/user/k/ke/kevin.voyer/u/finaleProject/kevin.voyer-libstream/libstream/src'
-let g:netrw_dirhist_6='/afs/cri.epita.net/user/k/ke/kevin.voyer/u/finaleProject/kevin.voyer-libstream/libstream/include'
