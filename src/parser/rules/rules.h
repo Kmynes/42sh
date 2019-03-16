@@ -2,6 +2,7 @@
 
 #include <parser/ast/ast.h>
 
+
 //Global
 char *default_to_string(struct ast_node *ast, char *type);
 struct ast_multiple_word

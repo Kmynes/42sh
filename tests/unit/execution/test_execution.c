@@ -1,5 +1,5 @@
-#include "test_execution.h"
 #include <unit/test.h>
+#include "test_execution.h"
 
 void test_execution(void)
 {

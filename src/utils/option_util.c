@@ -21,7 +21,7 @@ char *get_content_file(const char *file_name)
     {
         if (nb_element == capacity)
         {
-            void *ptr = realloc(buff, capacity *2);
+            void *ptr = realloc(buff, capacity * 2);
             if (!ptr)
             {
                 printf("Not enough memory");

@@ -1,7 +1,3 @@
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-
 struct key_value
 {
     char *key;
@@ -21,3 +17,4 @@ void variables_delete(char *key);
 struct key_value *create_variable(char *key, char *value);
 void variables_free(void);
 char *read_variable(char *arg);
+void manage_variable_str(char **value);
