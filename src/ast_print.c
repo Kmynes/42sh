@@ -1,5 +1,7 @@
+#include <libgen.h>
 #include "ast_print.h"
 #include "./parser/parser.h"
+
 /**
  * \file ast_print.c
  * \brief Contains functions related to printing the AST
@@ -19,10 +21,14 @@ int ast_print(struct ast_node *ast, FILE *stream)
         return 1;
 
     int first_one = 0;
+    printf("p: %p\n", (void *)stream);
 
     if (stream == NULL)
     {
-        FILE *stream = fopen("../doc/ast.dot", "w");
+        char path[1024];
+        getcwd(path, sizeof(path));
+        strcat(path, "/doc/ast.dot");
+        stream = fopen(path, "w");
         first_one = 1;
 
         if (stream == NULL)
