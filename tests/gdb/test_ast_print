@@ -1,0 +1,19 @@
+set breakpoint pending on
+
+def pp
+    printf "input : %s\ncursor: %d\np->input[p->cursor]: %s\n"p->input, p->cursor, p->input + p->cursor
+end
+
+def ap
+    call ast_default_print(ast)
+end
+
+b test_ast_print
+run
+tab
+n
+n
+n
+n
+
+

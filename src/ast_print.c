@@ -1,5 +1,5 @@
 #include <libgen.h>
-#include "ast_print.h"
+#include "test_ast_print.h"
 #include "./parser/parser.h"
 
 /**
