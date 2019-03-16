@@ -12,10 +12,10 @@
 int node_level = 0;
 
 /**
- * \brief This function remouves any "(*)" pathern in strings
- * \param input : the string from witch the patern will be remouved from
+ * \brief This function removes any "(*)" pathern in strings
+ * \param input : the string from witch the patern will be removed from
  */
-void remouve_parenthesis(char *input)
+void remove_parenthesis(char *input)
 {
     for (size_t i = 0; input[i] != '\0'; i++)
     {
@@ -61,13 +61,13 @@ int ast_print(struct ast_node *ast, FILE *stream)
         fprintf(stream, "digraph ast {\n");
 
     char *ast_string = ast->to_string(ast);
-    remouve_parenthesis(ast_string);
+    remove_parenthesis(ast_string);
 
     for (size_t i = 0; i < ast->nb_children; i++)
     {
         struct ast_node *child = ast->children[i];
         char *ast_child_str = child->to_string(child);
-        remouve_parenthesis(ast_child_str);
+        remove_parenthesis(ast_child_str);
 
         fprintf(stream, "\t%s%d -> %s%d;\n", ast_string, node_level,
             ast_child_str, node_level + 1);

@@ -30,38 +30,10 @@ void test_read_rule_if2(void)
     free(else_clause);
 }
 
-/*
-static void test_rule_if_global_exec(void)
-{
-    char *input = calloc(sizeof(char), 512);
-    strcat(input, "path='tests/sh_test_files'\n");
-    strcat(input, "empty_file=\"${path}/empty_file\"\n");
-    strcat(input, "printer=\"${path_file}/printer.py\"\n");
-    strcat(input, "if cat $empty_file then\n\n");
-    strcat(input, "    python3 $printer \"file ${path_file} printed!\"\n");
-    strcat(input, "fi");
-    struct parser *p = parser_new_from_string(input);
 
-    do
-    {
-        read_input(p);
-    }
-    while (p->input[p->cursor]);
-
-    struct ast_node *ast = NULL;
-    for (size_t i = 0; i < p->ast->nb_children; i++)
-    {
-        ast = p->ast->children[i];
-        ast->exec(ast);
-    }
-
-    free(input);
-    parser_free(p);
-}*/
 
 void test_read_rule_if(void)
 {
     test_read_rule_if1();
     test_read_rule_if2();
-    //test_rule_if_global_exec();
 }
