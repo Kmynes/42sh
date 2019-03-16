@@ -1,2 +1,2 @@
-file_name="../"
+file_name=..
 ls $file_name
