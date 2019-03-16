@@ -1,10 +1,11 @@
-#include <parser/parser.h>
+#include "ast.h"
 
 void ast_set_in_parent(struct ast_node *parent, struct ast_node *ast)
 {
     if (parent->nb_children == parent->capacity)
     {
-        struct ast_node **tmp = realloc(parent->children, sizeof(struct ast_node) * parent->capacity * 2);
+        struct ast_node **tmp = realloc(parent->children,
+            sizeof(struct ast_node) * parent->capacity * 2);
         if (!tmp)
         {
             //catch error memory
@@ -18,7 +19,8 @@ void ast_set_in_parent(struct ast_node *parent, struct ast_node *ast)
         parent->children[parent->nb_children++] = ast;
 }
 
-struct ast_node *ast_get_from_parent(struct ast_node *parent, enum ast_node_type type_ast_search)
+struct ast_node *ast_get_from_parent(struct ast_node *parent,
+    enum ast_node_type type_ast_search)
 {
     struct ast_node *child = NULL;
     for (size_t i = 0; i < parent->nb_children; i++)
@@ -29,7 +31,7 @@ struct ast_node *ast_get_from_parent(struct ast_node *parent, enum ast_node_type
             parent->children[i] = NULL;
             size_t n = (parent->nb_children - i) * sizeof(struct ast_node*);
             void *src = parent->children + (i + 1);
-            void *dest = parent->children + i; 
+            void *dest = parent->children + i;
             memmove(dest, src, n);
             parent->nb_children--;
             return child;
@@ -40,10 +42,12 @@ struct ast_node *ast_get_from_parent(struct ast_node *parent, enum ast_node_type
 
 void ast_set_in_parser(struct parser *p, struct ast_node *ast)
 {
-    ast_set_in_parent(p->ast, ast);
+    if (ast != NULL)
+        ast_set_in_parent(p->ast, ast);
 }
 
-struct ast_node *ast_get_from_parser(struct parser *p, enum ast_node_type type_ast_search)
+struct ast_node *ast_get_from_parser(struct parser *p,
+    enum ast_node_type type_ast_search)
 {
     return ast_get_from_parent(p->ast, type_ast_search);
 }

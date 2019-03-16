@@ -60,8 +60,16 @@ cmake-build-debug
 build/
 /.vs
 
-# python virtualenv
+# python
 venv
+*.pyc
+pycache
 
 # Debug gdb
+scripts
 debug
+/doc/latex
+/doc/html
+
+# .dot
+*.dot

@@ -1,24 +1,9 @@
 #pragma once
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#include <stddef.h>
-
-#define MAX_OPTIONS 20
-
-struct option
-{
-    char *name;
-    char **params;
-    size_t len_params;
-};
-
-struct list_options
-{
-    struct option *options;
-    size_t len;
-};
-
-struct list_options *get_options(char **argv, int argc);
-
-void free_options(struct list_options *options);
-
-int ast_print();
+int options_parser(char **argv, int argc, char **env);
+bool has_options(char *options, char option);
+int exec_file(char *file_name);

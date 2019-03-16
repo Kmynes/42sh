@@ -7,7 +7,7 @@ void test_parser_readeol(void)
 
     for (size_t i = 0 ; i < strlen(str) ; i++)
     {
-        if(i == 8 || i == 14)
+        if (i == 8 || i == 14)
         {
             assert(parser_readeol(parser));
         }
@@ -46,5 +46,5 @@ void test_parser_read_interval(void)
 {
     test_parser_readeol();
     test_parser_readidentifier();
-    test_parser_readinteger();   
+    test_parser_readinteger();
 }

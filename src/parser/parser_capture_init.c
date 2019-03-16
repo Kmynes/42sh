@@ -22,3 +22,19 @@ struct list_capt_s *list_capt_init(void)
     capture->tag = NULL;
     return capture;
 }
+
+void parser_free_capture_list(struct parser *p)
+{
+    struct list_capt_s *current = p->capture;
+    struct list_capt_s *next;
+
+    while (current)
+    {
+        next = current->next;
+        free(current->tag);
+        free(current);
+        current = next;
+    }
+
+    p->capture = list_capt_init();
+}
