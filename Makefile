@@ -13,7 +13,7 @@ doc:
 
 test:
 	$(MAKE) -s unit
-	python3 tests/test_suite.py
+	python3 tests/test_suite.py --debug
 
 check_docker:
 	$(MAKE) -s all
