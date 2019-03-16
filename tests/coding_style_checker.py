@@ -212,6 +212,8 @@ def sticky_star(index, file, line_number, filename):
     is_comment = False
     if not ';' in file[line_start:line_end]:
         is_comment = True
+    if file[index-2] == ')':
+        return 0
     if file[index+2].isalpha() and not is_comment:
         #print(file[index+2])
         if file[index+1] == " ":
