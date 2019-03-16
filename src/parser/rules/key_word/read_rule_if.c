@@ -1,5 +1,18 @@
 #include <parser/rules/rules.h>
+/**
+ * \file read_rule_if.c
+ * \brief Manage the rule if
+ * \author Kevin
+ * \version 0.3
+ * \date March 2019
+ */
 
+/**
+ * \param struct parser *p
+ * \return bool
+ * \brief Create a rule if with all his childs
+ * and return true if this rule is respected.
+*/
 bool read_rule_if(struct parser *p)
 {
     unsigned int tmp = p->cursor;
