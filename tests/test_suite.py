@@ -289,7 +289,7 @@ def argument_manager(arguments):
         except FileNotFoundError:
             return [2, arguments[0]]
     fails = full_test_suite(arguments)
-    if fails:
+    if fails[0]:
         return [1]
     else:
         return [0]
