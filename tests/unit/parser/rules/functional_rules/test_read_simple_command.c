@@ -59,7 +59,8 @@ void test_read_simple_command8(void)
 
 void test_read_simple_command9(void)
 {
-    assert(test_rule(read_simple_command, "echo toto", "AST_SIMPLE_COMMAND(2)"));
+    assert(test_rule(read_simple_command, "echo toto",
+        "AST_SIMPLE_COMMAND(2)"));
 }
 
 void test_read_simple_command_fail(void)
