@@ -1,7 +1,8 @@
 #include "test_parser.h"
 #include "rules/test_rules.h"
 
-void test_rules(void) {
+void test_rules(void)
+{
     //Terminal
     test_read_assign();
     test_read_word();
