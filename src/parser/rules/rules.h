@@ -1,7 +1,7 @@
 #pragma once
 
-#include <parser/parser.h>
 #include <parser/ast/ast.h>
+
 
 //Global
 char *default_to_string(struct ast_node *ast, char *type);
@@ -12,6 +12,8 @@ struct ast_multiple_word
     size_t capacity;
 };
 bool read_multiple_word(struct parser *p, struct ast_multiple_word *data);
+struct ast_multiple_word *multiple_word_init(void);
+void multiple_word_free(struct ast_multiple_word *data);
 
 bool read_ini_file(struct parser *p);
 struct ast_node *ast_ini_file_init();
@@ -66,6 +68,8 @@ bool read_heredoc(struct parser *p);
 struct ast_node *ast_heredoc_init(void *data);
 
 bool read_ionumber(struct parser *p);
+
+bool read_eof(struct parser *p);
 
 // Functional rules
 bool read_input(struct parser *p);
@@ -155,7 +159,7 @@ struct ast_if
 };
 struct ast_node *ast_rule_if_init();
 
-bool read_rule_else_clause(struct parser *p);
+bool read_else_clause(struct parser *p);
 struct ast_else_clause
 {
     char *elt;
@@ -181,3 +185,4 @@ struct ast_node *ast_case_item_init(struct ast_multiple_word *data);
 
 char *default_to_string(struct ast_node *ast, char *type);
 char *ast_default_to_string(struct ast_node *ast);
+void ast_default_print(struct ast_node *ast);

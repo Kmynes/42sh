@@ -1,11 +1,20 @@
 #!/bin/bash
 
-echo "You are in a the docker container"
+red="\x1B[31m"
+green="\x1B[32m"
 
-echo "You can run [make check] for improved 42sh project"
-
-echo "Run [exit] for quit this container"
-
+clear
+printf "Your are in the docker container\n\n"
 rm -rf build
 
-/bin/bash
+printf "Running of test it will take a while..."
+make check_docker
+
+if [ $? -eq 0 ]; then
+  printf "Docker test complete with ${green}[SUCESS]"
+else
+  printf "Docker test complete with ${red}[ERROR]"
+fi
+
+rm -rf build
+exit

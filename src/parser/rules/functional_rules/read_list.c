@@ -39,12 +39,15 @@ bool read_list(struct parser *p)
             struct ast_node *ast_op = ast_word_init(op);
             ast_set_in_parent(ast, ast_op);
         }
+
         if (parser_readchar(p, ';')
          || parser_readchar(p, '&'))
         {
-            ast_set_in_parser(p, ast);
-            return true;
+
         }
+
+        ast_set_in_parser(p, ast);
+        return true;
     }
 
     parser_remove_capture_by_tag(p, "list_op");
@@ -70,7 +73,7 @@ int ast_list_exec(struct ast_node *ast)
             return 1;
     }
 
-    return 0;
+    return res;
 }
 
 struct ast_node *ast_list_init()

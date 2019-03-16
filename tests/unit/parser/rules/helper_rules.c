@@ -30,7 +30,7 @@ bool test_rule(bool (*read_func)(struct parser *),
 bool test_not_rule( bool (*read_func)(struct parser *), char *input)
 {
     struct parser *p = parser_new_from_string(input);
-    bool res = !read_func(p) && p->cursor == 0;
+    bool res = !read_func(p);
     parser_free(p);
 
     return res;

@@ -7,4 +7,5 @@
 #include <libgen.h>
 
 void test_suite_parser(void);
-void test_suite_options(void);
+void test_execution(void);
+void test_ast_print(void);

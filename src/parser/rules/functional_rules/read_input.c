@@ -1,4 +1,10 @@
 #include <parser/rules/rules.h>
+/**
+ * \file read_input.c
+ * \brief  Allow to read an [input]
+ * \version 0.3
+ * \date March 2019
+ */
 
 bool read_input1(struct parser *p)
 {
@@ -19,7 +25,7 @@ bool read_input2(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (read_list(p) && parser_readchar(p, EOF))
+    if (read_list(p) && read_eof(p))
         return true;
 
     p->cursor = tmp;
@@ -27,15 +33,20 @@ bool read_input2(struct parser *p)
     return false;
 }
 
+/**
+ * \param struct parser *p
+ * \return bool
+ * \brief Allow to read an input and store this ast in the parser's children
+*/
 bool read_input(struct parser *p)
 {
     unsigned int tmp = p->cursor;
-    bool has_list = false;
+    bool has_list;
 
     if ((has_list = read_input1(p))
         || (has_list = read_input2(p))
         || parser_readchar(p, '\n')
-        || parser_readchar(p, EOF))
+        || read_eof(p))
     {
         struct ast_node *ast = ast_input_init();
 
@@ -64,11 +75,11 @@ int ast_input_exec(struct ast_node *ast)
     {
         res = ast->children[i]->exec(ast->children[i]);
 
-        if (res == 1)
+        if (res != 0)
             return 1;
     }
 
-    return 0;
+    return res;
 }
 
 struct ast_node *ast_input_init()

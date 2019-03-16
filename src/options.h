@@ -1,7 +1,9 @@
 #pragma once
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#include <stddef.h>
-
-int options_parser(char **argv, int argc);
-
-int ast_print();
+int options_parser(char **argv, int argc, char **env);
+bool has_options(char *options, char option);
+int exec_file(char *file_name);

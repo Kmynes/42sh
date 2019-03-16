@@ -3,7 +3,7 @@ version: '3'
 services:
   42sh_arch:
     image: archlinux/base:42sh_arch
-    build: .
+    build: ./Dockerconfig
     volumes:
       - ..:/root/42sh
     privileged: true

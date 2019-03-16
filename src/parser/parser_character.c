@@ -22,7 +22,7 @@ bool parser_readchar(struct parser *p, char c)
 {
     p->error->type = ON_CHAR;
     p->error->u.c = c;
-    if( p->input[p->cursor] == c)
+    if (p->input[p->cursor] == c)
     {
         p->cursor++;
         return true;

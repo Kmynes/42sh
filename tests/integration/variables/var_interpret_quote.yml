@@ -1,0 +1,3 @@
+desc: Checks that when a variable is set, it can be called.
+ref: bash ../tests/sh_test_files/var_interpret_quote.sh
+mycode: ./42sh -f ../tests/sh_test_files/var_interpret_quote.sh
