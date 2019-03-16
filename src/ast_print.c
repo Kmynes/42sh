@@ -1,5 +1,6 @@
 #include <libgen.h>
 #include "test_ast_print.h"
+#include "ast_print.h"
 #include "./parser/parser.h"
 
 /**
@@ -21,9 +22,9 @@ void remouve_parenthesis(char *input)
         if (input[i] == '(')
         {
             size_t k = i;
-            for (; input[k] != ')'; k++)
+            for (; input[k] != ')'; k++);
 
-            k = i - k + 1;
+            k = k - i + 1;
 
             for (size_t z = i; input[z] != '\0'; z++)
                 input[z] = input[z+k];
@@ -67,12 +68,14 @@ int ast_print(struct ast_node *ast, FILE *stream)
         char *ast_child_str = child->to_string(child);
         remouve_parenthesis(ast_child_str);
 
-        int node_number_plus = node_number + 1;
-        fprintf(stream, "\t%s%d -> %s%d;\n", ast_string, node_number, ast_child_str, node_number_plus);
-        node_number += 2;
+        fprintf(stream, "\t%s%d -> %s%d;\n", ast_string, node_level, ast_child_str, node_level+1);
+        free(ast_child_str);
+        node_level++;
 	    ast_print(child, stream);
+        node_level--;
     }
 
+    free(ast_string);
     if (first_one == 1)
     {
         fprintf(stream, "}");
