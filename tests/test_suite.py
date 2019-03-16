@@ -19,11 +19,11 @@ except ImportError:
 # and flags.
 # \author Daniel
 # \version v0.5
-# \date February 2019
+# \date March 2019
 # \description
 
 
-def run(code, arguments=[None]*3):
+def run(code, arguments=[None]*4):
     """ Runs a command in shell, returns stdout and stderror """
     # arguments list: [category, sanity, timer]
     file_directory = os.path.dirname(os.path.abspath(__file__))
@@ -70,12 +70,41 @@ def output_diff(test_name, ref_output, mycode_output, arguments):
         print("\033[1;32;40m OK \033[m")
         return 0
     # otherwise, print KO in red
-    print("\033[1;31;40m KO", end='')
+    print("\033[91m KO", end='')
     if mycode_stderr != "b''":
         print(" - unexpected error \033[m")
+        if arguments[3]:
+            print_debug(ref_stdout, ref_stderr, mycode_stdout,
+                        mycode_stderr, "err")
     else:
         print(" - unexpected output \033[m")
+        if arguments[3]:
+            print_debug(ref_stdout, ref_stderr, mycode_stdout,
+                        mycode_stderr, "out")
     return 1
+
+def print_debug(ref_stdout, ref_stderr, mycode_stdout, mycode_stderr, type):
+    """ prints debug information """
+    ref_stderr = ref_stderr[2:len(ref_stderr)-1]
+    mycode_stderr = mycode_stderr[2:len(mycode_stderr)-1]
+    ref_stdout = ref_stdout[2:len(ref_stdout)-1]
+    mycode_stdout = mycode_stdout[2:len(mycode_stdout)-1]
+    if type == "err":
+        if ref_stderr == "":
+            print(" "*8+"There was no error output for ref."\
+               +" Printing stdout instead...")
+            print(" "*8 + "\033[93m"+"ref stdout: \033[m")
+            print(" "*12 + ref_stdout)
+        else:
+            print(" "*8 + "\033[93m"+"ref stderr: \033[m")
+            print(" "*12 + ref_stderr)
+        print(" "*8 + "\033[93m"+"42sh stderr: \033[m")
+        print(" "*12 + mycode_stderr)
+    if type == "out":
+        print(" "*8 + "\033[93m"+"ref stdout: \033[m")
+        print(" "*12 + ref_stdout)
+        print(" "*8 + "\033[93m"+"42sh stdout: \033[m")
+        print(" "*12 + mycode_stdout)
 
 def valgrind_cleanup(stderr):
     """ Cleans stderr by removing valgrind output """
@@ -107,7 +136,7 @@ def category_list():
     print(str(number_of_categories)+" categories were succesfully printed.")
        
 
-def full_test_suite(arguments=[None]*3):
+def full_test_suite(arguments=[None]*4):
     """ Executes a full test suite """
     total_tests = total_fails = 0
     directory = os.path.dirname(os.path.abspath(__file__))+"/integration"
@@ -165,6 +194,10 @@ def helper():
           + "-s or --sanity \n" \
           + "    Runs tests with Valgrind.\n" \
           + "    Tests will fail if Valgrind returns errors.\n" \
+          + "-d or --debug \n" \
+          + "    Runs tests in debug mode.\n" \
+          + "    Prints out plenty of information on each test,\n" \
+          + "    including error outputs for each test.\n" \
           + "-t <int> or --timeout <int> \n" \
           + "    Adds a timeout (in seconds) to the test executions.\n" \
           + "    Tests will fail if time runs out.\n" \
@@ -198,8 +231,8 @@ def argument_parser():
         return [0]
     if len(sys.argv) > 6:
         return [8]
-    # arguments list: [category, sanity, timer]
-    arguments = [None]*3
+    # arguments list: [category, sanity, timer, debug]
+    arguments = [None]*4
     if "-c" in sys.argv or "--category" in sys.argv:
         if "-c" in sys.argv:
             arguments[0] = sys.argv[sys.argv.index("-c")+1]
@@ -207,6 +240,8 @@ def argument_parser():
             arguments[0] = sys.argv[sys.argv.index("--category")+1]
     if "-s" in sys.argv or "--sanity" in sys.argv:
         arguments[1] = "sanitised"
+    if "-d" in sys.argv or "--debug" in sys.argv:
+        arguments[3] = True
     if "-t" in sys.argv or "--timeout" in sys.argv:
         if "-t" in sys.argv:
             arguments[2] = sys.argv[sys.argv.index("-t")+1]
@@ -219,7 +254,8 @@ def argument_checker():
     """ checks arguments given in command line to see if they are supported.
     returns error code """
     supported_arguments = ["-c", "--category",  "-t", "--timer", "--style",
-                           "-s", "--sanity", "-l", "--list", "-h", "--help"]
+                           "-s", "--sanity", "-l", "--list", "-h", "--help"
+                           "-d", "--debug"]
     for argument in sys.argv[1:len(sys.argv)]:
         previous_argument = sys.argv[sys.argv.index(argument)-1]
         if previous_argument == "-t" or previous_argument == "--timeout":
@@ -242,9 +278,11 @@ def argument_manager(arguments):
     """ manages what to do after argument list is obtained,
     returns error code """
     if arguments[2]:
-        print("- running in timed mode")
+        print("\033[93m- running in timed mode \033[m")
     if arguments[1]:
-        print("- running in sanitised mode")
+        print("\033[93m- running in sanitised mode \033[m")
+    if arguments[3]:
+        print("\033[93m- running in debug mode \033[m")
     if arguments[0]:
         try:
             [tests, fails] = category_test(arguments)
