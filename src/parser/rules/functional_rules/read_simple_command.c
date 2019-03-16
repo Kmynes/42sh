@@ -130,7 +130,9 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count)
         sub_child = child->children[0];
         if (sub_child->type == AST_WORD)
         {
-            args[i++] = read_variable(sub_child->data);
+            args[i] = read_variable(sub_child->data);
+            manage_variable_str(&args[i]);
+            i++;
             range++;
         }
     }
@@ -156,14 +158,9 @@ int ast_simple_command_exec(struct ast_node *ast)
     {
         while (list)
         {
-            size_t len_value = strlen(list->value);
-            if (list->value[0] == '\'' && list->value[len_value - 1] == '\'')
-            {
-                char *val_replaced = calloc(sizeof(char), len_value -2);
-                strncpy(val_replaced, list->value + 1, len_value -2);
-                free(list->value);
-                list->value = val_replaced;
-            }
+            char *value = list->value;
+            manage_variable_str(&value);
+            list->value = value;
             variables_add(strdup(list->key), strdup(list->value));
             list = list->next;
         }

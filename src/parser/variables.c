@@ -1,4 +1,4 @@
-#include "variables.h" 
+#include <parser/rules/rules.h>
 /**
  * \file variables.c
  * Manages arguments sent by main and calls different parts of the code..
