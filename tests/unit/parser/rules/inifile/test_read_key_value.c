@@ -24,7 +24,7 @@ void test_read_key_value(void)
     struct ast_node *ast = p->ast->children[0];
     struct ast_key_value *data = (struct ast_key_value *) ast->data;
     assert(strcmp(data->id, "toto") == 0);
-    assert(strcmp(data->value, "titi") == 0);    
+    assert(strcmp(data->value, "titi") == 0);
     assert(p->cursor == 13);
     parser_free(p);
 }

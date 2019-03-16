@@ -1,10 +1,11 @@
 #pragma once
 
-#include <stddef.h>
-#include <stdbool.h>
-#include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <err.h>
+#include <errors.h>
+#include "variables.h"
 
 #define OPTIONAL(R) \
 __extension__({     \
@@ -18,21 +19,21 @@ __extension__({        \
     1;                 \
 })
 
-#define ONE_OR_MANY(R)    \
-__extension__({     \
-    int res = 0;\
-    if (R)          \
-    {               \
-        while (R);  \
-        res = 1; \
-    }               \
-    res;	        \
+#define ONE_OR_MANY(R) \
+__extension__({        \
+    int res = 0;       \
+    if (R)             \
+    {                  \
+        while (R);     \
+        res = 1;       \
+    }                  \
+    res;	           \
 })
 
 struct parser
 {
     char *input;
-    int cursor;
+    unsigned int cursor;
     struct list_capt_s *capture;
     struct ast_node *ast;
     struct error_s *error;
@@ -64,36 +65,47 @@ struct error_s
     } u;
 };
 
+#define FOREACH_AST(AST) \
+        AST(AST_NODE_EMPTY)   \
+        AST(AST_NODE_INI_FILE)  \
+        AST(AST_NODE_SECTION)   \
+        AST(AST_NODE_KEY_VALUE)  \
+        AST(AST_NODE_ASSIGN)  \
+        AST(AST_INPUT)  \
+        AST(AST_LIST)  \
+        AST(AST_AND_OR)  \
+        AST(AST_PIPELINE)  \
+        AST(AST_COMMAND)  \
+        AST(AST_SIMPLE_COMMAND) \
+        AST(AST_SHELL_COMMAND) \
+        AST(AST_FUNCDEC) \
+        AST(AST_REDIRECTION) \
+        AST(AST_PREFIX) \
+        AST(AST_ELEMENT) \
+        AST(AST_COMPOUND_LIST) \
+        AST(AST_RULE_FOR) \
+        AST(AST_RULE_WHILE) \
+        AST(AST_RULE_UNTIL) \
+        AST(AST_RULE_CASE) \
+        AST(AST_RULE_IF) \
+        AST(AST_ELSE_CLAUSE) \
+        AST(AST_DO_GROUP) \
+        AST(AST_CASE_CLAUSE) \
+        AST(AST_CASE_ITEM) \
+        AST(AST_HEREDOC) \
+        AST(AST_ASSIGNEMENT_WORD) \
+        AST(AST_WORD) \
+
+#define GENERATE_ENUM(ENUM) ENUM,
+#define GENERATE_STRING(STRING) #STRING,
+
 enum ast_node_type
 {
-    AST_NODE_EMPTY = 1,
-    AST_NODE_INI_FILE,
-    AST_NODE_SECTION,
-    AST_NODE_KEY_VALUE,
-    AST_NODE_ASSIGN,
-    AST_INPUT,
-    AST_LIST,
-    AST_AND_OR,
-    AST_PIPELINE,
-    AST_COMMAND,
-    AST_SIMPLE_COMMAND,
-    AST_SHELL_COMMAND,
-    AST_FUNCDEC,
-    AST_REDIRECTION,
-    AST_PREFIX,
-    AST_ELEMENT,
-    AST_COMPOUND_LIST,
-    AST_RULE_FOR,
-    AST_RULE_WHILE,
-    AST_RULE_UNTIL,
-    AST_RULE_CASE,
-    AST_RULE_IF,
-    AST_ELSE_CLAUSE,
-    AST_DO_GROUP,
-    AST_CASE_CLAUSE,
-    AST_CASE_ITEM,
-    AST_NODE_HEREDOC
+    FOREACH_AST(GENERATE_ENUM)
 };
+
+//Global
+extern const char *AST_STRING[];
 
 // ast inifile
 struct ast_node
@@ -104,6 +116,9 @@ struct ast_node
     size_t capacity;
     struct ast_node **children; // array of children
     char *(*to_string)(struct ast_node *);
+    bool custom_to_string;
+    int (*exec)(struct ast_node *);
+    int (*exec_arg)(struct ast_node *, char *arg);
     void (*free)(void *);
 };
 
@@ -123,11 +138,12 @@ struct list_capt_s
 //parser_init
 struct parser *parser_new_from_string(const char *text);
 void parser_free(struct parser *p);
+void parser_free_no_ast(struct parser *p);
 
 //parser_character
 bool parser_eof(struct parser *p);
 char parser_getchar(struct parser *p);
-bool parser_peekchar(struct parser * p, char c);
+bool parser_peekchar(struct parser *p, char c);
 bool parser_readchar(struct parser *p, char c);
 bool parser_readrange(struct parser *p, char begin, char end);
 
@@ -154,14 +170,16 @@ struct list_capt_s *list_capt_init(void);
 //parser_capture
 char *extract_string(char *s, int begin, int end);
 void print_capture(struct parser *p, struct list_capt_s *capture);
-void list_capt_store(struct list_capt_s *, const char *, struct capture_s *);
+struct list_capt_s *list_capt_store(struct list_capt_s *, const char *,
+    struct capture_s *);
 struct capture_s *list_capt_lookup(struct list_capt_s *, const char *);
 void parser_remove_capture_by_tag(struct parser *p, const char *tag);
+void parser_free_capture_list(struct parser *p);
 
 static inline bool parser_begin_capture(struct parser *p, const char *tag)
 {
     struct capture_s capt = { p->cursor, 0 };
-    list_capt_store(p->capture, tag, &capt);
+    p->capture = list_capt_store(p->capture, tag, &capt);
     return true;
 }
 
@@ -170,7 +188,8 @@ static inline char *parser_get_capture(struct parser *p, const char *tag)
     struct capture_s *pcapt = list_capt_lookup(p->capture, tag);
     if (!pcapt)
         return false;
-    char *capture = strndup(&p->input[pcapt->begin], pcapt->end - pcapt->begin);
+    char *capture = strndup(&p->input[pcapt->begin],
+        pcapt->end - pcapt->begin);
     parser_remove_capture_by_tag(p, tag);
     return capture;
 }
@@ -183,3 +202,6 @@ static inline bool parser_end_capture(struct parser *p, const char *tag)
     pcapt->end = p->cursor;
     return true;
 }
+
+//ast_print
+int ast_print(struct ast_node *ast, FILE *stream);

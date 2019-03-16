@@ -2,5 +2,4 @@
 
 void test_parser_capture_init(void)
 {
-
 }

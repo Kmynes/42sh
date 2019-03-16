@@ -1,4 +1,23 @@
-language: c
-sudo: false # only for faster builds
+language: python
+python: 3.5
 script:
-  - make && make check
+  - pip install -r requirements.txt
+  - make && make test
+
+notifications:
+  email:
+    - yann.moussan@epita.fr
+    - thibault.lebrun@epita.fr
+    - kevin.voyer@epita.fr
+  webhooks:
+    urls:
+      - https://discordapp.com/api/webhooks/556401008390176769/iDlwwv4mMhH_04e8fpjV_QMO3siLtz_muMUNT56N1XsCbrqnUkObCpLsNt3cFhfiYo2q
+
+after_success:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $WEBHOOK_URL
+after_failure:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL

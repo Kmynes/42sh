@@ -7,4 +7,5 @@
 #include <libgen.h>
 
 void test_suite_parser(void);
-//struct TCase *test_suite_parser(struct Suite *s);
+void test_execution(void);
+void test_ast_print(void);

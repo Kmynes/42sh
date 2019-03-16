@@ -2,8 +2,7 @@
 
 bool read_heredoc(struct parser *p)
 {
-    int tmp = p->cursor;
-
+    unsigned int tmp = p->cursor;
 
     if (parser_begin_capture(p, "delimiter") && read_word(p)
         && parser_end_capture(p, "delimiter"))
@@ -16,8 +15,7 @@ bool read_heredoc(struct parser *p)
             {
                 parser_end_capture(p, "heredoc");
                 char *heredoc = parser_get_capture(p, "heredoc");
-                struct ast_node *ast = ast_heredoc_init(AST_NODE_HEREDOC,
-                                                heredoc);
+                struct ast_node *ast = ast_heredoc_init(heredoc);
 
                 ast_set_in_parser(p, ast);
                 p->cursor += strlen(delimiter);
@@ -37,16 +35,21 @@ bool read_heredoc(struct parser *p)
 char *ast_heredoc_to_string(struct ast_node *ast)
 {
     char *heredoc = ast->data;
-    int size = strlen(heredoc) + strlen("hereodc_") + 1;
+    size_t size = strlen(heredoc) + strlen("hereodc_") + 1;
     char *output = malloc(size);
     sprintf(output, "heredoc_%s", heredoc);
     return output;
 }
 
-struct ast_node *ast_heredoc_init(enum ast_node_type type, void *data)
+void ast_heredoc_free(void *data)
 {
-    struct ast_node *ast = ast_init(type, data);
-    ast->to_string = ast_heredoc_to_string;
+    free(data);
+}
 
+struct ast_node *ast_heredoc_init(void *data)
+{
+    struct ast_node *ast = ast_init(AST_HEREDOC, data);
+    ast->to_string = ast_heredoc_to_string;
+    ast->free = ast_heredoc_free;
     return ast;
 }

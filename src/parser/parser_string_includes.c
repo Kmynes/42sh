@@ -2,19 +2,20 @@
 
 bool parser_readtext(struct parser *p, char *text)
 {
+    unsigned int tmp = p->cursor;
     p->error->type = ON_CHAR;
     p->error->u.text = text;
     char *str = p->input + p->cursor;
 
-    while (*text)
+    size_t len = strlen(text);
+    if (strncmp(str, text, len) == 0)
     {
-        if (*str != *text)
-            return false;
-        str++;
-        text++;
+        p->cursor += len;
+        return true;
     }
 
-    return true;
+    p->cursor = tmp;
+    return false;
 }
 
 bool parser_readrange(struct parser *p, char begin, char end)

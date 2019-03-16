@@ -28,30 +28,7 @@ void test_global(void)
 
     struct parser *p = parser_new_from_string(content);
     // parse
-    if (read_ini_file(p))
-    {
- /*       struct ast_node *ast_ini_file = p->ast->children[0];
-
-        struct ast_node *ast_node_section = NULL;
-
-        struct ast_node *ast_node_key_value = NULL;
-        struct ast_key_value *ast_key_value = NULL;
-
-        printf ("Inifile from file [%s]:\n", FILE_NAME);
-        for (size_t i =0;i < ast_ini_file->nb_children; i++)
-        {
-            ast_node_section = ast_ini_file->children[i];
-
-            printf("- Section num:%ld :\n", i);
-            for (size_t j=0;j < ast_node_section->nb_children; j++)
-            {
-                ast_node_key_value = ast_node_section->children[j];
-                ast_key_value = ast_node_key_value->data;
-                printf ("\t\t- Key:%s | Value:%s\n", ast_key_value->id, ast_key_value->value);
-            }
-        }*/
-    }
-    else
+    if (!read_ini_file(p))
     {
         printf("Parsing failed at %d\n", p->cursor);
         switch (p->error->type)
@@ -63,8 +40,8 @@ void test_global(void)
                 printf("expected text \"%s\"\n", p->error->u.text);
                 break;
             case ON_RANGE:
-                printf("expected range \"%d to %d\"\n", p->error->u.range
-                .begin, p->error->u.range.begin);
+                printf("expected range \"%d to %d\"\n",
+                    p->error->u.range.begin, p->error->u.range.begin);
                 break;
             case ON_INSET:
                 printf("expected inset \"%s\"\n", p->error->u.inset);
