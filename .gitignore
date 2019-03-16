@@ -71,5 +71,6 @@ debug
 /doc/latex
 /doc/html
 
-# .dot
+# ast_print
 *.dot
+*.png

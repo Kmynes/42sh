@@ -129,7 +129,6 @@ int execute_options(char *command, char *options)
     return 0;
 }
 
-
 bool has_options(char *options, char option)
 {
     for (size_t i = 0; options[i]; i++)
