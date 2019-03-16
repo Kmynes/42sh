@@ -229,7 +229,7 @@ def argument_parser():
             return [5, "help"]
         file_selector()
         return [0]
-    if len(sys.argv) > 6:
+    if len(sys.argv) > 7:
         return [8]
     # arguments list: [category, sanity, timer, debug]
     arguments = [None]*4
