@@ -1,5 +1,5 @@
 #include <libgen.h>
-#include "ast_print.h"
+#include "test_ast_print.h"
 #include "./parser/parser.h"
 
 /**
@@ -21,7 +21,6 @@ int ast_print(struct ast_node *ast, FILE *stream)
         return 1;
 
     int first_one = 0;
-    printf("p: %p\n", (void *)stream);
 
     if (stream == NULL)
     {
