@@ -7,7 +7,7 @@
 ** \author Daniel
 ** \version 0.3
 ** \date March 2019
-**/
+*/
 bool read_rule_while(struct parser *p)
 {
     unsigned int tmp = p->cursor;
