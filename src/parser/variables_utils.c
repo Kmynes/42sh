@@ -122,15 +122,9 @@ static void check_quote(char **addr, size_t len_value)
                     if (*val == '\0' || *val == ' ' || is_with_accolade)
                     {
                         struct key_value *kv = variables_get(var_name);
-                        if (kv)
-                        {
-                            *addr = str_replace(var_call, kv->value, *addr);
-                            val = *addr;
-                        }
-                        else
-                        {
-                            // Catch error variable doesn't exist
-                        }
+                        char *replacer = kv ? kv->value : "";
+                        *addr = str_replace(var_call, replacer, *addr);
+                        val = *addr;
                     }
                     free(var_name);
                 }
