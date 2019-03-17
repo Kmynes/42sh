@@ -1,4 +1,6 @@
+#include <string.h>
 #include <parser/rules/rules.h>
+#include <utils/string.h>
 
 /**
 ** \param char *key
@@ -91,22 +93,6 @@ static char *get_variable_name(char *val, char **store_val, size_t len_value,
     return capt;
 }
 
-static void replace_variable(struct key_value *kv, char **addr, 
-    int index_begin, int index_end)
-{
-    size_t len_value = strlen(*addr);
-    size_t len_value_var = strlen(kv->value);
-    char *new_value = calloc(sizeof(char),
-        len_value + len_value_var);
-
-    strncpy(new_value, *addr, index_begin);
-    strcat(new_value, kv->value);
-    strcat(new_value, *addr + index_end);
-
-    free(*addr);
-    *addr = new_value;
-}
-
 static void check_quote(char **addr, size_t len_value)
 {
     char *value = *addr;
@@ -120,23 +106,25 @@ static void check_quote(char **addr, size_t len_value)
             {
                 if (*val == '$')
                 {
-                    int index_begin = val - *addr;
-
                     val += *(val + 1) == '{' ? 2 : 1;
 
                     bool is_with_accolade = false;
-                    char *capt = get_variable_name(val, &val, len_value,
+                    char *var_name = get_variable_name(val, &val, len_value,
                         &is_with_accolade);
+
+                    char *var_call = calloc(sizeof(char), strlen(var_name) + 3);
+
+                    if (is_with_accolade)
+                        sprintf(var_call, "${%s}", var_name);
+                    else
+                        sprintf(var_call, "$%s", var_name);
 
                     if (*val == '\0' || *val == ' ' || is_with_accolade)
                     {
-                        struct key_value *kv = variables_get(capt);
+                        struct key_value *kv = variables_get(var_name);
                         if (kv)
                         {
-                            size_t len_call_var = strlen(capt) + 1;
-                            len_call_var += is_with_accolade ? 2 : 0;
-                            replace_variable(kv, addr, index_begin,
-                                index_begin + len_call_var);
+                            *addr = str_replace(var_call, kv->value, *addr);
                             val = *addr;
                         }
                         else
@@ -144,7 +132,7 @@ static void check_quote(char **addr, size_t len_value)
                             // Catch error variable doesn't exist
                         }
                     }
-                    free(capt);
+                    free(var_name);
                 }
             }
             val++;
