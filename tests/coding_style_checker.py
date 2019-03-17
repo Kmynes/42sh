@@ -61,6 +61,8 @@ def coding_styler(file, filename):
             if eighty_columns(index, file, line_number, filename):
                 style_errors+=1
                 col_err = True
+        if file[index:index+2] == "/*":
+            style_errors += long_dead_code(index, file, line_number, filename)
         if file[index:index+5] == "#else":
             style_errors += else_comment(index, file, line_number, filename)
         if file[index] == '*':
@@ -86,6 +88,16 @@ def find_line(index, file):
     return [line_start, line_end]
 
 # coding style rules:
+
+def long_dead_code(index, file, line_number, filename):
+    while file[index:index+2] != "*/":
+        if file[index] == ';':
+            print(file[index])
+            print("Long dead code at line " + str(line_number)
+                  + " in file " + filename)
+            return 1
+        index+=1
+    return 0
 
 def blank_start(file, filename):
     """ Checks if first line is blank """
