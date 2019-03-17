@@ -1,6 +1,7 @@
-#include "string.h"
+#include <stddef.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "string.h"
 
 void string_list_free(char **list, size_t count)
 {
