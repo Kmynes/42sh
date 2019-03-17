@@ -1,4 +1,7 @@
 import sys
 
+val=""
 for i in range(1, len(sys.argv)):
-    print(sys.argv[i] + " ")
+    val += sys.argv[i] + " "
+
+print(val)
