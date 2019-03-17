@@ -16,3 +16,5 @@ prog='python3'
 $prog --version
 
 $prog $path_printer $phrase
+
+$prog $path_printer "empty variable [$empty]"
