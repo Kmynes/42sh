@@ -1,19 +1,19 @@
 #include <parser/rules/rules.h>
 /**
- * \file read_rule_if.c
- * \brief reads rule_if grammar as specified by the subject.
- *
- * rule_if: 'if' compound_list 'then' compound_list [else_clause] 'fi'
- * \author Daniel + Kevin
- * \version 0.3
- * \date March 2019
- */
+** \file read_rule_if.c
+** \brief reads rule_if grammar as specified by the subject.
+**
+** rule_if: 'if' compound_list 'then' compound_list [else_clause] 'fi'
+** \author Daniel + Kevin
+** \version 0.3
+** \date March 2019
+*/
 
 /**
- * \param struct parser *p
- * \return bool
- * \brief Create a rule if with all his childs
- * and return true if this rule is respected.
+** \param struct parser *p
+** \return bool
+** \brief Create a rule if with all his childs
+** and return true if this rule is respected.
 */
 bool read_rule_if(struct parser *p)
 {

@@ -1,14 +1,14 @@
 #include <parser/rules/rules.h>
 /**
- * \file read_rule_else_clause.c
- * \brief reads case_clause grammar as specified by the subject.
- *
- * else_clause: 'else' compound_list
- * | 'elif' compound_list 'then' compound_list [else_clause]
- * \author Daniel
- * \version 0.3
- * \date March 2019
- */
+** \file read_rule_else_clause.c
+** \brief reads case_clause grammar as specified by the subject.
+**
+** else_clause: 'else' compound_list
+** | 'elif' compound_list 'then' compound_list [else_clause]
+** \author Daniel
+** \version 0.3
+** \date March 2019
+*/
 bool read_else_clause(struct parser *p)
 {
     unsigned int tmp = p->cursor;

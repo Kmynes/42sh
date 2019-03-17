@@ -1,5 +1,13 @@
 #include <parser/rules/rules.h>
-
+/**
+** \file read_prefix.c
+** \brief reads prefix grammar as specified by the subject.
+**
+** prefix: ASSIGMENT_WORD | redirection
+** \author Thibault
+** \version 0.3
+** \date February 2019
+*/
 bool read_prefix(struct parser *p)
 {
     unsigned int tmp = p->cursor;

@@ -1,13 +1,13 @@
 #include <parser/rules/rules.h>
 /**
- * \file read_case_clause.c
- * \brief reads case_clause grammar as specified by the subject.
- *
- * case_clause: case_item (';;' ('\n')* case_item)* [;;] ('\n')*
- * \author Yann
- * \version 0.3
- * \date March 2019
- */
+** \file read_case_clause.c
+** \brief reads case_clause grammar as specified by the subject.
+**
+** case_clause: case_item (';;' ('\n')* case_item)* [;;] ('\n')*
+** \author Yann
+** \version 0.3
+** \date March 2019
+*/
 bool read_case_clause_element(struct parser *p)
 {
     unsigned int tmp = p->cursor;

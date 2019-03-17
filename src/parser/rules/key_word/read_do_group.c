@@ -1,13 +1,13 @@
 #include <parser/rules/rules.h>
 /**
- * \file read_do_group.c
- * \brief reads do_group grammar as specified by the subject.
- *
- * do_group: 'do' compound_list 'done'
- * \author Kevin
- * \version 0.3
- * \date March 2019
- */
+** \file read_do_group.c
+** \brief reads do_group grammar as specified by the subject.
+**
+** do_group: 'do' compound_list 'done'
+** \author Kevin
+** \version 0.3
+** \date March 2019
+*/
 bool read_do_group(struct parser *p)
 {
     unsigned int tmp = p->cursor;

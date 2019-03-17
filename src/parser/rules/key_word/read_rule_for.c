@@ -1,14 +1,14 @@
 #include <parser/rules/rules.h>
 /**
- * \file read_rule_for.c
- * \brief reads rule_for grammar as specified by the subject.
- *
- * rule_for:
- * 'for' WORD ([';']|[('\n')* 'in' (WORD)* (';'|'\n')]) ('\n')* do_group
- * \author Daniel + Kevin
- * \version 0.3
- * \date March 2019
- */
+** \file read_rule_for.c
+** \brief reads rule_for grammar as specified by the subject.
+**
+** rule_for:
+** 'for' WORD ([';']|[('\n')* 'in' (WORD)* (';'|'\n')]) ('\n')* do_group
+** \author Daniel + Kevin
+** \version 0.3
+** \date March 2019
+*/
 bool read_rule_for1_sub2(struct parser *p, struct ast_multiple_word *data)
 {
     unsigned int tmp = p->cursor;

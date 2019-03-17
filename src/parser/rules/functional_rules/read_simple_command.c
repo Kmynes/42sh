@@ -3,7 +3,15 @@
 #include <utils/string.h>
 #include <utils/exec.h>
 #include <execution/builtins/builtins.h>
-
+/**
+** \file read_simple_command.c
+** \brief reads simple_command grammar as specified by the subject.
+**
+** simple_command: (prefix)+ | (prefix)* (element)+
+** \author Thibault
+** \version 0.3
+** \date February 2019
+*/
 static bool sub_command1(struct parser *p)
 {
     unsigned int tmp = p->cursor;

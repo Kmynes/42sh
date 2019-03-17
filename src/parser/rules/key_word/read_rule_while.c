@@ -1,13 +1,13 @@
 #include <parser/rules/rules.h>
 /**
- * \file read_rule_while.c
- * \brief reads rule_while grammar as specified by the subject.
- *
- * rule_while: 'while' compound_list do_group
- * \author Daniel
- * \version 0.3
- * \date March 2019
- */
+** \file read_rule_while.c
+** \brief reads rule_while grammar as specified by the subject.
+**
+** rule_while: 'while' compound_list do_group
+** \author Daniel
+** \version 0.3
+** \date March 2019
+**/
 bool read_rule_while(struct parser *p)
 {
     unsigned int tmp = p->cursor;

@@ -1,5 +1,21 @@
 #include <parser/rules/rules.h>
-
+/**
+** \file read_redirection.c
+** \brief reads redirection grammar as specified by the subject.
+**
+** redirection: [IONUMBER] '>' WORD
+** | [IONUMBER] '<' WORD
+** | [IONUMBER] '>>' WORD
+** | [IONUMBER] '<<' HEREDOC
+** | [IONUMBER] '<<-' HEREDOC
+** | [IONUMBER] '>&' WORD
+** | [IONUMBER] '<&' WORD
+** | [IONUMBER] '>|' WORD
+** | [IONUMBER] '<>' WORD
+** \author Thibault
+** \version 0.3
+** \date February 2019
+*/
 bool read_redirection_1(struct parser *p)
 {
     unsigned int tmp = p->cursor;
