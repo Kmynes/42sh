@@ -66,6 +66,8 @@ def output_diff(test_name, ref_output, mycode_output, arguments):
     if ref_stdout == mycode_stdout \
         or (ref_stderr == mycode_stderr \
         and ref_stderr != "b''"):
+        if arguments[3]:
+            print_debug(ref_stdout, ref_stderr, mycode_stdout, mycode_stderr, type)
         # if there is no difference between both outputs, print OK in green
         print("\033[1;32;40m OK \033[m")
         return 0
