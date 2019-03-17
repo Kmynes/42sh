@@ -1,4 +1,5 @@
 #include <parser/rules/rules.h>
+
 /**
 ** \file read_element.c
 ** \brief reads element grammar as specified by the subject.
@@ -35,8 +36,9 @@ bool read_element(struct parser *p)
         struct ast_node *ast = ast = ast_element_init();
         if (is_word)
         {
-            struct ast_node *ast_word = ast_word_init(
-                parser_get_capture(p, "elt"));
+            char *word = parser_get_capture(p, "elt");
+            manage_variable_str(&word);
+            struct ast_node *ast_word = ast_word_init(word);
             ast_set_in_parent(ast, ast_word);
         }
         else
