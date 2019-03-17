@@ -1,4 +1,4 @@
-dir_test='tests'
+dir_test='../tests'
 dir_sh_test='sh_test_files'
 printer_file='printer.py'
 
