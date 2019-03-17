@@ -1,10 +1,13 @@
 #include <parser/rules/rules.h>
 /**
- * \file read_input.c
- * \brief  Allow to read an [input]
- * \version 0.3
- * \date March 2019
- */
+** \file read_input.c
+** \brief reads input grammar as specified by the subject.
+**
+** input: list '\n' | list EOF | '\n' | EOF
+** \author Kevin
+** \version 0.3
+** \date February 2019
+*/
 
 bool read_input1(struct parser *p)
 {
@@ -34,9 +37,9 @@ bool read_input2(struct parser *p)
 }
 
 /**
- * \param struct parser *p
- * \return bool
- * \brief Allow to read an input and store this ast in the parser's children
+** \param struct parser *p
+** \return bool
+** \brief Allow to read an input and store this ast in the parser's children
 */
 bool read_input(struct parser *p)
 {

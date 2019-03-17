@@ -1,5 +1,13 @@
 #include <parser/rules/rules.h>
-
+/**
+** \file read_rule_case.c
+** \brief reads rule_case grammar as specified by the subject.
+**
+** rule_case: 'case' WORD ('\n')* 'in' ('\n')* [case_clause] 'esac'
+** \author Yann
+** \version 0.3
+** \date March 2019
+*/
 bool read_rule_case(struct parser *p)
 {
     unsigned int tmp = p->cursor;

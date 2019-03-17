@@ -1,31 +1,30 @@
 #include <parser/rules/rules.h>
 /**
- * \file variables.c
- * Manages arguments sent by main and calls different parts of the code..
- * \author Kevin
- * \version 0.3
- * \date March 2019
- * \brief 
- */
+** \file variables.c
+** \author Kevin
+** \version 0.3
+** \date March 2019
+** \brief Manages arguments sent by main and calls different parts of the code.
+*/
 
 struct key_value *variables = NULL;
 
 
 /** 
- * \biref Initialize the globale variable [variables]
- * \return void.
- */
+** \brief Initialize the globale variable [variables]
+** \return void.
+*/
 void variables_init()
 {
     variables = create_variable(NULL, NULL);
 }
 
 /** 
- * \param char *key
- * \param char *value
- * \return struct key_value *.
- * \biref Add a variable to the liste of global variable
- */
+** \param char *key
+** \param char *value
+** \return struct key_value *.
+** \brief Add a variable to the liste of global variable
+*/
 struct key_value *variables_add(char *key, char *value)
 {
     if (variables == NULL)
@@ -52,10 +51,10 @@ struct key_value *variables_add(char *key, char *value)
 }
 
 /**
- * \param char *key
- * \brief Get a key value by his key
- * \return struct key_value *
- */
+** \param char *key
+** \brief Get a key value by his key
+** \return struct key_value *
+*/
 struct key_value *variables_get(char *key)
 {
     if (strcmp(key, variables->key) == 0)
@@ -76,11 +75,11 @@ struct key_value *variables_get(char *key)
 }
 
 /**
- * \param char *key
- * \param char *value
- * \return struct key_value *
- * \brief Update a value by taking his key in parameter
- */
+** \param char *key
+** \param char *value
+** \return struct key_value *
+** \brief Update a value by taking his key in parameter
+*/
 struct key_value *variables_update(char *key, char *value)
 {
     struct key_value *kv = variables_get(key);
@@ -94,9 +93,9 @@ struct key_value *variables_update(char *key, char *value)
 }
 
 /**
- * \param char *key
- * \brief Delete a key_value from the list
- */
+** \param char *key
+** \brief Delete a key_value from the list
+*/
 void variables_delete(char *key)
 {
     struct key_value *current = variables;

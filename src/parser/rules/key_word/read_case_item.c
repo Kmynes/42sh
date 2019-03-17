@@ -1,5 +1,13 @@
 #include <parser/rules/rules.h>
-
+/**
+** \file read_case_item.c
+** \brief reads case_item grammar as specified by the subject.
+**
+** case_item: ['('] WORD ('|' WORD)* ')' ('\n')* [ compound_list ]
+** \author Yann
+** \version 0.3
+** \date March 2019
+*/
 bool read_case_item_element(struct parser *p,
     struct ast_multiple_word *data)
 {

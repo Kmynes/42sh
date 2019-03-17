@@ -1,5 +1,13 @@
 #include <parser/rules/rules.h>
-
+/**
+** \file read_element.c
+** \brief reads element grammar as specified by the subject.
+**
+** element: WORD | redirection
+** \author Kevin
+** \version 0.3
+** \date February 2019
+*/
 bool read_element1(struct parser *p)
 {
     unsigned int tmp = p->cursor;

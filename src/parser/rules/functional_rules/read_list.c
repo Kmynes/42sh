@@ -1,5 +1,13 @@
 #include <parser/rules/rules.h>
-
+/**
+** \file read_list.c
+** \brief reads list grammar as specified by the subject.
+**
+** list: and_or ((';'|'&') and_or)* [';'|'&']
+** \author Kevin
+** \version 0.3
+** \date February 2019
+*/
 bool read_list1(struct parser *p)
 {
     unsigned int tmp = p->cursor;

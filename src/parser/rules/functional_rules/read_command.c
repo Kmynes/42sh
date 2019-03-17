@@ -1,5 +1,15 @@
 #include <parser/rules/rules.h>
-
+/**
+** \file read_compound_list.c
+** \brief reads compound_list grammar as specified by the subject.
+**
+** command: simple_command 
+** | shell_command (redirection)* 
+** | funcdec (redirection)*
+** \author Thibault
+** \version 0.3
+** \date February 2019
+*/
 static bool read_second_instructions(struct parser *p)
 {
     unsigned int tmp = p->cursor;

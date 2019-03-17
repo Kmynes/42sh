@@ -16,7 +16,7 @@ bool read_multiple_word(struct parser *p, struct ast_multiple_word *data)
             void *ptr = realloc(data->words, new_size);
             if (!ptr)
             {
-                //Catch this error
+                // Catch this error
                 return false;
             }
 
