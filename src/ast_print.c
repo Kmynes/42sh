@@ -2,19 +2,19 @@
 #include "ast_print.h"
 
 /**
- * \file ast_print.c
- * \brief Contains functions related to printing the AST
- * \author Yann
- * \version v0.3
- * \date March 2019
- */
+** \file ast_print.c
+** \brief Contains functions related to printing the AST
+** \author Yann
+** \version v0.3
+** \date March 2019
+*/
 
 int node_level = 0;
 
 /**
- * \brief This function removes any "(*)" pathern in strings
- * \param input : the string from witch the patern will be removed from
- */
+** \brief This function removes any "(*)" pathern in strings
+** \param input : the string from witch the patern will be removed from
+*/
 void remove_parenthesis(char *input)
 {
     for (size_t i = 0; input[i] != '\0'; i++)
@@ -33,11 +33,11 @@ void remove_parenthesis(char *input)
 }
 
 /**
- * \brief This function generates the DOT file
- * \param ast: represents the ast that will be used to print into the dotfile
- * \param stream: represents the file stream in which the data of the ast will
- * be printed
- */
+** \brief This function generates the DOT file
+** \param ast: represents the ast that will be used to print into the dotfile
+** \param stream: represents the file stream in which the data of the ast will
+** be printed
+*/
 int ast_print(struct ast_node *ast, FILE *stream)
 {
     if (ast == NULL)

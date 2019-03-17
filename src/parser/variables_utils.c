@@ -1,9 +1,9 @@
 #include <parser/rules/rules.h>
 
 /**
- * \param char *key
- * \param char *value
- * \brief Initialize the first globale [key_value] 
+** \param char *key
+** \param char *value
+** \brief Initialize the first global [key_value] 
 */
 struct key_value *create_variable(char *key, char *value)
 {
@@ -15,8 +15,8 @@ struct key_value *create_variable(char *key, char *value)
 }
 
 /**
- * \brief Free all globales [key_value]
- */
+** \brief Free all globals [key_value]
+*/
 void variables_free(void)
 {
     struct key_value *buff = NULL;
@@ -141,7 +141,7 @@ static void check_quote(char **addr, size_t len_value)
                         }
                         else
                         {
-                            /*Catch error variable doesn't exist*/
+                            // Catch error variable doesn't exist
                         }
                     }
                     free(capt);

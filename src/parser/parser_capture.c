@@ -11,10 +11,10 @@ char *extract_string(char *s, int begin, int end)
 }
 
 /**
- * debug function : print a capture
- * @param p
- * @param capture
- */
+** debug function : print a capture
+** @param p
+** @param capture
+*/
 void print_capture(struct parser *p, struct list_capt_s *capture)
 {
     int begin = capture->capt.begin;
@@ -25,14 +25,14 @@ void print_capture(struct parser *p, struct list_capt_s *capture)
 }
 
 /**
- * store a capture_s and a tag in the list_capt_s
- * caution : the last element of the list is initialized
- * but is empty and contains no value
- * this is because the list has no head
- * @param capture
- * @param tag
- * @param capt_s
- */
+** store a capture_s and a tag in the list_capt_s
+** caution : the last element of the list is initialized
+** but is empty and contains no value
+** this is because the list has no head
+** @param capture
+** @param tag
+** @param capt_s
+*/
 
 struct list_capt_s *list_capt_store(struct list_capt_s *c, const char *tag,
     struct capture_s *capt_s)
