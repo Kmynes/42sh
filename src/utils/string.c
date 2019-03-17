@@ -24,7 +24,7 @@ char *str_replace(char *search, char *replace, char *subject)
     {
         if (!search_found && *subject == search[0])
         {
-            char buff_search[len_search];
+            char *buff_search = calloc(sizeof(char), len_search + 1);
             strncpy(buff_search, subject, len_search);
             if (strcmp(buff_search, search) == 0)
             {
@@ -33,6 +33,8 @@ char *str_replace(char *search, char *replace, char *subject)
                 subject += len_search;
                 search_found = true;
             }
+
+            free(buff_search);
         }
         new_string[cursor++] = *subject;
         subject++;
