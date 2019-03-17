@@ -1,5 +1,13 @@
 #include <parser/rules/rules.h>
-
+/**
+ * \file read_rule_until.c
+ * \brief reads rule_until grammar as specified by the subject.
+ *
+ * rule_until: 'until' compound_list do_group
+ * \author Daniel
+ * \version 0.3
+ * \date March 2019
+ */
 bool read_rule_until(struct parser *p)
 {
     unsigned int tmp = p->cursor;

@@ -1,8 +1,10 @@
 #include <parser/rules/rules.h>
 /**
  * \file read_rule_if.c
- * \brief Manage the rule if
- * \author Kevin
+ * \brief reads rule_if grammar as specified by the subject.
+ *
+ * rule_if: 'if' compound_list 'then' compound_list [else_clause] 'fi'
+ * \author Daniel + Kevin
  * \version 0.3
  * \date March 2019
  */
