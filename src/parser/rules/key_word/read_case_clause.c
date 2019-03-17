@@ -1,13 +1,20 @@
 #include <parser/rules/rules.h>
-
+/**
+** \file read_case_clause.c
+** \brief reads case_clause grammar as specified by the subject.
+**
+** case_clause: case_item (';;' ('\n')* case_item)* [;;] ('\n')*
+** \author Yann
+** \version 0.3
+** \date March 2019
+*/
 bool read_case_clause_element(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
     if (parser_readtext(p, ";;")
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
-        && read_case_item(p)
-        )
+        && read_case_item(p))
         return true;
 
     p->cursor = tmp;
@@ -25,10 +32,9 @@ bool read_case_clause(struct parser *p)
             && p->input[p->cursor + 1] != ';')
             p->cursor--;
 
-        if (
-            ZERO_OR_MANY(read_case_clause_element(p))
-           && OPTIONAL(parser_readtext(p, ";;"))
-           && ZERO_OR_MANY(parser_readchar(p, '\n')))
+        if (ZERO_OR_MANY(read_case_clause_element(p))
+            && OPTIONAL(parser_readtext(p, ";;"))
+            && ZERO_OR_MANY(parser_readchar(p, '\n')))
         {
             struct ast_node *ast = ast_case_clause_init();
 

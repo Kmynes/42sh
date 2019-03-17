@@ -8,7 +8,7 @@ void ast_set_in_parent(struct ast_node *parent, struct ast_node *ast)
             sizeof(struct ast_node) * parent->capacity * 2);
         if (!tmp)
         {
-            //catch error memory
+            // catch error memory
             return;
         }
         parent->children = tmp;

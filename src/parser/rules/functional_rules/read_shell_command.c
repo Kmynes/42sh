@@ -1,5 +1,19 @@
 #include <parser/rules/rules.h>
-
+/**
+** \file read_shell_command.c
+** \brief reads shell_command grammar as specified by the subject.
+**
+** shell_command: '{' compound_list '}'
+** | '(' compound_list ')'
+** | rule_for
+** | rule_while
+** | rule_until
+** | rule_case
+** | rule_if
+** \author Thibault
+** \version 0.3
+** \date February 2019
+*/
 static bool read_first(struct parser *p)
 {
     unsigned int tmp = p->cursor;

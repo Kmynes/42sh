@@ -1,5 +1,13 @@
 #include <parser/rules/rules.h>
-
+/**
+** \file read_funcdec.c
+** \brief reads funcdec grammar as specified by the subject.
+**
+** funcdec: ['function'] WORD '(' ')' ('\n')* shell_command
+** \author Kevin
+** \version 0.3
+** \date February 2019
+*/
 bool read_funcdec(struct parser *p)
 {
     unsigned int tmp = p->cursor;

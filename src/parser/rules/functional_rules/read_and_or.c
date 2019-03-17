@@ -1,10 +1,13 @@
 #include <parser/rules/rules.h>
 /**
- * \file read_and_or.c
- * \brief Functions for implement rule [read_and_or]
- * \version 0.3
- * \date March 2019
- */
+** \file read_and_or.c
+** \brief reads and_or grammar as specified by the subject.
+**
+** and_or: pipeline (('&&'|'||') ('\n')* pipeline)*
+** \author Kevin
+** \version 0.3
+** \date February 2019
+*/
 
 static bool read_instructions(struct parser *p)
 {
@@ -27,8 +30,8 @@ static bool read_instructions(struct parser *p)
 }
 
 /**
- * \param struct parser *p
- * \brief Allow to read an [and_or] rule, return a [true]
+** \param struct parser *p
+** \brief Allow to read an [and_or] rule, return a [true]
 */
 bool read_and_or(struct parser *p)
 {

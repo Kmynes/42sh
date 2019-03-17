@@ -1,5 +1,14 @@
 #include <parser/rules/rules.h>
-
+/**
+** \file read_compound_list.c
+** \brief reads compound_list grammar as specified by the subject.
+**
+** compound_list:
+** ('\n')* and_or ((';'|'&'|'\n') ('\n')* and_or)* [('&'|';'|'\n') ('\n')*]
+** \author Kevin
+** \version 0.3
+** \date February 2019
+*/
 bool read_first_part(struct parser *p)
 {
     unsigned int tmp = p->cursor;

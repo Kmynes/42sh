@@ -1,7 +1,13 @@
 #include <parser/rules/rules.h>
-#include <unistd.h>
-#include <stdio.h>
-
+/**
+** \file read_pipeline.c
+** \brief reads pipeline grammar as specified by the subject.
+**
+** pipeline: ['!'] command ('|' ('\n')* command)*
+** \author Thibault
+** \version 0.3
+** \date February 2019
+*/
 bool read_optional_instructions(struct parser *p)
 {
     unsigned int tmp = p->cursor;

@@ -3,7 +3,7 @@
 
 void test_rules(void)
 {
-    //Terminal
+    // Terminal
     test_read_assign();
     test_read_word();
     test_read_assignment_word();
@@ -11,7 +11,7 @@ void test_rules(void)
     test_read_heredoc();
     test_read_eof();
 
-    //Functional
+    // Functional
     test_read_input();
     test_read_list();
     test_read_and_or();
@@ -22,7 +22,7 @@ void test_rules(void)
     test_read_prefix();
     test_read_element();
 
-    //Key word
+    // Key word
     test_read_compound_list();
     test_read_rule_case();
     test_read_case_item();
