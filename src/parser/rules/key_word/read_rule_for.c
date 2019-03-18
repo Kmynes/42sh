@@ -76,7 +76,7 @@ bool read_rule_for(struct parser *p)
         struct ast_node *ast = ast_rule_for_init(data);
 
         if (data->nb_word > 1)
-            variables_add(strdup(data->words[0]), strdup(data->words[1]));
+            variables_add(data->words[0], data->words[1]);
 
         ast_recover_all_from_parser(ast, p, AST_DO_GROUP);
         ast_set_in_parser(p, ast);
