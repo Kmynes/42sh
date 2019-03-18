@@ -21,25 +21,25 @@ static void test_variables_add(void)
 {
     variables_init();
 
-    variables_add(strdup("i"), strdup("0"));
+    variables_add("i", "0");
     check_variables("i=0;");
 
-    variables_add(strdup("k"), strdup("15"));
+    variables_add("k", "15");
     check_variables("i=0;k=15;");
 
-    variables_add("i", strdup("45"));
+    variables_add("i", "45");
     check_variables("i=45;k=15;");
 
-    variables_add("k", strdup("55"));
+    variables_add("k", "55");
     check_variables("i=45;k=55;");
 
-    variables_add(strdup("docker"), strdup("compose"));
+    variables_add("docker", "compose");
     check_variables("i=45;k=55;docker=compose;");
 
-    variables_add("docker", strdup("swarm"));
+    variables_add("docker", "swarm");
     check_variables("i=45;k=55;docker=swarm;");
 
-    variables_add(strdup("google"), strdup("search"));
+    variables_add("google", "search");
     check_variables("i=45;k=55;docker=swarm;google=search;");
 
     variables_free();
@@ -48,25 +48,25 @@ void test_variable_delete(void)
 {
     variables_init();
 
-    variables_add(strdup("i"), strdup("0"));
+    variables_add("i", "0");
     check_variables("i=0;");
 
-    variables_add(strdup("k"), strdup("15"));
+    variables_add("k", "15");
     check_variables("i=0;k=15;");
 
-    variables_add("i", strdup("45"));
+    variables_add("i", "45");
     check_variables("i=45;k=15;");
 
-    variables_add("k", strdup("55"));
+    variables_add("k", "55");
     check_variables("i=45;k=55;");
 
-    variables_add(strdup("docker"), strdup("compose"));
+    variables_add("docker", "compose");
     check_variables("i=45;k=55;docker=compose;");
 
-    variables_add("docker", strdup("swarm"));
+    variables_add("docker", "swarm");
     check_variables("i=45;k=55;docker=swarm;");
 
-    variables_add(strdup("google"), strdup("search"));
+    variables_add("google", "search");
     check_variables("i=45;k=55;docker=swarm;google=search;");
 
     variables_delete("google");
@@ -81,7 +81,7 @@ void test_variable_delete(void)
     variables_delete("docker");
     check_variables("");
 
-    variables_add(strdup("docker"), strdup("kubernetes"));
+    variables_add("docker", "kubernetes");
     check_variables("docker=kubernetes;");
 
     variables_delete("docker");

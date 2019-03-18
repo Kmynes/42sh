@@ -1,6 +1,13 @@
 #include <string.h>
 #include <parser/rules/rules.h>
 #include <utils/string.h>
+/**
+** \file variables_utils.c
+** \author Kevin
+** \version 0.3
+** \date March 2019
+** \brief Useful function for variable management
+*/
 
 /**
 ** \param char *key
@@ -33,9 +40,9 @@ void variables_free(void)
     }
 }
 
-char *read_variable(char *arg)
+static void simple_variable(char **arg_ptr)
 {
-    char *begin = arg;
+    char *arg = *arg_ptr;
     if (arg[0] == '$')
     {
         char *key = calloc(sizeof(char), strlen(arg));
@@ -53,10 +60,18 @@ char *read_variable(char *arg)
         free(key);
 
         if (kv)
-            return kv->value;
+        {
+            free(*arg_ptr);
+            *arg_ptr = strdup(kv->value);
+        }
     }
+}
 
-    return begin;
+static bool is_in_variable_pattern(char c)
+{
+    bool is_alpha = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+    bool is_num = c >= '0' && c <= '9';
+    return is_alpha || is_num || c == '_';
 }
 
 static char *take_of_quote(char *value, size_t len_value)
@@ -81,7 +96,7 @@ static char *get_variable_name(char *val, char **store_val, size_t len_value,
     char *capt = calloc(sizeof(char), len_value);
     char c = ' ';
 
-    while (*val != '\0' && (*val != ' ' && (c != '\\' && *val != '}')))
+    while (*val != '\0' && is_in_variable_pattern(*val))//(*val != ' ' && (c != '\\' && *val != '}')))
     {
         c = *val;
         capt[cursor++] = c;
@@ -108,25 +123,18 @@ static void check_quote(char **addr, size_t len_value)
                 {
                     val += *(val + 1) == '{' ? 2 : 1;
 
-                    bool is_with_accolade = false;
+                    bool is_accolade = false;
                     char *var_name = get_variable_name(val, &val, len_value,
-                        &is_with_accolade);
+                        &is_accolade);
+                    struct key_value *kv = variables_get(var_name);
+                    char *var_call = calloc(sizeof(char),
+                        strlen(var_name) + 8);
 
-                    char *var_call = calloc(sizeof(char), strlen(var_name) + 3);
-
-                    if (is_with_accolade)
-                        sprintf(var_call, "${%s}", var_name);
-                    else
-                        sprintf(var_call, "$%s", var_name);
-
-                    if (*val == '\0' || *val == ' ' || is_with_accolade)
-                    {
-                        struct key_value *kv = variables_get(var_name);
-                        char *replacer = kv ? kv->value : "";
-                        *addr = str_replace(var_call, replacer, *addr);
-                        val = *addr;
-                    }
+                    sprintf(var_call, is_accolade ? "${%s}" : "$%s", var_name);
+                    *addr = str_replace(var_call, kv ? kv->value : "", *addr);
+                    val = *addr;
                     free(var_name);
+                    free(var_call);
                 }
             }
             val++;
@@ -139,4 +147,5 @@ void manage_variable_str(char **value)
     size_t len_value = strlen(*value);
     check_simple_quote(value, len_value);
     check_quote(value, len_value);
+    simple_variable(value);
 }
