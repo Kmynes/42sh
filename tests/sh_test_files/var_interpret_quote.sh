@@ -18,3 +18,11 @@ $prog --version
 $prog $path_printer $phrase
 
 $prog $path_printer "empty variable [$empty]"
+
+$prog $path_printer "an other empty variable [${empty_var}]"
+
+printer_prog="$prog $path_printer"
+
+word='BLUE'
+
+$printer_prog "print just a little [$word]"
