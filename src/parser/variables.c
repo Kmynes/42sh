@@ -32,8 +32,8 @@ struct key_value *variables_add(char *key, char *value)
 
     if (variables->key == NULL)
     {
-        variables->key = key;
-        variables->value = value;
+        variables->key = strdup(key);
+        variables->value = strdup(value);
         return variables;
     }
 
@@ -45,7 +45,7 @@ struct key_value *variables_add(char *key, char *value)
     while (buff->next)
         buff = buff->next;
 
-    buff->next = create_variable(key, value);
+    buff->next = create_variable(strdup(key), strdup(value));
 
     return buff->next;
 }
@@ -85,8 +85,11 @@ struct key_value *variables_update(char *key, char *value)
     struct key_value *kv = variables_get(key);
     if (kv)
     {
+        free(kv->key);
+        kv->key = strdup(key);
+
         free(kv->value);
-        kv->value = value;
+        kv->value = strdup(value);
     }
 
     return kv;
