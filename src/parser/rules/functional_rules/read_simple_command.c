@@ -122,7 +122,8 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
     return list;
 }
 
-static char **create_command_list(struct ast_node *ast, size_t prefix_count)
+static char **create_command_list(struct ast_node *ast, size_t prefix_count,
+    bool *prog_found)
 {
     struct ast_node *child = NULL;
     struct ast_node *sub_child = NULL;
@@ -131,14 +132,14 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count)
 
     size_t i = 0;
     size_t range = prefix_count;
-    bool prog_found = false;
+
     while (range < ast->nb_children)
     {
         child = ast->children[range];
         sub_child = child->children[0];
         if (sub_child->type == AST_WORD)
         {
-            if (!prog_found)
+            if (!*prog_found)
             {
                 char *prog = sub_child->data;
                 char delim[] = " ";
@@ -151,7 +152,7 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count)
                     args[i++] = part;
                     part = strtok(NULL, delim);
                 }
-                prog_found = true;
+                *prog_found = true;
                 range++;
             }
             else
@@ -164,7 +165,8 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count)
             }
         }
     }
-    args[i] = i == 0 ? "" : NULL;
+
+    args[i] = NULL;
     return args;
 }
 
@@ -175,19 +177,22 @@ static int run_cmd(char **cmd, char **env)
 
 int ast_simple_command_exec(struct ast_node *ast)
 {
-    if (ast->nb_children == 0)
-        return 0;
+
     struct ast_assignment_word *list = create_env_list(ast);
     size_t prefix_count = assignment_word_list_len(list);
-    char **args = create_command_list(ast, prefix_count);
 
-    size_t count = 0;
-    char **env = build_env_param(list, &count);
-    int res = run_cmd(args, env);
+    int res = 0;
+    bool has_prog = false;
+    char **args = create_command_list(ast, prefix_count, &has_prog);
+    if (has_prog)
+    {
+        size_t count = 0;
+        char **env = build_env_param(list, &count);
+        res = run_cmd(args, env);
+        string_list_free(env, count);
+    }
 
-    string_list_free(env, count);
     free(args);
-
     return res;
 }
 
