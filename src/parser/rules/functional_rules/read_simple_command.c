@@ -1,6 +1,7 @@
 #include <parser/rules/rules.h>
 #include <utils/assignment_word.h>
 #include <utils/string.h>
+#include <utils/function_utils.h>
 #include <utils/exec.h>
 #include <execution/builtins/builtins.h>
 /**
@@ -12,6 +13,7 @@
 ** \version 0.3
 ** \date February 2019
 */
+
 static bool sub_command1(struct parser *p)
 {
     unsigned int tmp = p->cursor;
@@ -114,11 +116,9 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
         else if (sub_child->type == AST_REDIRECTION)
         {}
 
-        i++;
-        child = ast->children[i];
+        child = ast->children[++i];
     }
-    while (i < ast->nb_children && child && child->type == AST_PREFIX);
-
+    while (i < ast->nb_children && child->type == AST_PREFIX);
     return list;
 }
 
@@ -126,25 +126,45 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count)
 {
     struct ast_node *child = NULL;
     struct ast_node *sub_child = NULL;
-
-    char **args = malloc(sizeof(char *) *
-        (ast->nb_children - prefix_count + 1));
+    size_t len_args = ast->nb_children - prefix_count + 1;
+    char **args = malloc(sizeof(char *) * len_args);
 
     size_t i = 0;
     size_t range = prefix_count;
+    bool prog_found = false;
     while (range < ast->nb_children)
     {
         child = ast->children[range];
         sub_child = child->children[0];
         if (sub_child->type == AST_WORD)
         {
-            args[i] = read_variable(sub_child->data);
-            manage_variable_str(&args[i]);
-            i++;
-            range++;
+            if (!prog_found)
+            {
+                char *prog = sub_child->data;
+                char delim[] = " ";
+                char *part = strtok(prog, delim);
+                while (part)
+                {
+                    if (i == len_args)
+                        args = enlarge_list(args, &len_args);
+
+                    args[i++] = part;
+                    part = strtok(NULL, delim);
+                }
+                prog_found = true;
+                range++;
+            }
+            else
+            {
+                if (i == len_args)
+                    args = enlarge_list(args, &len_args);
+
+                args[i++] = sub_child->data;
+                range++;
+            }
         }
     }
-    args[i] = NULL;
+    args[i] = i == 0 ? "" : NULL;
     return args;
 }
 
@@ -155,23 +175,10 @@ static int run_cmd(char **cmd, char **env)
 
 int ast_simple_command_exec(struct ast_node *ast)
 {
+    if (ast->nb_children == 0)
+        return 0;
     struct ast_assignment_word *list = create_env_list(ast);
     size_t prefix_count = assignment_word_list_len(list);
-
-    if (prefix_count == ast->nb_children)
-    {
-        while (list)
-        {
-            char *value = list->value;
-            manage_variable_str(&value);
-            list->value = value;
-            variables_add(strdup(list->key), strdup(list->value));
-            list = list->next;
-        }
-
-        return 0;
-    }
-
     char **args = create_command_list(ast, prefix_count);
 
     size_t count = 0;
