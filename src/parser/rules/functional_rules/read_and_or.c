@@ -39,7 +39,8 @@ bool read_and_or(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (read_pipeline(p))
+    if (ZERO_OR_MANY(read_comment(p))
+        && read_pipeline(p))
     {
         struct ast_node *ast = ast_and_or_init();
 

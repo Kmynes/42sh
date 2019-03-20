@@ -22,6 +22,7 @@ void test_read_assignment_word(void);
 void test_read_ionumber(void);
 void test_read_heredoc(void);
 void test_read_eof(void);
+void test_read_comment(void);
 
 // Test functional
 void test_read_input(void);

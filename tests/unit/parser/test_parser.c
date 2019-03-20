@@ -10,6 +10,7 @@ void test_rules(void)
     test_read_ionumber();
     test_read_heredoc();
     test_read_eof();
+    test_read_comment();
 
     // Functional
     test_read_input();

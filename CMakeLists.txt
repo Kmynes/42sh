@@ -27,7 +27,6 @@ add_library(42sh_lib ${SRC_FILES})
 
 file(GLOB_RECURSE TEST_FILES tests/*)
 
-enable_testing()
 include_directories(tests tests/unit)
 add_executable(test_42sh ${TEST_FILES})
 

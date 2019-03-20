@@ -3,7 +3,7 @@
 void test_read_rule_until_simple(void)
 {
     char *input = "until\n\necho hello\ndo\nls\ndone";
-    test_rule(read_rule_until, input, "AST_RULE_UNTIL(2)");
+    assert(test_rule(read_rule_until, input, "AST_RULE_UNTIL(2)"));
     struct ast_node *ast = ast_from_read(read_rule_until, input);
     assert(ast->children[0]->type == AST_COMPOUND_LIST);
     assert(ast->children[1]->type == AST_DO_GROUP);
@@ -14,7 +14,7 @@ void test_read_rule_until_complex(void)
 {
     char *input = "until\n\necho toto;\necho titi\necho"
                   "tutu\ndo\nls;cat;find;\ndone";
-    test_rule(read_rule_until, input, "AST_RULE_UNTIL(2)");
+    assert(test_rule(read_rule_until, input, "AST_RULE_UNTIL(2)"));
     struct ast_node *ast = ast_from_read(read_rule_until, input);
     assert(ast->children[0]->type == AST_COMPOUND_LIST);
     assert(ast->children[1]->type == AST_DO_GROUP);

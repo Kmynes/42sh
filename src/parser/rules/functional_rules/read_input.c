@@ -49,6 +49,7 @@ bool read_input(struct parser *p)
     if ((has_list = read_input1(p))
         || (has_list = read_input2(p))
         || parser_readchar(p, '\n')
+        || ONE_OR_MANY(read_comment(p))
         || read_eof(p))
     {
         struct ast_node *ast = ast_input_init();

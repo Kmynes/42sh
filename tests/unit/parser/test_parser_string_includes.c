@@ -43,14 +43,18 @@ void test_parser_readinset(void)
 
 void test_parser_readoutset(void)
 {
-    struct parser *parser = parser_new_from_string("toto");
-    assert(parser_readoutset(parser, "abcd"));
-    assert(parser->cursor == 1);
-    assert(!parser_readoutset(parser, "o"));
-    assert(parser->cursor == 1);
-    assert(parser_readoutset(parser, ""));
-    assert(parser->cursor == 2);
-    parser_free(parser);
+    struct parser *p = parser_new_from_string("toto\n");
+    assert(parser_readoutset(p, "abcd"));
+    assert(p->cursor == 1);
+    assert(!parser_readoutset(p, "o"));
+    assert(p->cursor == 1);
+    assert(parser_readoutset(p, ""));
+    assert(p->cursor == 2);
+
+    p->cursor = 0;
+    assert(ZERO_OR_MANY(parser_readoutset(p, "\n")));
+    assert(p->cursor == 4);
+    parser_free(p);
 }
 
 void test_parser_string_includes(void)

@@ -64,6 +64,8 @@ struct ast_assignment_word
 };
 struct ast_node *ast_assignment_word_init(struct ast_assignment_word *data);
 
+bool read_comment(struct parser *p);
+
 bool read_heredoc(struct parser *p);
 struct ast_node *ast_heredoc_init(void *data);
 
