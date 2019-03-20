@@ -24,7 +24,7 @@ bool read_rule_if(struct parser *p)
         && read_compound_list(p)
         && read_spaces(p)
         && parser_readtext(p, "then")
-        && (read_spaces(p) || read_end_of_line(p))
+        && read_spaces(p)
         && read_compound_list(p))
     {
         struct ast_node *ast = ast_rule_if_init();
@@ -60,7 +60,7 @@ int ast_rule_if_exec(struct ast_node *ast)
 {
     struct ast_node *first_compound_list = ast->children[0];
     int res_exec_first = first_compound_list->exec(first_compound_list);
-    if (res_exec_first)
+    if (res_exec_first == 0)
     {
         struct ast_node *seconde_compound_list = ast->children[1];
         return seconde_compound_list->exec(seconde_compound_list);
