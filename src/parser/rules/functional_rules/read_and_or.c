@@ -14,7 +14,9 @@ static bool read_instructions(struct parser *p)
     unsigned int tmp = p->cursor;
 
     parser_begin_capture(p, "and_or_op");
-    if ((parser_readtext(p, "&&") || parser_readtext(p, "||"))
+    if (read_spaces(p)
+        && (parser_readtext(p, "&&") || parser_readtext(p, "||"))
+        && read_spaces(p)
         && parser_end_capture(p, "and_or_op")
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
         && read_pipeline(p))

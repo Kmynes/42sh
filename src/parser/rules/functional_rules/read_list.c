@@ -13,8 +13,10 @@ bool read_list1(struct parser *p)
     unsigned int tmp = p->cursor;
 
     parser_begin_capture(p, "list_op");
-    if ((parser_readchar(p, ';')
+    if (read_spaces(p)
+        && (parser_readchar(p, ';')
         || parser_readchar(p, '&'))
+        && read_spaces(p)
         && parser_end_capture(p, "list_op")
         && read_and_or(p))
     {

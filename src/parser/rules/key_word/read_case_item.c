@@ -13,7 +13,10 @@ bool read_case_item_element(struct parser *p,
 {
     unsigned int tmp = p->cursor;
 
-    if (parser_readchar(p, '|') && read_multiple_word(p, data))
+    if (read_spaces(p)
+        && parser_readchar(p, '|')
+        && read_spaces(p)
+        && read_multiple_word(p, data))
         return true;
 
     p->cursor = tmp;

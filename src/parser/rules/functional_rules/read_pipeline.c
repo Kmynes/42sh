@@ -12,7 +12,9 @@ bool read_optional_instructions(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (parser_readchar(p, '|')
+    if (read_spaces(p)
+        && parser_readchar(p, '|')
+        && read_spaces(p)
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
         && read_command(p))
     {
@@ -32,6 +34,7 @@ bool read_pipeline(struct parser *p)
     data->is_negative = 0;
 
     if (OPTIONAL((data->is_negative = parser_readchar(p, '!')))
+        && read_spaces(p)
         && read_command(p)
         && ZERO_OR_MANY(read_optional_instructions(p)))
     {
