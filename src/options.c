@@ -4,6 +4,7 @@
 #include <parser/parser.h>
 #include <execution/execute_command.h>
 #include <interactive/prompt.h>
+#include <utils/option_util.h>
 #include "options.h"
 /**
 ** \file options.c
@@ -121,7 +122,16 @@ int execute_options(char *command, char *options)
         }
 
     if (!(has_options(options, 'c') || has_options(options, 'v')))
-        create_prompt();
+    {
+        if (stdin_has_input()) {
+            char buf[MAX_INPUT];
+
+            fgets(buf, sizeof buf, stdin);
+            return execute_command(buf, ast_print_flag);
+        }
+        else
+            create_prompt();
+    }
 
     return 0;
 }

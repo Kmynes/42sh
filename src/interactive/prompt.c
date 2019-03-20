@@ -3,8 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
-
-#define MAX_INPUT 4096
+#include "prompt.h"
 
 void create_prompt(void)
 {
