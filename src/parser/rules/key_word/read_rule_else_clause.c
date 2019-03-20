@@ -14,8 +14,10 @@ bool read_else_clause(struct parser *p)
     unsigned int tmp = p->cursor;
 
     if ((parser_readtext(p, "else")
-        && read_compound_list(p))
+        && read_compound_list(p)
+        && read_spaces(p))
         || (parser_readtext(p, "elif")
+
         && read_compound_list(p)
         && parser_readtext(p, "then")
         && read_compound_list(p)))

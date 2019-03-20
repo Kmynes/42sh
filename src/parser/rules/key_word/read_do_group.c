@@ -13,7 +13,9 @@ bool read_do_group(struct parser *p)
     unsigned int tmp = p->cursor;
 
     if (parser_readtext(p, "do")
+        && read_spaces(p)
         && read_compound_list(p)
+        && read_spaces(p)
         && parser_readtext(p, "done"))
     {
         struct ast_node *ast = ast_do_group_init();

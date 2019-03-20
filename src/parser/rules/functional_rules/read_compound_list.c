@@ -17,6 +17,7 @@ bool read_first_part(struct parser *p)
     if ((parser_readchar(p, ';')
         || parser_readchar(p, '&')
         || parser_readchar(p, '\n'))
+        && read_spaces(p)
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
         && read_and_or(p))
     {
@@ -33,7 +34,7 @@ bool read_second_part(struct parser *p)
     unsigned int tmp = p->cursor;
 
     read_spaces(p);
-    if ((  parser_readchar(p, '&')
+    if ((parser_readchar(p, '&')
         || parser_readchar(p, ';')
         || parser_readchar(p, '\n'))
         && ZERO_OR_MANY(parser_readchar(p, '\n')))
@@ -49,7 +50,8 @@ bool read_compound_list(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (ZERO_OR_MANY(parser_readchar(p, '\n'))
+    if (read_spaces(p)
+        && ZERO_OR_MANY(parser_readchar(p, '\n'))
         && read_and_or(p)
         && ZERO_OR_MANY(read_first_part(p))
         && OPTIONAL(read_second_part(p)))
