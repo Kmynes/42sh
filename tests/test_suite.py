@@ -142,7 +142,7 @@ def category_list():
             number_of_categories+=1
             print(category)
     print(str(number_of_categories)+" categories were succesfully printed.")
-       
+
 
 def full_test_suite(arguments=[None]*4):
     """ Executes a full test suite """
