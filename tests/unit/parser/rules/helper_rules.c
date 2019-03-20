@@ -42,7 +42,7 @@ struct ast_node *ast_from_read( bool (*read_func)(struct parser *),
     struct parser *p = parser_new_from_string(input);
     if (!read_func(p))
     {
-        printf("test_rule, for input : %s, read function returned false\n", 
+        printf("test_rule, for input : %s, read function returned false\n",
             input);
         parser_free(p);
         return NULL;

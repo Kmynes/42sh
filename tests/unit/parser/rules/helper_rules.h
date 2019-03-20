@@ -2,6 +2,7 @@
 
 #include <parser/rules/rules.h>
 #include "../../test.h"
+#include "../../helper_unit.h"
 
 bool test_rule( bool (*read_func)(struct parser *),
                             char *input, char *expected_string);

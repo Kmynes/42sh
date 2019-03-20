@@ -7,16 +7,21 @@ void test_parser_readassign_ok(void)
 
     struct ast_node *ast = p->ast->children[0];
     char *s = ast->to_string(ast);
-    assert(strcmp(s, "assign_var_42") == 0);
+    bool check = strcmp(s, "assign_var_42") == 0;
+    print_state_test(check, "test_parser_readassign_ok (1)");
     free(s);
-    assert(p->cursor == 6);
+
+    check = p->cursor == 6;
+    print_state_test(check, "test_parser_readassign_ok (2)");
     parser_free(p);
 }
 
 void test_parser_readassign_nok(void)
 {
     struct parser *p = parser_new_from_string("42=var");
-    assert(p->cursor == 0);
+    bool check = p->cursor == 0;
+    print_state_test(check, "test_parser_readassign_nok");
+
     parser_free(p);
 }
 

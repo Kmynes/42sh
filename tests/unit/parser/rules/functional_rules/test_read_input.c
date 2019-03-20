@@ -3,25 +3,29 @@
 void test_read_input_eof(void)
 {
     char *input = "";
-    test_rule(read_input, input, "AST_INPUT(0)");
+    bool check = test_rule(read_input, input, "AST_INPUT(0)");
+    print_state_test(check, "test_read_input_eof");
 }
 
 void test_read_input_new_line(void)
 {
     char *input = "\n";
-    assert(test_rule(read_input, input, "AST_INPUT(0)"));
-    struct ast_node *ast = ast_from_read(read_input, input);
+    bool check = test_rule(read_input, input, "AST_INPUT(0)");
+    print_state_test(check, "test_read_input_new_line");
 
+    struct ast_node *ast = ast_from_read(read_input, input);
     ast_free(ast);
 }
-
 
 void test_read_input_simple(void)
 {
     char *input = "toto\n";
-    assert(test_rule(read_input, input, "AST_INPUT(1)"));
+    bool check = test_rule(read_input, input, "AST_INPUT(1)");
+    print_state_test(check, "test_read_input_simple (1)");
     struct ast_node *ast = ast_from_read(read_input, input);
-    assert(ast->children[0]->type == AST_LIST);
+
+    check = ast->children[0]->type == AST_LIST;
+    print_state_test(check, "test_read_input_simple (2)");
 
     ast_free(ast);
 }
@@ -29,18 +33,20 @@ void test_read_input_simple(void)
 void test_read_input_simple2(void)
 {
     char *input = "toto;";
-    assert(test_rule(read_input, input, "AST_INPUT(1)"));
-    struct ast_node *ast = ast_from_read(read_input, input);
-    assert(ast->children[0]->type == AST_LIST);
 
+    bool check = test_rule(read_input, input, "AST_INPUT(1)");
+    struct ast_node *ast = ast_from_read(read_input, input);
+
+    check = ast->children[0]->type == AST_LIST;
+    print_state_test(check, "test_read_input_simple2 (2)");
     ast_free(ast);
 }
-
 
 void test_read_input_fail(void)
 {
     char *input = ";\n";
-    assert(test_not_rule(read_input, input));
+    bool check = test_not_rule(read_input, input);
+    print_state_test(check, "test_read_input_fail");
 }
 
 void test_read_input(void)

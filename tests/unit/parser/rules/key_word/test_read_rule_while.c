@@ -3,10 +3,15 @@
 void test_read_rule_while_simple(void)
 {
     char *input = "while\n\ni=2\ndo\nls\ndone";
-    assert(test_rule(read_rule_while, input, "AST_RULE_WHILE(2)"));
+    bool check = test_rule(read_rule_while, input, "AST_RULE_WHILE(2)");
+    print_state_test(check, "test_read_rule_while_simple (1)");
+
     struct ast_node *ast = ast_from_read(read_rule_while, input);
-    assert(ast->children[0]->type == AST_COMPOUND_LIST);
-    assert(ast->children[1]->type == AST_DO_GROUP);
+    check = ast->children[0]->type == AST_COMPOUND_LIST;
+    print_state_test(check, "test_read_rule_while_simple (2)");
+
+    check = ast->children[1]->type == AST_DO_GROUP;
+    print_state_test(check, "test_read_rule_while_simple (3)");
     ast_free(ast);
 }
 
@@ -14,17 +19,22 @@ void test_read_rule_while_complex(void)
 {
     char *input = "while\n\necho toto;\necho titi\necho tutu\n"
                   "do\nls;cat;find;\ndone";
-    assert(test_rule(read_rule_while, input, "AST_RULE_WHILE(2)"));
+    bool check = test_rule(read_rule_while, input, "AST_RULE_WHILE(2)");
+    print_state_test(check, "test_read_rule_while_complex (1)");
     struct ast_node *ast = ast_from_read(read_rule_while, input);
-    assert(ast->children[0]->type == AST_COMPOUND_LIST);
-    assert(ast->children[1]->type == AST_DO_GROUP);
+    check = ast->children[0]->type == AST_COMPOUND_LIST;
+    print_state_test(check, "test_read_rule_while_complex (2)");
+
+    check = ast->children[1]->type == AST_DO_GROUP;
+    print_state_test(check, "test_read_rule_while_complex (3)");
     ast_free(ast);
 }
 
 void test_read_rule_while_fail(void)
 {
     char *input = "echo toto";
-    assert(test_not_rule(read_rule_while, input));
+    bool check = test_not_rule(read_rule_while, input);
+    print_state_test(check, "test_read_rule_while_fail");
 }
 
 void test_read_rule_while(void)

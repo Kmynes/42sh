@@ -8,8 +8,11 @@ void test_read_sections(void)
     struct parser *p = parser_new_from_string(text);
     struct parser *p2 = parser_new_from_string(text2);
 
-    assert(!read_sections(p));
-    assert(read_sections(p2));
+    bool check = !read_sections(p);
+    print_state_test(check, "test_read_sections (1)");
+
+    check = read_sections(p2);
+    print_state_test(check, "test_read_sections (2)");
 
     parser_free(p);
     parser_free(p2);

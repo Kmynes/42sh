@@ -9,19 +9,23 @@ void test_read_ini_file(void)
 
     struct parser *p = parser_new_from_string(text);
  
-    assert(!read_ini_file(p)); // Suppose not match
+    bool check = !read_ini_file(p); // Suppose not match
+    print_state_test(check, "test_read_ini_file (1)");
     parser_free(p);
 
     p = parser_new_from_string(text2);
 
-    assert(read_ini_file(p));
+    check = read_ini_file(p);
+    print_state_test(check, "test_read_ini_file (2)");
     parser_free(p);
 
     p = parser_new_from_string(text3);
-    assert(read_ini_file(p));
+    check = read_ini_file(p);
+    print_state_test(check, "test_read_ini_file (3)");
     parser_free(p);
 
     p = parser_new_from_string(text4);
-    assert(read_ini_file(p));
+    check = read_ini_file(p);
+    print_state_test(check, "test_read_ini_file (4)");
     parser_free(p);
 }

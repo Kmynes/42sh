@@ -3,8 +3,12 @@
 void test_parser_readalpha(void)
 {
     struct parser *parser = parser_new_from_string("e2");
-    assert(parser_readalpha(parser));
-    assert(!parser_readalpha(parser));
+
+    bool check = parser_readalpha(parser);
+    print_state_test(check, "test_parser_readalpha (1)");
+
+    check = !parser_readalpha(parser);
+    print_state_test(check, "test_parser_readalpha (2)");
     parser_free(parser);
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdbool.h>
 #include <parser/rules/rules.h>
 #include "helper_rules.h"
 #include "../../test.h"

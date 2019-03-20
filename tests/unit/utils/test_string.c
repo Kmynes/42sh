@@ -7,7 +7,8 @@ static void test_str_replace(void)
     str = str_replace("${part1}", "project", str);
     str = str_replace("${part2}", "42", str);
     str = str_replace(" $part3", "sh", str);
-    assert(strcmp(str, "project 42sh") == 0);
+    bool check = strcmp(str, "project 42sh") == 0;
+    print_state_test(check, "test_str_replace");
     free(str);
 }
 

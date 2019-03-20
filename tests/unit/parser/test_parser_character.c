@@ -3,11 +3,13 @@
 void test_parser_eof(void)
 {
     struct parser *parser = parser_new_from_string("");
-    assert(parser_eof(parser));
+    bool check = parser_eof(parser);
+    print_state_test(check, "test_parser_eof (1)");
     parser_free(parser);
 
     parser = parser_new_from_string("abc");
-    assert(!parser_eof(parser));
+    check = !parser_eof(parser);
+    print_state_test(check, "test_parser_eof (2)");
     parser_free(parser);
 }
 
@@ -26,10 +28,15 @@ void test_parser_peekchar(void)
     char *str = "Le chat est un félyn";
     struct parser *parser = parser_new_from_string(str);
     char testChar = 'e';
-    assert(!parser_peekchar(parser, testChar));
-    assert(!parser_peekchar(parser, testChar));
+    bool check = !parser_peekchar(parser, testChar);
+    print_state_test(check, "test_parser_peekchar (1)");
+
+    check = !parser_peekchar(parser, testChar);
+    print_state_test(check, "test_parser_peekchar (2)");
+
     parser->cursor++;
-    assert(parser_peekchar(parser, testChar));
+    check = parser_peekchar(parser, testChar);
+    print_state_test(check, "test_parser_peekchar (3)");
     parser_free(parser);
 }
 
@@ -37,15 +44,33 @@ void test_parser_readchar(void)
 {
     char *str = "boaisding";
     struct parser *parser = parser_new_from_string(str);
-    assert(parser_readchar(parser, 'b'));
-    assert(parser->cursor == 1);
-    assert(!parser_readchar(parser, 'k'));
-    assert(parser_readchar(parser, 'o'));
-    assert(parser_readchar(parser, 'a'));
-    assert(!parser_readchar(parser, 'h'));
-    assert(parser_readchar(parser, 'i'));
-    assert(!parser_readchar(parser, 'z'));
-    assert(!parser_readchar(parser, 'u'));
+    bool check = parser_readchar(parser, 'b');
+    print_state_test(check, "test_parser_readchar (1)");
+
+    check = parser->cursor == 1;
+    print_state_test(check, "test_parser_readchar (2)");
+
+    check = !parser_readchar(parser, 'k');
+    print_state_test(check, "test_parser_readchar (3)");
+
+    check = parser_readchar(parser, 'o');
+    print_state_test(check, "test_parser_readchar (4)");
+
+    check = parser_readchar(parser, 'a');
+    print_state_test(check, "test_parser_readchar (5)");
+
+    check = !parser_readchar(parser, 'h');
+    print_state_test(check, "test_parser_readchar (6)");
+
+    check = parser_readchar(parser, 'i');
+    print_state_test(check, "test_parser_readchar (7)");
+
+    check = !parser_readchar(parser, 'z');
+    print_state_test(check, "test_parser_readchar (8)");
+
+    check = !parser_readchar(parser, 'u');
+    print_state_test(check, "test_parser_readchar (9)");
+
     parser_free(parser);
 }
 
