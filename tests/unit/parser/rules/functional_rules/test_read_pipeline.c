@@ -82,7 +82,7 @@ void test_read_pipeline_tricky(void)
 
 void test_read_pipeline_fail(void)
 {
-    bool check = test_not_rule(read_pipeline, " toto");
+    bool check = test_not_rule(read_pipeline, "for toto");
     print_state_test(check, "test_read_pipeline_fail");
 }
 

@@ -90,11 +90,8 @@ void test_read_and_or_multiple(void)
 
 void test_read_and_or_fail(void)
 {
-    bool check = test_not_rule(read_and_or, " toto");
+    bool check = test_not_rule(read_and_or, "for toto");
     print_state_test(check, "test_read_and_or_fail (1)");
-
-    test_not_rule(read_and_or, "1deoi");
-    print_state_test(check, "test_read_and_or_fail (2)");
 }
 
 void test_read_and_or(void)
