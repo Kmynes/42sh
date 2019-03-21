@@ -6,6 +6,7 @@ all:
 unit:
 	$(MAKE) -s all
 	clear
+	python3 tests/test_suite.py -c unit
 
 doc:
 	doxygen doxy-config

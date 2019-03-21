@@ -169,6 +169,14 @@ def full_test_suite(arguments=[None]*4):
 def category_test(arguments):
     """ Executes tests for a specific category given in argument """
     category = arguments[0]
+    if category == "unit":
+        print("= unit tests " + "="*67)
+        fails = run_unit_test()
+        print()
+        if fails > 0:
+            return [0, 1]
+        else:
+            return [0, 0]
     print("= "+category+" "+"="*(77-len(category)))
     category_fails = category_tests = 0
     directory = os.path.dirname(os.path.abspath(__file__))+"/integration"
