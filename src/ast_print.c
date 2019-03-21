@@ -303,7 +303,9 @@ int ast_print(struct ast_node *ast, FILE *stream)
         remove_parenthesis(ast_child_str);
         int no_of_child = increment_in_table(table, child, 1);
 
-        fprintf(stream, "\t\"%s_%d\" -> \"%s_%d\";\n", ast_string, no_of_ast, ast_child_str, no_of_child);
+        fprintf(stream, "\t\"%s_%d\" -> \"%s_%d\";\n", ast_string, no_of_ast,
+                ast_child_str, no_of_child);
+
         free(ast_child_str);
         ast_print(child, stream);
     }
