@@ -145,6 +145,9 @@ def category_list():
 def full_test_suite(arguments=[None]*4):
     """ Executes a full test suite """
     total_tests = total_fails = 0
+    print("= unit tests " + "="*67)
+    total_fails += run_unit_test()
+    print()
     directory = os.path.dirname(os.path.abspath(__file__))+"/integration"
 
     for category in os.listdir(directory):

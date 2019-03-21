@@ -13,12 +13,10 @@ int test_unit(void)
 
     if (global_condition)
     {
-        printf("\n\033[1;32mUNIT TESTS : PASSED\033[0m\n");
         return 0;
     }
     else
     {
-        printf("\n\033[31mUNIT TESTS : FAILED\033[0m\n");
         return 1;
     }
 }
