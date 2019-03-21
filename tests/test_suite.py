@@ -22,8 +22,6 @@ except ImportError:
 # \version v0.5
 # \date March 2019
 # \description
-
-
 def run(code, arguments=[None]*4):
     """ Runs a command in shell, returns stdout and stderror """
     # arguments list: [category, sanity, timer]
@@ -294,6 +292,10 @@ def argument_manager(arguments):
     if arguments[0]:
         try:
             [tests, fails] = category_test(arguments)
+            if fails > 0:
+                return [1]
+            else:
+                return [0]
         except FileNotFoundError:
             return [2, arguments[0]]
     fails = full_test_suite(arguments)
