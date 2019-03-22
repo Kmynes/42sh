@@ -72,7 +72,7 @@ void test_parser_readoutset(void)
 {
     struct parser *p = parser_new_from_string("toto\n");
     bool check = parser_readoutset(p, "abcd");
-    print_state_test(check, "test_parser_readoutset (1)"); 
+    print_state_test(check, "test_parser_readoutset (1)");
 
     check = p->cursor == 1;
     print_state_test(check, "test_parser_readoutset (2)");

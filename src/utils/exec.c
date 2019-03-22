@@ -4,6 +4,13 @@
 #include <err.h>
 #include "exec.h"
 
+/**
+ * execute command using fork/execvpe
+ * execvpe looks up the PATH before executing a command
+ * @param cmd
+ * @param env
+ * @return
+ */
 int exec_cmd(char **cmd, char **env)
 {
     pid_t pid = fork();
