@@ -3,8 +3,6 @@
 all:
 	mkdir -p ./build
 	cd ./build && cmake .. && make
-	#$(MAKE) -C ./build
-
 unit:
 	$(MAKE) -s all
 	clear
