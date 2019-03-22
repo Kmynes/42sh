@@ -1,4 +1,3 @@
-#include <libgen.h>
 #include "ast_print.h"
 
 /**
@@ -71,17 +70,13 @@ int ast_print(struct ast_node *ast, FILE *stream)
 
     if (stream == NULL)
     {
-        char path_file[1024];
-	char path_dir[1024];
+        char path[1024];
 
-        getcwd(path_file, sizeof(path_file));
-        getcwd(path_dir, sizeof(path_dir));
+        getcwd(path, sizeof(path));
 
-        strcat(path_file, "/doc/ast.dot");
-	strcat(path_dir, "/doc");
+        strcat(path, "/ast.dot");
 
-        mkdir(path_dir,  S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-        stream = fopen(path_file, "w");
+        stream = fopen(path, "w");
         first_one = 1;
         ast = ast->children[0];
 
