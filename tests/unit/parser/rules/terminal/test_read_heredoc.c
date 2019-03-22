@@ -5,7 +5,7 @@ void test_read_heredoc(void)
     char *heredoc = "END\necho toto\nEND";
     struct parser *p = parser_new_from_string(heredoc);
     bool check = read_heredoc(p);
-    print_state_test(check, "test_read_heredoc (1)"); 
+    print_state_test(check, "test_read_heredoc (1)");
     check = p->cursor == strlen(heredoc);
     print_state_test(check, "test_read_heredoc (2)");
 

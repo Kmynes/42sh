@@ -96,9 +96,6 @@ int execute_options(char *command, char *options)
     for (unsigned i = 0; options[i]; i++)
         switch (options[i])
         {
-            case 'x':
-                printf("Unknown option\n");
-                return 1;
             case 'a':
                 ast_print_flag = 1;
                 break;
@@ -114,6 +111,12 @@ int execute_options(char *command, char *options)
         switch (options[i])
         {
             case 'f':
+                if (fopen(command, "r") == NULL)
+                {
+                    printf("42sh: %s: No such file or directory\n", command);
+                    return 1;
+                }
+
                 res = exec_file(command);
                 return res;
             case 'v':
