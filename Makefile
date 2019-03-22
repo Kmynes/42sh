@@ -3,7 +3,8 @@
 all:
 	mkdir -p build
 	cmake -B build -S .
-	$(MAKE) -C build 
+	ls build
+	$(MAKE) -C build default_target
 
 unit:
 	$(MAKE) -s all
