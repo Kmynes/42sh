@@ -2,8 +2,8 @@
 
 all:
 	mkdir -p ./build
-	cmake -S . -B ./build
-	$(MAKE) -C ./build
+	cd ./build && cmake .. && make
+	#$(MAKE) -C ./build
 
 unit:
 	$(MAKE) -s all
