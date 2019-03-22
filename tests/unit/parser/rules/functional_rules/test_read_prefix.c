@@ -30,15 +30,15 @@ void test_read_prefix(void)
     check = test_rule(read_prefix, "2>&test.sh",
                      "AST_PREFIX(1)");
     print_state_test(check, "test_read_prefix (8)");
-                    
+
     check = test_rule(read_prefix, "2<&test.sh",
                      "AST_PREFIX(1)");
     print_state_test(check, "test_read_prefix (9)");
-                    
+
     check = test_rule(read_prefix, "2>|test.sh",
                      "AST_PREFIX(1)");
     print_state_test(check, "test_read_prefix (10)");
-                    
+
     check = test_rule(read_prefix, "2<>test.sh",
                      "AST_PREFIX(1)");
     print_state_test(check, "test_read_prefix (11)");                    
