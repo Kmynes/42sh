@@ -35,7 +35,7 @@ int options_parser(char **argv, int argc, char **env)
     for (int i = 1; i < argc; i++)
     {
         options = option_translator(options, argv[i]);
-        if (options[i - 1] == 'c' || options[i - 1] == 'f')
+        if (options[i - 1] == 'c')
         {
             if (i + 1 >= argc)
             {
@@ -43,6 +43,11 @@ int options_parser(char **argv, int argc, char **env)
                 return 1;
             }
             command = argv[i + 1];
+            i++;
+        }
+        if (options[i - 1] == 'f')
+        {
+            command = argv[i];
             i++;
         }
     }
@@ -162,13 +167,11 @@ char *option_translator(char *options, char *current_option)
         options[first_empty(options)] = 'n';
     else if (!strcmp(current_option, "--ast-print"))
         options[first_empty(options)] = 'a';
-    else if (!strcmp(current_option, "-f"))
-        options[first_empty(options)] = 'f';
-    else if (!strcmp(current_option, "--file"))
-        options[first_empty(options)] = 'f';
+        // else if (!strcmp(current_option, "-f"))
+        //    options[first_empty(options)] = 'f';
     else
-        // default case throws an error
-        options[0] = 'x';
+        // default case treats argument as filename
+        options[first_empty(options)] = 'f';
     return options;
 }
 
