@@ -1,7 +1,10 @@
 .PHONY: all check doc
 
 all:
-	./build.sh
+	mkdir -p build
+	cd build
+	cmake -B build -S .
+	cd build && make
 
 unit:
 	$(MAKE) -s all
