@@ -1,8 +1,8 @@
 .PHONY: all check doc
 
 all:
-	./build.sh
-
+	mkdir -p ./build
+	cd ./build && cmake .. && make
 unit:
 	$(MAKE) -s all
 	clear
