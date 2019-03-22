@@ -54,7 +54,7 @@ void test_parser_readinteger(void)
     print_state_test(check, "test_parser_readinteger (3)");
 
     check = parser->cursor == 3;
-    print_state_test(check, "test_parser_readinteger (4)");    
+    print_state_test(check, "test_parser_readinteger (4)");
     parser_free(parser);
 }
 
