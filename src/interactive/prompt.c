@@ -38,7 +38,7 @@ void create_prompt(void)
             if (c == '\n')
                 break;
             input[i] = c;
-	    input_dup[i] = c;
+	        input_dup[i] = c;
             i++;
             if (c == 0 || c == -1)
             {
