@@ -1,10 +1,9 @@
 .PHONY: all check doc
 
 all:
-	mkdir -p build
-	cmake -B build -S .
-	ls build
-	$(MAKE) -C build default_target
+	mkdir -p ./build
+	cmake -S . -B ./build
+	$(MAKE) -C ./build
 
 unit:
 	$(MAKE) -s all
