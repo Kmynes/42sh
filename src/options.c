@@ -113,7 +113,7 @@ int execute_options(char *command, char *options)
             case 'f':
                 if (fopen(command, "r") == NULL)
                 {
-                    printf("%s: No such file or directory\n", command);
+                    printf("42sh: %s: No such file or directory\n", command);
                     return 1;
                 }
 
