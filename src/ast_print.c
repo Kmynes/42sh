@@ -274,7 +274,7 @@ int ast_print(struct ast_node *ast, FILE *stream)
     {
         char path[1024];
         getcwd(path, sizeof(path));
-        strcat(path, "/doc/ast.dot");
+        strcat(path, "~/doc/ast.dot");
         stream = fopen(path, "w");
         first_one = 1;
         ast = ast->children[0];
