@@ -2,9 +2,8 @@
 
 all:
 	mkdir -p build
-	cd build
 	cmake -B build -S .
-	cd build && make
+	$(MAKE) -C build 
 
 unit:
 	$(MAKE) -s all
