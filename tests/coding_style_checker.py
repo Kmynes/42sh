@@ -70,8 +70,9 @@ def coding_styler(file, filename):
         if file[index] == '\t':
             style_errors += forbidden_tab(index, file, line_number, filename)
         if file[index] == ';' and index != len(file):
-            style_errors += trailing_spaces(index, file, line_number, filename)
             style_errors += dead_code(index, file, line_number, filename)
+        if file[index] == '\n':
+            style_errors += trailing_spaces(index, file, line_number, filename)
         if not col_err:
             if eighty_columns(index, file, line_number, filename):
                 style_errors+=1
@@ -254,9 +255,7 @@ def sticky_star(index, file, line_number, filename):
 
 def trailing_spaces(index, file, line_number, filename):
     """ Checks if there are any trailing spaces at the end of a line """
-    [line_start, line_end] = find_line(index, file)
-    if file[line_start:line_end].find("for") != -1:
-        return 0
+    [line_start, line_end] = find_line(index-1, file)
     # check if line is comment
     if "//" in file[line_start:line_end]:
         return 0
@@ -266,7 +265,7 @@ def trailing_spaces(index, file, line_number, filename):
     # check if space is part of string
     if '"' in file[index-20:index] and '"' in file[index:index + 20]:
         return 0
-    if file[index + 1] == " ":
+    if file[index - 1] == " ":
         print("Trailing space at line "+str(line_number)
               + " of file " + filename)
         print(file[line_start+1:line_end])

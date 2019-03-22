@@ -4,6 +4,8 @@
 #include <utils/function_utils.h>
 #include <utils/exec.h>
 #include <execution/builtins/builtins.h>
+#include <fcntl.h>
+
 /**
 ** \file read_simple_command.c
 ** \brief reads simple_command grammar as specified by the subject.
@@ -68,6 +70,12 @@ bool read_simple_command(struct parser *p)
     return read_simple_command2(p) || read_simple_command1(p);
 }
 
+/**
+ * generates env params from chained list to string array
+ * @param list
+ * @param count
+ * @return
+ */
 static char **build_env_param(struct ast_assignment_word *list, size_t *count)
 {
     struct ast_assignment_word *tmp = list;
@@ -96,6 +104,11 @@ static char **build_env_param(struct ast_assignment_word *list, size_t *count)
     return env;
 }
 
+/**
+ * generates list of env variables to feed to the command
+ * @param ast
+ * @return
+ */
 static struct ast_assignment_word *create_env_list(struct ast_node *ast)
 {
     struct ast_node *sub_child = NULL;
@@ -113,8 +126,6 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
             else
                 add_assignment_word(list, sub_child->data);
         }
-        else if (sub_child->type == AST_REDIRECTION)
-        {}
 
         child = ast->children[++i];
     }
@@ -122,6 +133,13 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
     return list;
 }
 
+/**
+ * generates command from ast children, matches only AST_WORD
+ * @param ast
+ * @param prefix_count
+ * @param prog_found
+ * @return
+ */
 static char **create_command_list(struct ast_node *ast, size_t prefix_count,
     bool *prog_found)
 {
@@ -153,7 +171,6 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
                     part = strtok(NULL, delim);
                 }
                 *prog_found = true;
-                range++;
             }
             else
             {
@@ -161,23 +178,78 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
                     args = enlarge_list(args, &len_args);
 
                 args[i++] = sub_child->data;
-                range++;
             }
         }
+        range++;
     }
 
     args[i] = NULL;
     return args;
 }
 
-static int run_cmd(char **cmd, char **env)
+int create_redirection(struct ast_redirection *redir)
 {
-    return exec_cmd(cmd, env);
+//    char *ionumber = redir->ionumber ? redir->ionumber : "1";
+    if (strcmp(redir->redirect, ">") == 0)
+    {
+        int fd = open(redir->word,
+                      O_RDWR | O_CREAT, 0666);
+        dup2(fd, STDOUT_FILENO);
+    }
+    else if (strcmp(redir->redirect, ">>") == 0)
+    {
+        int fd = open(redir->word,
+                      O_RDWR | O_APPEND, 0666);
+        dup2(fd, STDOUT_FILENO);
+    }
+    else if (strcmp(redir->redirect, "<") == 0)
+    {
+        int fd = open(redir->word,
+                      O_RDWR | O_APPEND, 0666);
+        dup2(fd, STDIN_FILENO);
+    }
+    else if (strcmp(redir->redirect, "<") == 0)
+    {
+        int fd = open(redir->word,
+                      O_RDWR | O_APPEND, 0666);
+        dup2(fd, STDIN_FILENO);
+    }
+    else if (strcmp(redir->redirect, "<<") == 0)
+    {
+        char *filename = "/tmp/42sh_redirection";
+        int fd = open(filename, O_RDWR | O_CREAT, 0666);
+        write(fd, redir->heredoc, strlen(redir->heredoc));
+        fd = open(filename,
+                      O_RDWR | O_APPEND, 0666);
+        dup2(fd, STDIN_FILENO);
+    }
+
+    return 0;
 }
 
+int create_redirections(struct ast_node *ast)
+{
+    for (size_t i = 0; i < ast->nb_children; i++)
+    {
+        struct ast_node *child = ast->children[i];
+        if (child->children[0]->type == AST_REDIRECTION)
+        {
+            struct ast_redirection *data = child->children[0]->data;
+            create_redirection(data);
+        }
+    }
+
+    return 0;
+}
+
+/**
+ * executes ast simple command, generates command string, env params
+ * and call the fork exec function
+ * @param ast
+ * @return
+ */
 int ast_simple_command_exec(struct ast_node *ast)
 {
-
     struct ast_assignment_word *list = create_env_list(ast);
     size_t prefix_count = assignment_word_list_len(list);
 
@@ -188,7 +260,8 @@ int ast_simple_command_exec(struct ast_node *ast)
     {
         size_t count = 0;
         char **env = build_env_param(list, &count);
-        res = run_cmd(args, env);
+        create_redirections(ast);
+        res = exec_cmd(args, env);
         string_list_free(env, count);
     }
 

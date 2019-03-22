@@ -1,5 +1,5 @@
-#include "test_utils.h"
 #include <utils/string.h>
+#include "test_utils.h"
 
 static void test_str_replace(void)
 {
