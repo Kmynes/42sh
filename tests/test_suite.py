@@ -22,8 +22,6 @@ except ImportError:
 # \version v0.5
 # \date March 2019
 # \description
-
-
 def run(code, arguments=[None]*4):
     """ Runs a command in shell, returns stdout and stderror """
     # arguments list: [category, sanity, timer]
@@ -147,6 +145,9 @@ def category_list():
 def full_test_suite(arguments=[None]*4):
     """ Executes a full test suite """
     total_tests = total_fails = 0
+    print("= unit tests " + "="*67)
+    total_fails += run_unit_test()
+    print()
     directory = os.path.dirname(os.path.abspath(__file__))+"/integration"
 
     for category in os.listdir(directory):
@@ -168,6 +169,14 @@ def full_test_suite(arguments=[None]*4):
 def category_test(arguments):
     """ Executes tests for a specific category given in argument """
     category = arguments[0]
+    if category == "unit":
+        print("= unit tests " + "="*67)
+        fails = run_unit_test()
+        print()
+        if fails > 0:
+            return [0, 1]
+        else:
+            return [0, 0]
     print("= "+category+" "+"="*(77-len(category)))
     category_fails = category_tests = 0
     directory = os.path.dirname(os.path.abspath(__file__))+"/integration"
@@ -294,6 +303,10 @@ def argument_manager(arguments):
     if arguments[0]:
         try:
             [tests, fails] = category_test(arguments)
+            if fails > 0:
+                return [1]
+            else:
+                return [0]
         except FileNotFoundError:
             return [2, arguments[0]]
     fails = full_test_suite(arguments)

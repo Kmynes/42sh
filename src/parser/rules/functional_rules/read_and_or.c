@@ -43,7 +43,6 @@ bool read_and_or(struct parser *p)
         && read_pipeline(p))
     {
         struct ast_node *ast = ast_and_or_init();
-
         while (true)
         {
             struct ast_node *ast_pipeline = ast_get_from_parser(p,

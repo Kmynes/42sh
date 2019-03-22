@@ -100,7 +100,7 @@ void test_simple_command_exec(void)
     print_state_test(check, "test_simple_command_exec (1)");
 
     check = ast_simple_cmd->exec(ast_simple_cmd);
-    print_state_test(check, "test_simple_command_exec (2)");
+    print_state_test(check == 0, "test_simple_command_exec (2)");
 
     parser_free(p);
     free(s);
