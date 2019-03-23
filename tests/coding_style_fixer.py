@@ -28,7 +28,7 @@ def file_to_fix_selector():
     subdirectories and then calls coding_styler to run on each
     individual file.
     This function is the one that is called by test_suite.py'''
-    print("= Coding style checks " + 58*"=")
+    print("= Coding style fixes " + 59*"=")
     total_fixed_errors = 0
     directory = os.path.dirname(os.path.abspath(__file__))
     all_files = get_file_list(directory)
@@ -63,8 +63,8 @@ def coding_fixer(file, filename):
             [fixed_errors, file] = forbidden_tab(index, file, filename, fixed_errors)
         #if file[index] == ';' and index != len(file):
         #   style_errors += dead_code(index, file, line_number, filename)
-        #if file[index] == '\n':
-        #    file = trailing_spaces(index, file, line_number, filename)
+        if file[index] == '\n':
+            file = trailing_spaces(index, file, line_number, filename, fixed_errors)
     if file[index+1] == '\n':
         [fixed_errors, file] = blank_end(index, file, filename, fixed_errors)
     return [file, fixed_errors]
@@ -97,14 +97,6 @@ def forbidden_tab(index, file, filename, fixed_errors):
     fixed_errors+=1
     return [fixed_errors, file]
 
-def else_comment(index, file, line_number, filename):
-    """ Checks if there is a comment after an else """
-    [line_start, line_end] = find_line(index, file)
-    if "//" in file[line_start, line_end]:
-        return 0
-    print_error("Pre-proc else lacks comment", index, line_number, file, filename)
-    return 1
-
 def pre_proc_directive(index, file, line_number, filename):
     """ Checks if the pre-processor directive is on the first column """
     [line_start, line_end] = find_line(index, file)
@@ -122,15 +114,6 @@ def include_priority(index, file, line_number, filename):
               + " in file " + filename)
         print(file[line_start+1:line_end])
         print(file[next_line_start+1:next_line_end]+'\n')
-        return 1
-    return 0
-
-def eighty_columns(index, file, line_number, filename):
-    """ Checks if there are more than 80 characters in a single line """
-    [line_start, line_end] = find_line(index, file)
-    if index-line_start > 80:
-        index = index-2
-        print_error("More than 80 columns", index, line_number, file, filename)
         return 1
     return 0
 
@@ -197,7 +180,7 @@ def sticky_star(index, file, line_number, filename):
             return 1
     return 0
 
-def trailing_spaces(index, file, line_number, filename):
+def trailing_spaces(index, file, line_number, filename, fixed_errors):
     """ Checks if there are any trailing spaces at the end of a line """
     [line_start, line_end] = find_line(index-1, file)
     # check if line is comment
@@ -209,10 +192,16 @@ def trailing_spaces(index, file, line_number, filename):
     # check if space is part of string
     if '"' in file[index-20:index] and '"' in file[index:index + 20]:
         return 0
-    if file[index - 1] == " ":
-        print_error("Trailing space", index, line_number, file, filename)
-        return 1
-    return 0
+    if file[index - 1] != " ":
+        return 0
+    i = index-1
+    number_of_trails = 0
+    while file[i] == " ":
+        number_of_trails+=1
+        i-=1
+    file = file[0:index-number_of_trails].join(file[index:len(file)])
+    print("Trailing space removed in file "+ filename)
+    return [fixed_errors, file]
 
 def comma_space(index, file, line_number, filename):
     """ Checks if there is a space after a comma """

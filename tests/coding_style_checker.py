@@ -270,8 +270,6 @@ def comma_space(index, file, line_number, filename):
 def solo_braces(index, file, line_number, filename):
     """ Checks that { and } are on their own line """
     [line_start, line_end] = find_line(index, file)
-    if "struct" in file[line_start:line_end]:
-        return 0
     if '"' in file[index-30:index] and '"' in file[index:index+20]:
         return 0
     if "'" in file[index-2:index] and "'" in file[index:index+2]:
