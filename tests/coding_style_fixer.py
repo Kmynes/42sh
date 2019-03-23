@@ -57,6 +57,8 @@ def coding_fixer(file, filename):
     line_number = 1
     fixed_errors = 0
     col_err = False
+    if ".h" in filename and "pragma" not in file:
+        [fixed_errors, file] = header_guard(file, filename, fixed_errors)
     if file[0] == '\n':
         [fixed_errors, file] = blank_start(file, filename, fixed_errors)
     index=0
@@ -86,6 +88,9 @@ def find_line(index, file):
 
 def header_guard(file, filename, fixed_errors):
     """ Checks if header files are guarded """
+    file = "#pragma once\n" + file
+    fixed_errors += 1
+    return [fixed_errors, file]
 
 def blank_start(file, filename, fixed_errors):
     """ Checks if first line is blank """

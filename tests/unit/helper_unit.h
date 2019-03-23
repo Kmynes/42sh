@@ -1,3 +1,4 @@
+#pragma once
 #include <utils/function_utils.h>
 #include <parser/rules/rules.h>
 

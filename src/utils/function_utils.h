@@ -1,3 +1,4 @@
+#pragma once
 #include <stddef.h>
 
 void *enlarge_list(void *list, size_t *capacity);
