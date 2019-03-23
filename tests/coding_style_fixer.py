@@ -65,7 +65,6 @@ def coding_fixer(file, filename):
         #   style_errors += dead_code(index, file, line_number, filename)
         if file[index] == '\n':
             [fixed_errors, file] = trailing_spaces(index, file, line_number, filename, fixed_errors)
-        index+=1
     if file[index+1] == '\n':
         [fixed_errors, file] = blank_end(index, file, filename, fixed_errors)
     return [file, fixed_errors]
@@ -202,6 +201,7 @@ def trailing_spaces(index, file, line_number, filename, fixed_errors):
         i-=1
     file = file[0:index-number_of_trails].join(file[index:len(file)])
     print("Trailing space removed in file "+ filename)
+    fixed_errors+=1
     return [fixed_errors, file]
 
 def comma_space(index, file, line_number, filename):
