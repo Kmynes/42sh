@@ -49,7 +49,7 @@ void read_history()
     FILE *hist_tmp = fopen(path_to_tmp, "r");
 
     for (;(ch = fgetc(hist_tmp)) != EOF ;)
-	    printf("%c", ch);
+        printf("%c", ch);
 
     fclose(hist_tmp);
 }

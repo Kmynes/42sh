@@ -1,5 +1,5 @@
 import os.path
-from coding_style_fixer import coding_fixer
+from coding_style_fixer import file_to_fix_selector
 ##
 # \file coding_style_checker.py
 # \brief Separate test file that manages coding style errors.
@@ -23,7 +23,7 @@ def get_file_list(given_path):
             all_files.append(full_path)
     return all_files
 
-def file_selector(fix=False):
+def file_selector():
     ''' calls get file list to obtain a list of all the files in
     subdirectories and then calls coding_styler to run on each
     individual file.
@@ -42,16 +42,13 @@ def file_selector(fix=False):
                     file = file.read()
                     keep = filename.find("42sh")
                     filename = filename[keep:]
-                    if fix == False:
-                        style_errors += coding_styler(file, filename)
-                    if fix == True:
-                        fixed_errors += coding_fixer(file, filename)
+                    style_errors += coding_styler(file, filename)
                 
     print(str(style_errors) + " coding style error(s) found.")
     if style_errors>0:
         answer = input("Do you want to try and fix them? (y/n)\n")
         if answer == "y" or answer == "yes":
-            file_selector(True)
+            file_to_fix_selector()
         return 1
     else:
         return 0

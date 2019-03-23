@@ -10,20 +10,64 @@ import os.path
 # \version v0.5
 # \date March 2019
 
+def get_file_list(given_path):
+    ''' iterates recursively through subdirectories to get a list of
+    them and returns it '''
+    list_of_files = os.listdir(given_path)
+    all_files = list()
+    for entry in list_of_files:
+        full_path = os.path.join(given_path, entry)
+        if os.path.isdir(full_path):
+            all_files = all_files + get_file_list(full_path)
+        else:
+            all_files.append(full_path)
+    return all_files
+
+def file_to_fix_selector():
+    ''' calls get file list to obtain a list of all the files in
+    subdirectories and then calls coding_styler to run on each
+    individual file.
+    This function is the one that is called by test_suite.py'''
+    print("= Coding style checks " + 58*"=")
+    total_fixed_errors = 0
+    directory = os.path.dirname(os.path.abspath(__file__))
+    all_files = get_file_list(directory)
+    directory = directory.replace("/tests","/src")
+    all_files = get_file_list(directory) + all_files
+    for file_path in all_files:
+        fixed_errors = 0
+        if os.path.isfile(file_path):
+            if file_path[len(file_path)-2:len(file_path)]==".c" or \
+                file_path[len(file_path)-2:len(file_path)]==".h":
+                with open(file_path, 'r') as file:
+                    file = file.read()
+                keep = file_path.find("42sh")
+                filename = file_path[keep:]
+                [file, fixed_errors] = coding_fixer(file, filename)
+                if fixed_errors>0:
+                    file_to_fix = open(file_path, 'w')
+                    file_to_fix.write(file)
+                    total_fixed_errors += fixed_errors
+    print(str(total_fixed_errors) + " coding style error(s) fixed.")
+    return
+
 def coding_fixer(file, filename):
     """ loops through each character of given file and calls coding style rules
     depending on what character is at current index. """
     line_number = 1
-    style_errors = 0
+    fixed_errors = 0
     col_err = False
-    style_errors += blank_start(file, filename)
+    #style_errors += blank_start(file, filename)
     for index in range(0, len(file)-1):
-        if file[index] == ';' and index != len(file):
-            style_errors += dead_code(index, file, line_number, filename)
-        if file[index] == '\n':
-            file = trailing_spaces(index, file, line_number, filename)
-    style_errors += blank_end(index, file, filename)
-    return file
+        if file[index] == '\t':
+            file = forbidden_tab(index, file, filename)
+            fixed_errors+=1
+        #if file[index] == ';' and index != len(file):
+        #   style_errors += dead_code(index, file, line_number, filename)
+        #if file[index] == '\n':
+        #    file = trailing_spaces(index, file, line_number, filename)
+    #style_errors += blank_end(index, file, filename)
+    return [file, fixed_errors]
 
 def find_line(index, file):
     """ returns line in which an index is """
@@ -47,11 +91,11 @@ def blank_end(index, file, filename):
         return 1
     return 0
 
-def forbidden_tab(index, file, line_number, filename):
+def forbidden_tab(index, file, filename):
     """ Is only called if a tab was used """
-    [line_start, line_end] = find_line(index, file)
-    print_error("Tab used", index, line_number, file, filename)
-    return 1
+    file = file.replace("\t", "    ")
+    print("Tab removed in file " + filename)
+    return file
 
 def else_comment(index, file, line_number, filename):
     """ Checks if there is a comment after an else """
