@@ -77,12 +77,12 @@ def find_line(index, file):
 
 # coding style rules:
 
-def blank_start(file, filename):
+def blank_start(file, filename, fixed_errors):
     """ Checks if first line is blank """
-    if file[0] == '\n':
-        print("First line is blank in file " + filename + "\n")
-        return 1
-    return 0
+    file = file[1:len(file)]
+    print("Starting blank line removed in file " + filename + "\n")
+    fixed_errors += 1
+    return [fixed_errors, file]
 
 def blank_end(index, file, filename, fixed_errors):
     file = file[0:len(file)-1]
