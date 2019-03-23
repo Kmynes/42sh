@@ -86,8 +86,8 @@ int options_parser(char **argv, int argc, char **env)
 */
 int execute_options(char *command, char *options)
 {
-    int ast_print_flag = 0;
-    int norc_flag = 0;
+    int ast_print_flag = false;
+    int norc_flag = false;
     int res;
     norc_flag++; // REMOVE THIS - testing dummy
     norc_flag--; // REMOVE THIS - testing dummy
@@ -97,10 +97,10 @@ int execute_options(char *command, char *options)
         switch (options[i])
         {
             case 'a':
-                ast_print_flag = 1;
+                ast_print_flag = true;
                 break;
             case 'n':
-                norc_flag = 1;
+                norc_flag = true;
                 break;
             default:
                 break;
@@ -117,7 +117,7 @@ int execute_options(char *command, char *options)
                     return 1;
                 }
 
-                res = exec_file(command);
+                res = exec_file(command, ast_print_flag);
                 return res;
             case 'v':
                 version_display();
