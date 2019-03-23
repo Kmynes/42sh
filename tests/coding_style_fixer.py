@@ -57,18 +57,20 @@ def coding_fixer(file, filename):
     line_number = 1
     fixed_errors = 0
     col_err = False
-    [fixed_errors, file] = blank_start(file, filename, fixed_errors)
+    #[fixed_errors, file] = blank_start(file, filename, fixed_errors)
     index=0
     while index < len(file)-1:
+        #print(len(file))
         if file[index] == '\t':
             [fixed_errors, file] = forbidden_tab(index, file, filename, fixed_errors)
         #if file[index] == ';' and index != len(file):
         #   style_errors += dead_code(index, file, line_number, filename)
         if file[index] == '\n':
-            [fixed_errors, file] = trailing_spaces(index, file, line_number, filename, fixed_errors)
-
-    if file[index+1] == '\n':
+            [fixed_errors, file] = trailing_spaces(index, file, filename, fixed_errors)
+        index+=1
+    if file[index] == '\n':
         [fixed_errors, file] = blank_end(index, file, filename, fixed_errors)
+        
     
     return [file, fixed_errors]
 
@@ -84,7 +86,7 @@ def blank_start(file, filename, fixed_errors):
     """ Checks if first line is blank """
     file = file[1:len(file)]
     print("Starting blank line removed in file " + filename + "\n")
-    fixed_errors += 1
+    #fixed_errors += 1
     return [fixed_errors, file]
 
 def blank_end(index, file, filename, fixed_errors):
@@ -183,7 +185,7 @@ def sticky_star(index, file, line_number, filename):
             return 1
     return 0
 
-def trailing_spaces(index, file, line_number, filename, fixed_errors):
+def trailing_spaces(index, file, filename, fixed_errors):
     """ Checks if there are any trailing spaces at the end of a line """
     [line_start, line_end] = find_line(index-1, file)
     # check if line is comment
