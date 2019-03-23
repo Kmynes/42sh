@@ -1,2 +1,2 @@
 desc: 
-test: ./42sh ../tests/sh_test_files/check_exec_if_42sh.sh
+test: ../tests/sh_test_files/check_exec_if_42sh.sh
