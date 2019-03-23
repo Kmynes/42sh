@@ -22,21 +22,25 @@ except ImportError:
 # \version v0.5
 # \date March 2019
 # \description
-def run(code, arguments=[None]*4):
+def run(test, mode="other", arguments=[None]*4):
     """ Runs a command in shell, returns stdout and stderror """
     # arguments list: [category, sanity, timer]
     file_directory = os.path.dirname(os.path.abspath(__file__))
     build_directory = file_directory.replace("tests", "build")
+    if mode == "ref":
+        test = "bash --posix "+test
+    if mode == "42sh":
+        test = "./42sh "+test
     if arguments[1]:
-        code = "valgrind "+code
+        test = "valgrind "+test
     if arguments[2]:
         try:
-            return subprocess.run(code, shell=True, cwd=build_directory,
+            return subprocess.run(test, shell=True, cwd=build_directory,
                               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                              timeout=int(arguments[2]))
         except:
             return "timeout"
-    return subprocess.run(code, shell=True, cwd=build_directory,
+    return subprocess.run(test, shell=True, cwd=build_directory,
                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 def output_diff(test_name, ref_output, mycode_output, arguments):
@@ -188,9 +192,9 @@ def category_test(arguments):
             # load info from yaml
             test = yaml.load(file)
         # run reference test
-        ref_output = run(test["ref"])
+        ref_output = run(test["test"], "ref")
         # run program test
-        mycode_output = run(test["mycode"], arguments)
+        mycode_output = run(test["test"], "42sh", arguments)
         # run diff
         category_fails += output_diff(test_name, ref_output, mycode_output,
                                      arguments)
