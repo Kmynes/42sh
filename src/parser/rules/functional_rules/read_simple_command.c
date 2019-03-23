@@ -133,15 +133,19 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
     size_t i = 0;
     size_t range = prefix_count;
 
-    while (range < ast->nb_children)
+    for  (;range < ast->nb_children; i++)
     {
         child = ast->children[range];
         sub_child = child->children[0];
         if (sub_child->type == AST_WORD)
         {
+            char *tmp = strdup(sub_child->data);
+            char *word = sub_child->data;
+            manage_variable_str(&word);
+            sub_child->data = tmp;
             if (!*prog_found)
             {
-                char *prog = sub_child->data;
+                char *prog = word;
                 char delim[] = " ";
                 char *part = strtok(prog, delim);
                 while (part)
@@ -149,7 +153,7 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
                     if (i == len_args)
                         args = enlarge_list(args, &len_args);
 
-                    args[i++] = part;
+                    args[i] = part;
                     part = strtok(NULL, delim);
                 }
                 *prog_found = true;
@@ -160,7 +164,7 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
                 if (i == len_args)
                     args = enlarge_list(args, &len_args);
 
-                args[i++] = sub_child->data;
+                args[i] = word;
                 range++;
             }
         }
