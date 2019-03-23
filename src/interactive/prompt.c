@@ -38,7 +38,7 @@ void create_prompt(void)
             if (c == '\n')
                 break;
             input[i] = c;
-	        input_dup[i] = c;
+            input_dup[i] = c;
             i++;
             if (c == 0 || c == -1)
             {
@@ -49,9 +49,9 @@ void create_prompt(void)
         if (i != 0 && (input[0] == 0 || input[0] == -1))
             break;
 
-	put_in_history_file(input_dup);
+    put_in_history_file(input_dup);
 
-	if (strcmp("history", input) == 0)
+    if (strcmp("history", input) == 0)
             read_history();
         else
             execute_command(input, 0);
