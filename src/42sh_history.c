@@ -28,7 +28,6 @@ void put_in_history_file(char *input)
     sprintf(to_tmp, "\t%d %s", called, input);
     fprintf(hist_tmp, "%s", to_tmp);
 
-
     fclose(hist_tmp);
     fclose(hist_perm);
 

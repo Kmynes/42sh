@@ -197,7 +197,6 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
 
 int create_redirection(struct ast_redirection *redir)
 {
-//    char *ionumber = redir->ionumber ? redir->ionumber : "1";
     if (strcmp(redir->redirect, ">") == 0)
     {
         int fd = open(redir->word,
