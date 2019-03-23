@@ -87,9 +87,10 @@ def blank_start(file, filename):
 def blank_end(index, file, filename, fixed_errors):
     file = file[0:len(file)-1]
     print("Ending blank line removed in file " + filename + "\n")
+    fixed_errors += 1
     return [fixed_errors, file]
 
-def forbidden_tab(index, file, filename):
+def forbidden_tab(index, file, filename, fixed_errors):
     """ Is only called if a tab was used """
     file = file.replace("\t", "    ")
     print("Tab removed in file " + filename)
