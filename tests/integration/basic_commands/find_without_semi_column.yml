@@ -1,3 +1,2 @@
 desc: checks that the tests are run in build directory
-ref: bash -c find
-mycode: ./42sh -c 'find'
+test: -c find

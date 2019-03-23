@@ -1,3 +1,2 @@
 desc: checks that the tests are run in build directory
-ref: bash -c 'grep AST_STRING -R src/parser'
-mycode: ./42sh -c 'grep AST_STRING -R src/parser'
+test: -c 'grep AST_STRING -R src/parser'

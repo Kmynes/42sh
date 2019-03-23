@@ -51,7 +51,8 @@ int options_parser(char **argv, int argc, char **env)
             i++;
         }
     }
-
+    char *key = NULL;
+    char *value = NULL;
     while (*env)
     {
         char *var_env = *env;
@@ -60,15 +61,17 @@ int options_parser(char **argv, int argc, char **env)
         while (var_env[len_name] != '=')
             len_name++;
 
-        char *key = calloc(sizeof(char), len_name);
+        key = calloc(sizeof(char), len_name + 1);
         strncpy(key, *env, len_name);
 
         char *val_env = var_env + len_name + 1;
         size_t len_val_env = strlen(val_env);
-        char *value = calloc(sizeof(char), len_val_env);
+        value = calloc(sizeof(char), len_val_env + 1);
         strncpy(value, val_env, len_val_env);
 
         variables_add(key, value);
+        free(key);
+        free(value);
         env++;
     }
 
