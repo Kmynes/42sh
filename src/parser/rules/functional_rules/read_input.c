@@ -80,7 +80,7 @@ int ast_input_exec(struct ast_node *ast)
         res = ast->children[i]->exec(ast->children[i]);
 
         if (res != 0)
-            return 1;
+            return res;
     }
 
     return res;
