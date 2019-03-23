@@ -185,15 +185,15 @@ def trailing_spaces(index, file, line_number, filename, fixed_errors):
     [line_start, line_end] = find_line(index-1, file)
     # check if line is comment
     if "//" in file[line_start:line_end]:
-        return 0
+        return [0, file]
     # check if line is a multiline statement 
     if '\\' in file[index:line_end]:
-        return 0
+        return [0, file]
     # check if space is part of string
     if '"' in file[index-20:index] and '"' in file[index:index + 20]:
-        return 0
+        return [0, file]
     if file[index - 1] != " ":
-        return 0
+        return [0, file]
     i = index-1
     number_of_trails = 0
     while file[i] == " ":
