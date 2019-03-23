@@ -3,8 +3,8 @@
 ** \file read_compound_list.c
 ** \brief reads compound_list grammar as specified by the subject.
 **
-** command: simple_command 
-** | shell_command (redirection)* 
+** command: simple_command
+** | shell_command (redirection)*
 ** | funcdec (redirection)*
 ** \author Thibault
 ** \version 0.3

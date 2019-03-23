@@ -12,7 +12,7 @@
 /**
 ** \param char *key
 ** \param char *value
-** \brief Initialize the first global [key_value] 
+** \brief Initialize the first global [key_value]
 */
 struct key_value *create_variable(char *key, char *value)
 {

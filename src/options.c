@@ -20,7 +20,7 @@ unsigned first_empty(char *table);
 void version_display(void);
 
 /**
-** \brief Main function that is called and parses arguments directly from 
+** \brief Main function that is called and parses arguments directly from
 ** command line.
 ** \param argv a list of strings given as argument to 42sh
 ** \param argc an integer representing the number of arguments

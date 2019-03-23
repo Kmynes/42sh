@@ -74,6 +74,8 @@ def coding_fixer(file, filename):
     
     return [file, fixed_errors]
 
+
+
 def find_line(index, file):
     """ returns line in which an index is """
     line_start = file[0:index].rfind('\n')
@@ -82,11 +84,14 @@ def find_line(index, file):
 
 # coding style rules:
 
+def header_guard(file, filename, fixed_errors):
+    """ Checks if header files are guarded """
+
 def blank_start(file, filename, fixed_errors):
     """ Checks if first line is blank """
     file = file[1:len(file)]
     print("Starting blank line removed in file " + filename + "\n")
-    #fixed_errors += 1
+    fixed_errors += 1
     return [fixed_errors, file]
 
 def blank_end(index, file, filename, fixed_errors):
@@ -207,7 +212,7 @@ def trailing_spaces(index, file, filename, fixed_errors):
     print("number of trails: " + str(number_of_trails))
     fixed_file = file[:index-number_of_trails] + file[index:]
     print("Trailing space removed in file "+ filename)
-    #fixed_errors+=1
+    fixed_errors+=1
     return [fixed_errors, fixed_file]
 
 def comma_space(index, file, line_number, filename):

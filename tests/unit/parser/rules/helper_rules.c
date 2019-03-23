@@ -6,7 +6,7 @@ bool test_rule(bool (*read_func)(struct parser *),
     struct parser *p = parser_new_from_string(input);
     if (!read_func(p))
     {
-        printf("test_rule, for expected : %s, read function returned false\n", 
+        printf("test_rule, for expected : %s, read function returned false\n",
             expected_string);
         parser_free(p);
         return false;

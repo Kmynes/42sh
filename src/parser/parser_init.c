@@ -3,7 +3,7 @@
 #include "parser.h"
 
 
-/** 
+/**
 ** \param char *text
 ** \return struct parser *.
 ** \biref Create a parser using a [text] in input
@@ -25,7 +25,7 @@ struct parser *parser_new_from_string(const char *text)
     return parser;
 }
 
-/** 
+/**
 ** \param struct parser *p
 ** \biref Free the parser
 */

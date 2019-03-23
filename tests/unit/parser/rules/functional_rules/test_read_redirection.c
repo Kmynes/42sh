@@ -28,7 +28,7 @@ void test_read_redirection(void)
     check = test_rule(read_redirection, "2>&test.sh",
         "AST_REDIRECTION(0)_2_>&_test.sh");
     print_state_test(check, "test_read_redirection (7)");
- 
+
     check = test_rule(read_redirection, "2<&test.sh",
         "AST_REDIRECTION(0)_2_<&_test.sh");
     print_state_test(check, "test_read_redirection (8)");

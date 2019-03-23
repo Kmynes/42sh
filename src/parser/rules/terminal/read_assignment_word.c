@@ -4,7 +4,7 @@ bool read_assignment_word(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if (read_spaces(p) 
+    if (read_spaces(p)
         && parser_begin_capture(p, "key")
         && read_identifier(p)
         && parser_end_capture(p, "key")
