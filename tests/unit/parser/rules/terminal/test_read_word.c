@@ -22,7 +22,7 @@ void test_read_word(void)
     test_read_word_helper("abc", NULL);
     bool check = test_not_rule(read_word, " abc");
     print_state_test(check, "test_read_word (1)");
- 
+
     // protected words
     check = test_not_rule(read_word, "for");
     print_state_test(check, "test_read_word (2)");

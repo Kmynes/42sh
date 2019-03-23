@@ -19,7 +19,7 @@ bool test_rule(bool (*read_func)(struct parser *),
         char *s = ast->to_string(ast);
         res = strcmp(s, expected_string) == 0;
         if (!res)
-            printf("test_rule '%s' didn't match expected '%s'\n", s, 
+            printf("test_rule '%s' didn't match expected '%s'\n", s,
                 expected_string);
         free(s);
     }

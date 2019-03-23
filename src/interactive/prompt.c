@@ -3,13 +3,29 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "prompt.h"
+#include "./42sh_history.h"
+
+void sigintHandler(int sig_num)
+{
+    sig_num++;
+    /* Reset handler to catch SIGINT next time.
+       Refer http://en.cppreference.com/w/c/program/signal */
+    signal(SIGINT, sigintHandler);
+    printf("\n42sh$ ");
+    fflush(stdout);
+}
 
 void create_prompt(void)
 {
     setvbuf(stdin, NULL, _IONBF, 0);
     setbuf(stdout, NULL);
     char *input = calloc(1, MAX_INPUT);
+    char *input_dup = calloc(1, MAX_INPUT);
+
+    signal(SIGINT, sigintHandler);
+
     while (true)
     {
         printf("42sh$ ");
@@ -22,6 +38,7 @@ void create_prompt(void)
             if (c == '\n')
                 break;
             input[i] = c;
+	    input_dup[i] = c;
             i++;
             if (c == 0 || c == -1)
             {
@@ -32,7 +49,14 @@ void create_prompt(void)
         if (i != 0 && (input[0] == 0 || input[0] == -1))
             break;
 
-        execute_command(input, 0);
+	put_in_history_file(input_dup);
+
+	if (strcmp("history", input) == 0)
+            read_history();
+        else
+            execute_command(input, 0);
+
         memset(input, 0, MAX_INPUT);
     }
+    erease_tmp_history();
 }

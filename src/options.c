@@ -35,7 +35,7 @@ int options_parser(char **argv, int argc, char **env)
     for (int i = 1; i < argc; i++)
     {
         options = option_translator(options, argv[i]);
-        if (options[i - 1] == 'c' || options[i - 1] == 'f')
+        if (options[i - 1] == 'c')
         {
             if (i + 1 >= argc)
             {
@@ -43,6 +43,11 @@ int options_parser(char **argv, int argc, char **env)
                 return 1;
             }
             command = argv[i + 1];
+            i++;
+        }
+        if (options[i - 1] == 'f')
+        {
+            command = argv[i];
             i++;
         }
     }
@@ -84,8 +89,8 @@ int options_parser(char **argv, int argc, char **env)
 */
 int execute_options(char *command, char *options)
 {
-    int ast_print_flag = 0;
-    int norc_flag = 0;
+    int ast_print_flag = false;
+    int norc_flag = false;
     int res;
     norc_flag++; // REMOVE THIS - testing dummy
     norc_flag--; // REMOVE THIS - testing dummy
@@ -94,14 +99,11 @@ int execute_options(char *command, char *options)
     for (unsigned i = 0; options[i]; i++)
         switch (options[i])
         {
-            case 'x':
-                printf("Unknown option\n");
-                return 1;
             case 'a':
-                ast_print_flag = 1;
+                ast_print_flag = true;
                 break;
             case 'n':
-                norc_flag = 1;
+                norc_flag = true;
                 break;
             default:
                 break;
@@ -112,7 +114,13 @@ int execute_options(char *command, char *options)
         switch (options[i])
         {
             case 'f':
-                res = exec_file(command);
+                if (fopen(command, "r") == NULL)
+                {
+                    printf("42sh: %s: No such file or directory\n", command);
+                    return 1;
+                }
+
+                res = exec_file(command, ast_print_flag);
                 return res;
             case 'v':
                 version_display();
@@ -165,13 +173,11 @@ char *option_translator(char *options, char *current_option)
         options[first_empty(options)] = 'n';
     else if (!strcmp(current_option, "--ast-print"))
         options[first_empty(options)] = 'a';
-    else if (!strcmp(current_option, "-f"))
-        options[first_empty(options)] = 'f';
-    else if (!strcmp(current_option, "--file"))
-        options[first_empty(options)] = 'f';
+        // else if (!strcmp(current_option, "-f"))
+        //    options[first_empty(options)] = 'f';
     else
-        // default case throws an error
-        options[0] = 'x';
+        // default case treats argument as filename
+        options[first_empty(options)] = 'f';
     return options;
 }
 
