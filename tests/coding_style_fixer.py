@@ -57,17 +57,19 @@ def coding_fixer(file, filename):
     line_number = 1
     fixed_errors = 0
     col_err = False
-    #style_errors += blank_start(file, filename)
-    for index in range(0, len(file)-1):
+    [fixed_errors, file] = blank_start(file, filename, fixed_errors)
+    index=0
+    while index < len(file)-1:
         if file[index] == '\t':
             [fixed_errors, file] = forbidden_tab(index, file, filename, fixed_errors)
         #if file[index] == ';' and index != len(file):
         #   style_errors += dead_code(index, file, line_number, filename)
         if file[index] == '\n':
             [fixed_errors, file] = trailing_spaces(index, file, line_number, filename, fixed_errors)
-            print(fixed_errors)
+
     if file[index+1] == '\n':
         [fixed_errors, file] = blank_end(index, file, filename, fixed_errors)
+    
     return [file, fixed_errors]
 
 def find_line(index, file):
@@ -200,10 +202,13 @@ def trailing_spaces(index, file, line_number, filename, fixed_errors):
     while file[i] == " ":
         number_of_trails+=1
         i-=1
-    file = file[0:index-number_of_trails].join(file[index:len(file)])
+    print("number of trails: " + str(number_of_trails))
+    print(file)
+    fixed_file = file[:index-number_of_trails] + file[index:]
+    print(fixed_file)
     print("Trailing space removed in file "+ filename)
-    fixed_errors+=1
-    return [fixed_errors, file]
+    #fixed_errors+=1
+    return [fixed_errors, fixed_file]
 
 def comma_space(index, file, line_number, filename):
     """ Checks if there is a space after a comma """
