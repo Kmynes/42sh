@@ -63,10 +63,10 @@ def coding_fixer(file, filename):
         [fixed_errors, file] = blank_start(file, filename, fixed_errors)
     index=0
     while index < len(file)-1:
+        if file[index:index+10] == "#include \"":
+            [fixed_errors, file] = include_priority(index, file, filename, fixed_errors)
         if file[index] == '\t':
             [fixed_errors, file] = forbidden_tab(index, file, filename, fixed_errors)
-        #if file[index] == ';' and index != len(file):
-        #   style_errors += dead_code(index, file, line_number, filename)
         if file[index] == '\n':
             [fixed_errors, file] = trailing_spaces(index, file, filename, fixed_errors)
         index+=1
@@ -90,6 +90,7 @@ def header_guard(file, filename, fixed_errors):
     """ Checks if header files are guarded """
     file = "#pragma once\n" + file
     fixed_errors += 1
+    print("Added header guard to file "+filename)
     return [fixed_errors, file]
 
 def blank_start(file, filename, fixed_errors):
@@ -112,6 +113,44 @@ def forbidden_tab(index, file, filename, fixed_errors):
     fixed_errors+=1
     return [fixed_errors, file]
 
+def trailing_spaces(index, file, filename, fixed_errors):
+    """ Checks if there are any trailing spaces at the end of a line """
+    [line_start, line_end] = find_line(index-1, file)
+    # check if line is comment
+    if "//" in file[line_start:line_end]:
+        return [fixed_errors, file]
+    # check if line is a multiline statement 
+    if '\\' in file[index:line_end]:
+        return [fixed_errors, file]
+    # check if space is part of string
+    if '"' in file[index-20:index] and '"' in file[index:index + 20]:
+        return [fixed_errors, file]
+    if file[index - 1] != " ":
+        return [fixed_errors, file]
+    i = index-1
+    number_of_trails = 0
+    while file[i] == " ":
+        number_of_trails+=1
+        i-=1
+    print("number of trails: " + str(number_of_trails))
+    fixed_file = file[:index-number_of_trails] + file[index:]
+    print("Trailing space removed in file "+ filename)
+    fixed_errors+=1
+    return [fixed_errors, fixed_file]
+
+def include_priority(index, file, filename, fixed_errors):
+    """ Checks if includes are in the right order """
+    [line_start, line_end] = find_line(index, file)
+    [next_line_start, next_line_end] = find_line(line_end+1, file)
+    if "#include <" in file[next_line_start:next_line_end]:
+        first_line = file[line_start+1:line_end]
+        second_line = file[next_line_start+1:next_line_end]
+        fixed_file = file[:line_start+1] + second_line +"\n"+ first_line + file[next_line_end:]
+        print("Fixed include priority in file " + filename)
+        fixed_errors+=1
+        return [fixed_errors, fixed_file]
+    return [fixed_errors, file]
+
 def pre_proc_directive(index, file, line_number, filename):
     """ Checks if the pre-processor directive is on the first column """
     [line_start, line_end] = find_line(index, file)
@@ -119,18 +158,6 @@ def pre_proc_directive(index, file, line_number, filename):
         return 0
     print_error("Misplaced Pre-Proc directive", index, line_number, file, filename)
     return 1
-
-def include_priority(index, file, line_number, filename):
-    """ Checks if includes are in the right order """
-    [line_start, line_end] = find_line(index, file)
-    [next_line_start, next_line_end] = find_line(line_end+1, file)
-    if "#include <" in file[next_line_start:next_line_end]:
-        print("Bad include priority at line " + str(line_number)
-              + " in file " + filename)
-        print(file[line_start+1:line_end])
-        print(file[next_line_start+1:next_line_end]+'\n')
-        return 1
-    return 0
 
 def operation_spacing(index, file, line_number, filename):
     """ Checks if there are spaces around binary operators """
@@ -195,30 +222,7 @@ def sticky_star(index, file, line_number, filename):
             return 1
     return 0
 
-def trailing_spaces(index, file, filename, fixed_errors):
-    """ Checks if there are any trailing spaces at the end of a line """
-    [line_start, line_end] = find_line(index-1, file)
-    # check if line is comment
-    if "//" in file[line_start:line_end]:
-        return [fixed_errors, file]
-    # check if line is a multiline statement 
-    if '\\' in file[index:line_end]:
-        return [fixed_errors, file]
-    # check if space is part of string
-    if '"' in file[index-20:index] and '"' in file[index:index + 20]:
-        return [fixed_errors, file]
-    if file[index - 1] != " ":
-        return [fixed_errors, file]
-    i = index-1
-    number_of_trails = 0
-    while file[i] == " ":
-        number_of_trails+=1
-        i-=1
-    print("number of trails: " + str(number_of_trails))
-    fixed_file = file[:index-number_of_trails] + file[index:]
-    print("Trailing space removed in file "+ filename)
-    fixed_errors+=1
-    return [fixed_errors, fixed_file]
+
 
 def comma_space(index, file, line_number, filename):
     """ Checks if there is a space after a comma """
