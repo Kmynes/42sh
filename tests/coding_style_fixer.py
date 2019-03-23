@@ -64,7 +64,8 @@ def coding_fixer(file, filename):
         #if file[index] == ';' and index != len(file):
         #   style_errors += dead_code(index, file, line_number, filename)
         if file[index] == '\n':
-            file = trailing_spaces(index, file, line_number, filename, fixed_errors)
+            [fixed_errors, file] = trailing_spaces(index, file, line_number, filename, fixed_errors)
+        index+=1
     if file[index+1] == '\n':
         [fixed_errors, file] = blank_end(index, file, filename, fixed_errors)
     return [file, fixed_errors]
