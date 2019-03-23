@@ -66,7 +66,7 @@ def coding_fixer(file, filename):
         #if file[index] == '\n':
         #    file = trailing_spaces(index, file, line_number, filename)
     if file[index+1] == '\n':
-        [fixed_errors, file] += blank_end(index, file, filename)
+        [fixed_errors, file] = blank_end(index, file, filename, fixed_errors)
     return [file, fixed_errors]
 
 def find_line(index, file):
@@ -84,7 +84,7 @@ def blank_start(file, filename):
         return 1
     return 0
 
-def blank_end(index, file, filename):
+def blank_end(index, file, filename, fixed_errors):
     file = file[0:len(file)-1]
     print("Ending blank line removed in file " + filename + "\n")
     return [fixed_errors, file]
