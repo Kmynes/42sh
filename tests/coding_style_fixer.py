@@ -65,6 +65,7 @@ def coding_fixer(file, filename):
         #   style_errors += dead_code(index, file, line_number, filename)
         if file[index] == '\n':
             [fixed_errors, file] = trailing_spaces(index, file, line_number, filename, fixed_errors)
+            print(fixed_errors)
     if file[index+1] == '\n':
         [fixed_errors, file] = blank_end(index, file, filename, fixed_errors)
     return [file, fixed_errors]
@@ -185,15 +186,15 @@ def trailing_spaces(index, file, line_number, filename, fixed_errors):
     [line_start, line_end] = find_line(index-1, file)
     # check if line is comment
     if "//" in file[line_start:line_end]:
-        return [0, file]
+        return [fixed_errors, file]
     # check if line is a multiline statement 
     if '\\' in file[index:line_end]:
-        return [0, file]
+        return [fixed_errors, file]
     # check if space is part of string
     if '"' in file[index-20:index] and '"' in file[index:index + 20]:
-        return [0, file]
+        return [fixed_errors, file]
     if file[index - 1] != " ":
-        return [0, file]
+        return [fixed_errors, file]
     i = index-1
     number_of_trails = 0
     while file[i] == " ":
