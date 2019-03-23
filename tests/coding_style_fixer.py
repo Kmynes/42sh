@@ -60,13 +60,13 @@ def coding_fixer(file, filename):
     #style_errors += blank_start(file, filename)
     for index in range(0, len(file)-1):
         if file[index] == '\t':
-            file = forbidden_tab(index, file, filename)
-            fixed_errors+=1
+            [fixed_errors, file] = forbidden_tab(index, file, filename, fixed_errors)
         #if file[index] == ';' and index != len(file):
         #   style_errors += dead_code(index, file, line_number, filename)
         #if file[index] == '\n':
         #    file = trailing_spaces(index, file, line_number, filename)
-    #style_errors += blank_end(index, file, filename)
+    if file[index+1] == '\n':
+        [fixed_errors, file] += blank_end(index, file, filename)
     return [file, fixed_errors]
 
 def find_line(index, file):
@@ -85,17 +85,16 @@ def blank_start(file, filename):
     return 0
 
 def blank_end(index, file, filename):
-    """ Checks if last line is blank """
-    if file[index+1] == '\n':
-        print("Last line is blank in file " + filename + "\n")
-        return 1
-    return 0
+    file = file[0:len(file)-1]
+    print("Ending blank line removed in file " + filename + "\n")
+    return [fixed_errors, file]
 
 def forbidden_tab(index, file, filename):
     """ Is only called if a tab was used """
     file = file.replace("\t", "    ")
     print("Tab removed in file " + filename)
-    return file
+    fixed_errors+=1
+    return [fixed_errors, file]
 
 def else_comment(index, file, line_number, filename):
     """ Checks if there is a comment after an else """
