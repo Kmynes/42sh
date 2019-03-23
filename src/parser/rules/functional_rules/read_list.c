@@ -80,7 +80,7 @@ int ast_list_exec(struct ast_node *ast)
         if (res  == 0 || strcmp(op, ";") == 0)
             res = ast->children[i + 1]->exec(ast->children[i + 1]);
         else
-            return 1;
+            return res;
     }
 
     return res;

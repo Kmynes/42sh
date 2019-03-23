@@ -14,6 +14,5 @@
 */
 int main(int argc, char **argv, char **env)
 {
-    options_parser(argv, argc, env);
-    return 0;
+    return options_parser(argv, argc, env);
 }

@@ -2,6 +2,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <err.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "exec.h"
 
 /**
@@ -21,14 +23,13 @@ int exec_cmd(char **cmd, char **env)
     {
         // child
         execvpe(cmd[0], cmd, env);
-        errx(1, "%s: not found", cmd[0]);
+        errx(127, "%s: not found", cmd[0]);
     }
     else
     {
         // father
         int status = 0;
         waitpid(pid, &status, 0);
-
-        return status;
+        return WEXITSTATUS(status);
     }
 }
