@@ -181,12 +181,8 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
                 if (i == len_args)
                     args = enlarge_list(args, &len_args);
 
-<<<<<<< HEAD
                 args[i] = word;
                 range++;
-=======
-                args[i++] = sub_child->data;
->>>>>>> ad1f7f074ad3c2d66613edacc5f6044e94ddcae1
             }
         }
         range++;
