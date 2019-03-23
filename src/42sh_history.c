@@ -3,6 +3,7 @@
 int called = 0;
 
 /**
+** \file 42sh_history.c
 ** \brief This function writes in the history file any input in the shell
 ** \param input: the input of the user
 */

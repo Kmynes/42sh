@@ -57,10 +57,10 @@ def coding_fixer(file, filename):
     line_number = 1
     fixed_errors = 0
     col_err = False
-    #[fixed_errors, file] = blank_start(file, filename, fixed_errors)
+    if file[0] == '\n':
+        [fixed_errors, file] = blank_start(file, filename, fixed_errors)
     index=0
     while index < len(file)-1:
-        #print(len(file))
         if file[index] == '\t':
             [fixed_errors, file] = forbidden_tab(index, file, filename, fixed_errors)
         #if file[index] == ';' and index != len(file):
