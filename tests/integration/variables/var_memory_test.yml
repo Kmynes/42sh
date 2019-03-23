@@ -1,3 +1,2 @@
 desc: Checks that when a variable is set, it can be called.
-ref: bash ../tests/sh_test_files/var_memory_test.sh
-mycode: ./42sh ../tests/sh_test_files/var_memory_test.sh
+test: bash ../tests/sh_test_files/var_memory_test.sh
