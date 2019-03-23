@@ -6,10 +6,10 @@
 #include "function_utils.h"
 #include "option_util.h"
 
-int exec_file(char *file_name)
+int exec_file(char *file_name, bool ast_print_flag)
 {
     char *content = get_content_file(file_name);
-    int res = execute_command(content, 0);
+    int res = execute_command(content, ast_print_flag);
     free(content);
 
     return res;
