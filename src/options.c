@@ -131,7 +131,8 @@ int execute_options(char *command, char *options)
 
     if (!(has_options(options, 'c') || has_options(options, 'v')))
     {
-        if (stdin_has_input()) {
+        if (stdin_has_input())
+        {
             char buf[MAX_INPUT];
 
             fgets(buf, sizeof buf, stdin);

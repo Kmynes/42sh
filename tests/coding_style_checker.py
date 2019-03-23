@@ -23,7 +23,7 @@ def get_file_list(given_path):
             all_files.append(full_path)
     return all_files
 
-def file_selector():
+def file_selector(fix=False):
     ''' calls get file list to obtain a list of all the files in
     subdirectories and then calls coding_styler to run on each
     individual file.
@@ -43,6 +43,7 @@ def file_selector():
                     keep = filename.find("42sh")
                     filename = filename[keep:]
                     style_errors += coding_styler(file, filename)
+                
     print(str(style_errors) + " coding style error(s) found.")
     if style_errors:
         return 1
@@ -133,10 +134,7 @@ def blank_end(index, file, filename):
 def forbidden_tab(index, file, line_number, filename):
     """ Is only called if a tab was used """
     [line_start, line_end] = find_line(index, file)
-    print("Tab used at line " + str(line_number)
-            + " in file " + filename)
-    print(file[line_start+1:line_end])
-    print(" "*(index-line_start-1)+"^")
+    print_error("Tab used", index, line_number, file, filename)
     return 1
 
 def else_comment(index, file, line_number, filename):
@@ -144,10 +142,7 @@ def else_comment(index, file, line_number, filename):
     [line_start, line_end] = find_line(index, file)
     if "//" in file[line_start, line_end]:
         return 0
-    print("Pre-processor else lacks comment at line " + str(line_number)
-              + " in file " + filename)
-    print(file[line_start+1:line_end])
-    print(" "*(index-line_start-1)+"^")
+    print_error("Pre-proc else lacks comment", index, line_number, file, filename)
     return 1
 
 def pre_proc_directive(index, file, line_number, filename):
@@ -155,10 +150,7 @@ def pre_proc_directive(index, file, line_number, filename):
     [line_start, line_end] = find_line(index, file)
     if index-line_start != 2:
         return 0
-    print("Misplaced Pre-Processor directive at line " + str(line_number)
-              + " in file " + filename)
-    print(file[line_start+1:line_end])
-    print(" "*(index-line_start-2)+"^")
+    print_error("Misplaced Pre-Proc directive", index, line_number, file, filename)
     return 1
 
 def include_priority(index, file, line_number, filename):
@@ -177,10 +169,8 @@ def eighty_columns(index, file, line_number, filename):
     """ Checks if there are more than 80 characters in a single line """
     [line_start, line_end] = find_line(index, file)
     if index-line_start > 80:
-        print("More than 80 columns at line " + str(line_number)
-              + " in file " + filename)
-        print(file[line_start+1:line_end])
-        print(" "*(index-line_start-2)+"^")
+        index = index-2
+        print_error("More than 80 columns", index, line_number, file, filename)
         return 1
     return 0
 
@@ -190,10 +180,7 @@ def operation_spacing(index, file, line_number, filename):
     if "= -1" in file[line_start:line_end]:
         return 0
     if file[index-1].isnumeric() or file[index+1].isnumeric():
-        print("Missing space around binary operator at line "+str(line_number)
-              + " of file " + filename)
-        print(file[line_start+1:line_end])
-        print(" "*(index-line_start-1) + "^")
+        print_error("Missing space around operator", index, line_number, file, filename)
         return 1
     return 0
 
@@ -229,9 +216,7 @@ def dead_code(index, file, line_number, filename):
     if "'" in file[index-2:index] and "'" in file[index:index+2]:
         return 0
     if "//" in file[line_start:index]:
-        print("Dead code at line " +str(line_number)
-            + " of file " + filename)
-        print(file[line_start+1:line_end] + "\n")
+        print_error("Dead code", index, line_number, file, filename)
         return 1
     return 0
 
@@ -243,13 +228,12 @@ def sticky_star(index, file, line_number, filename):
         is_comment = True
     if file[index-2] == ')':
         return 0
+    if "**" in file[line_start:line_start + 5]:
+        return 0
     if file[index+2].isalpha() and not is_comment:
         #print(file[index+2])
         if file[index+1] == " ":
-            print("Potential pointer style error at line "+str(line_number)
-              + " of file " + filename)
-            print(file[line_start+1:line_end])
-            print(" "*(index-line_start) + "^")
+            print_error("Potential pointer style error", index, line_number, file, filename)
             return 1
     return 0
 
@@ -266,10 +250,7 @@ def trailing_spaces(index, file, line_number, filename):
     if '"' in file[index-20:index] and '"' in file[index:index + 20]:
         return 0
     if file[index - 1] == " ":
-        print("Trailing space at line "+str(line_number)
-              + " of file " + filename)
-        print(file[line_start+1:line_end])
-        print(" "*(index-line_start) + "^")
+        print_error("Trailing space", index, line_number, file, filename)
         return 1
     return 0
 
@@ -279,10 +260,7 @@ def comma_space(index, file, line_number, filename):
     if file[index+1] == '\n':
         return 0
     if file[index+1] != ' ':
-        print("Missing space after comma at line "+str(line_number)
-              + " of file " + filename)
-        print(file[line_start+1:line_end])
-        print(" "*(index-line_start) + "^")
+        print_error("Missing space after comma", index, line_number, file, filename)
         return 1
     return 0
 
@@ -299,10 +277,7 @@ def solo_braces(index, file, line_number, filename):
         return 0
     for character in file[line_start:line_end]:
         if character.isalpha() or character == ")" or character == "(":
-            print("Badly indented brace at line "+str(line_number)
-                  + " of file " + filename)
-            print(file[line_start+1:line_end])
-            print(" "*(index-line_start-1) + "^")
+            print_error("Badly indented brace", index, line_number, file, filename)
             return 1
     return 0
 
@@ -314,10 +289,7 @@ def if_space(index, file, line_number, filename):
     if file[index-2] != ' ' or file[index-3] != ' ':
         return 0
     else:
-        print("Missing space after if statement at line "+str(line_number)
-              + " of file " + filename)
-        print(file[line_start+1:line_end])
-        print(" "*(index-line_start) + "^")
+        print_error("Missing space after if", index, line_number, file, filename)
         return 1
 
 def for_space(index, file, line_number, filename):
@@ -328,10 +300,7 @@ def for_space(index, file, line_number, filename):
     if file[index-3] != ' ' or file[index-4] != ' ':
         return 0
     else:
-        print("Missing space after for statement at line "+str(line_number)
-              + " of file " + filename)
-        print(file[line_start+1:line_end])
-        print(" "*(index-line_start) + "^")
+        print_error("Missing space after for", index, line_number, file, filename)
         return 1
 
 def while_space(index, file, line_number, filename):
@@ -342,8 +311,12 @@ def while_space(index, file, line_number, filename):
     if file[index-5] != ' ' or file[index-6] != ' ':
         return 0
     else:
-        print("Missing space after while statement at line "+str(line_number)
-              + " of file " + filename)
-        print(file[line_start+1:line_end])
-        print(" "*(index-line_start) + "^")
+        print_error("Missing space after while", index, line_number, file, filename)
         return 1
+
+def print_error(error_type, index, line_number, file, filename):
+    [line_start, line_end] = find_line(index, file)
+    print(error_type + " at line " + str(line_number)
+          + " of file " + filename)
+    print(file[line_start+1:line_end])
+    print(" "*(index-line_start) + "^")
