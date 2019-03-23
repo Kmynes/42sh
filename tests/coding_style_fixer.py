@@ -68,7 +68,7 @@ def coding_fixer(file, filename):
         if file[index] == '\n':
             [fixed_errors, file] = trailing_spaces(index, file, filename, fixed_errors)
         index+=1
-    if file[index] == '\n':
+    if file[len(file)-1] == '\n':
         [fixed_errors, file] = blank_end(index, file, filename, fixed_errors)
         
     
@@ -205,9 +205,7 @@ def trailing_spaces(index, file, filename, fixed_errors):
         number_of_trails+=1
         i-=1
     print("number of trails: " + str(number_of_trails))
-    print(file)
     fixed_file = file[:index-number_of_trails] + file[index:]
-    print(fixed_file)
     print("Trailing space removed in file "+ filename)
     #fixed_errors+=1
     return [fixed_errors, fixed_file]
