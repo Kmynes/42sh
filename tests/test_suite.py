@@ -57,12 +57,13 @@ def output_diff(test_name, ref_output, mycode_output, arguments):
     ref_stderr = str(ref_output.stderr)
     mycode_stdout = str(mycode_output.stdout)
     mycode_stderr = str(mycode_output.stderr)
-    
     # valgrind checks
     if arguments[1]:
         if valgrind_error_extractor(mycode_stderr) > 0:
             print("\033[1;31;40m KO", end='')
             print(" - valgrind error \033[m")
+            if arguments[3]:
+                print_debug(ref_stdout, ref_stderr, mycode_stdout, mycode_stderr, "err")
             return 1
         mycode_stderr = valgrind_cleanup(mycode_stderr)
         

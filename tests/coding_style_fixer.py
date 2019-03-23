@@ -1,5 +1,5 @@
 import os.path
-from coding_style_fixer import coding_fixer
+
 ##
 # \file coding_style_checker.py
 # \brief Separate test file that manages coding style errors.
@@ -10,53 +10,7 @@ from coding_style_fixer import coding_fixer
 # \version v0.5
 # \date March 2019
 
-def get_file_list(given_path):
-    ''' iterates recursively through subdirectories to get a list of
-    them and returns it '''
-    list_of_files = os.listdir(given_path)
-    all_files = list()
-    for entry in list_of_files:
-        full_path = os.path.join(given_path, entry)
-        if os.path.isdir(full_path):
-            all_files = all_files + get_file_list(full_path)
-        else:
-            all_files.append(full_path)
-    return all_files
-
-def file_selector(fix=False):
-    ''' calls get file list to obtain a list of all the files in
-    subdirectories and then calls coding_styler to run on each
-    individual file.
-    This function is the one that is called by test_suite.py'''
-    print("= Coding style checks " + 58*"=")
-    style_errors = fixed_errors = 0
-    directory = os.path.dirname(os.path.abspath(__file__))
-    all_files = get_file_list(directory)
-    directory = directory.replace("/tests","/src")
-    all_files = get_file_list(directory) + all_files
-    for filename in all_files:
-        if os.path.isfile(filename):
-            if filename[len(filename)-2:len(filename)]==".c" or \
-                filename[len(filename)-2:len(filename)]==".h":
-                with open(filename, 'r') as file:
-                    file = file.read()
-                    keep = filename.find("42sh")
-                    filename = filename[keep:]
-                    if fix == False:
-                        style_errors += coding_styler(file, filename)
-                    if fix == True:
-                        fixed_errors += coding_fixer(file, filename)
-                
-    print(str(style_errors) + " coding style error(s) found.")
-    if style_errors>0:
-        answer = input("Do you want to try and fix them? (y/n)\n")
-        if answer == "y" or answer == "yes":
-            file_selector(True)
-        return 1
-    else:
-        return 0
-
-def coding_styler(file, filename):
+def coding_fixer(file, filename):
     """ loops through each character of given file and calls coding style rules
     depending on what character is at current index. """
     line_number = 1
@@ -64,45 +18,12 @@ def coding_styler(file, filename):
     col_err = False
     style_errors += blank_start(file, filename)
     for index in range(0, len(file)-1):
-        if file[index:index+10] == "#include \"":
-            style_errors += include_priority(index, file, line_number, filename)
-        if file[index:index+2] == "if":
-            style_errors += if_space(index+1, file, line_number, filename)
-        if file[index:index+3] == "for":
-            style_errors += for_space(index+2, file, line_number, filename)
-        if file[index:index+5] == "while":
-            style_errors += while_space(index+4, file, line_number, filename)
-        if file[index] == '#':
-            style_errors += pre_proc_directive(index, file, line_number, filename)
-        if file[index] == '\t':
-            style_errors += forbidden_tab(index, file, line_number, filename)
         if file[index] == ';' and index != len(file):
             style_errors += dead_code(index, file, line_number, filename)
         if file[index] == '\n':
-            style_errors += trailing_spaces(index, file, line_number, filename)
-        if not col_err:
-            if eighty_columns(index, file, line_number, filename):
-                style_errors+=1
-                col_err = True
-        if file[index:index+2] == "/*":
-            style_errors += long_dead_code(index, file, line_number, filename)
-        if file[index:index+5] == "#else":
-            style_errors += else_comment(index, file, line_number, filename)
-        if file[index] == '*':
-            style_errors += sticky_star(index, file, line_number, filename)
-        if file[index] == '+' or file[index] == '-' or file[index] == '*':
-            style_errors += operation_spacing(index, file, line_number, filename)
-        if file[index] == '{' or file[index] == '}':
-            style_errors += solo_braces(index, file, line_number, filename)
-        if file[index] == '{':
-            style_errors += indentation_check(index, file, line_number, filename)
-        if file[index] == ',':
-            style_errors += comma_space(index, file, line_number, filename)
-        if file[index] == '\n':
-            col_err = False
-            line_number+=1
+            file = trailing_spaces(index, file, line_number, filename)
     style_errors += blank_end(index, file, filename)
-    return style_errors
+    return file
 
 def find_line(index, file):
     """ returns line in which an index is """
@@ -111,17 +32,6 @@ def find_line(index, file):
     return [line_start, line_end]
 
 # coding style rules:
-
-def long_dead_code(index, file, line_number, filename):
-    """ Checks if there is dead code in long comment format """
-    while file[index:index+2] != "*/":
-        if file[index] == ';':
-            print(file[index])
-            print("Long dead code at line " + str(line_number)
-                  + " in file " + filename)
-            return 1
-        index+=1
-    return 0
 
 def blank_start(file, filename):
     """ Checks if first line is blank """
