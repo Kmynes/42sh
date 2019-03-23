@@ -74,3 +74,6 @@ debug
 # ast_print
 *.dot
 *.png
+
+# history
+42sh_history

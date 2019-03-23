@@ -31,6 +31,7 @@ bool read_rule_if(struct parser *p)
         ast_recover_all_from_parser(ast, p, AST_COMPOUND_LIST);
 
         if (OPTIONAL(read_else_clause(p))
+            && read_spaces(p)
             && parser_readtext(p, "fi"))
         {
             ast_recover_all_from_parser(ast, p, AST_ELSE_CLAUSE);

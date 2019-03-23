@@ -41,7 +41,8 @@ static bool read_third_instructions(struct parser *p)
 void set_ast_redirection(struct parser *p, struct ast_node *ast,
     struct ast_node *ast_child)
 {
-    ast_set_in_parent(ast, ast_child);
+    ast_child++;
+//    ast_set_in_parent(ast, ast_child);
     ast_recover_all_from_parser(ast, p, AST_REDIRECTION);
 }
 
