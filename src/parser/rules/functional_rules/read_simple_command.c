@@ -43,7 +43,7 @@ static bool read_simple_command1(struct parser *p)
 ** \brief Allow to read the second part of the simple_command's grammar
 **  (prefix)* (element)+
 ** \param parser
-** \return true if this part is can be read on the current parsor's cursor
+** \return true if this part is readable from the current parsor's cursor
 ** false otherwise
 */
 static bool read_simple_command2(struct parser *p)
@@ -65,6 +65,7 @@ static bool read_simple_command2(struct parser *p)
     p->cursor = tmp;
     return false;
 }
+
 
 bool read_simple_command(struct parser *p)
 {

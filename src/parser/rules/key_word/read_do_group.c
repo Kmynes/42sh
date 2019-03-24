@@ -8,6 +8,12 @@
 ** \version 0.3
 ** \date March 2019
 */
+
+/*
+** \brief try to read the do_group grammar
+** \param parser
+** \return true if a do_group si readable false otherwise
+*/
 bool read_do_group(struct parser *p)
 {
     unsigned int tmp = p->cursor;
@@ -33,6 +39,11 @@ bool read_do_group(struct parser *p)
     return false;
 }
 
+/*
+** \brief Execute a do_group ast
+** \param ast
+** \return his first child's exit code
+*/
 int ast_do_group_exec(struct ast_node *ast)
 {
     if (ast->type != AST_DO_GROUP)
@@ -41,6 +52,10 @@ int ast_do_group_exec(struct ast_node *ast)
     return first_child->exec(first_child);
 }
 
+/*
+** \brief Create an do_group ast
+** \return ast
+*/
 struct ast_node *ast_do_group_init(void)
 {
     struct ast_node *ast = ast_init(AST_DO_GROUP, NULL);

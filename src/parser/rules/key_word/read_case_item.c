@@ -8,6 +8,12 @@
 ** \version 0.3
 ** \date March 2019
 */
+
+/*
+** \brief try to read the grammar's first part
+** \param parser
+** \return true if a the grammar's first part is readable false otherwise
+*/
 bool read_case_item_element(struct parser *p,
     struct ast_multiple_word *data)
 {
@@ -23,6 +29,11 @@ bool read_case_item_element(struct parser *p,
     return false;
 }
 
+/*
+** \brief try to read the case_item grammar
+** \param parser
+** \return true if a case_item is readable false otherwise
+*/
 bool read_case_item(struct parser *p)
 {
     unsigned int tmp = p->cursor;
@@ -59,6 +70,10 @@ bool read_case_item(struct parser *p)
     return false;
 }
 
+/*
+** \brief free an AST_CASE_ITEM's data
+** \param void *data
+*/
 void ast_case_item_free(void *data)
 {
     struct ast_multiple_word *ast_for = data;
@@ -69,6 +84,10 @@ void ast_case_item_free(void *data)
     free(ast_for);
 }
 
+/*
+** \brief Execuse an AST_CASE_ITEM
+** \return the exit code of the first child
+*/
 int ast_case_item_exec(struct ast_node *ast)
 {
     if (ast->type != AST_CASE_ITEM)
@@ -80,6 +99,10 @@ int ast_case_item_exec(struct ast_node *ast)
     return 0;
 }
 
+/*
+** \brief Create an AST_CASE_ITEM
+** \return ast
+*/
 struct ast_node *ast_case_item_init(struct ast_multiple_word *data)
 {
     struct ast_node *ast = ast_init(AST_CASE_ITEM, data);
