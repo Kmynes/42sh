@@ -5,17 +5,6 @@
 #include "helper_rules.h"
 #include "../../test.h"
 
-// Test inifile
-void test_read_ini_file(void);
-void test_read_sections(void);
-void test_read_key_value(void);
-void test_read_value(void);
-void test_read_identifier(void);
-void test_read_spaces(void);
-void test_read_end_of_line(void);
-void test_read_spacing(void);
-void test_global(void);
-
 // Test terminal
 void test_read_assign(void);
 void test_read_word(void);
