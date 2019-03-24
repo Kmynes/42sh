@@ -9,6 +9,8 @@ int called = 0;
 */
 void put_in_history_file(char *input)
 {
+    char *line = malloc(strlen(input) + 50);
+    strcpy(line, input);
     char path_tmp[1024];
     char path_hist[1024];
     char to_tmp[1024];
@@ -22,15 +24,16 @@ void put_in_history_file(char *input)
     FILE *hist_tmp = fopen(path_tmp, "a+");
     FILE *hist_perm = fopen(path_hist, "a+");
 
-    strcat(input, "\n");
-    fprintf(hist_perm, "%s", input);
+    strcat(line, "\n");
+    fprintf(hist_perm, "%s", line);
 
-    sprintf(to_tmp, "\t%d %s", called, input);
+    sprintf(to_tmp, "\t%d %s", called, line);
     fprintf(hist_tmp, "%s", to_tmp);
-
 
     fclose(hist_tmp);
     fclose(hist_perm);
+
+    free(line);
 
     called++;
 }
