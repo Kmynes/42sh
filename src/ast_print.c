@@ -21,8 +21,8 @@ void remove_parenthesis(char *input)
         if (input[i] == '(')
         {
             size_t k = i;
-            for (; input[k] != ')'; k++);
-
+            for (; input[k] != ')'; k++)
+                ;
             k = k - i + 1;
 
             for (size_t z = i; input[z] != '\0'; z++)
