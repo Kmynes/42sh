@@ -26,7 +26,7 @@ void remove_parenthesis(char *input)
             k = k - i + 1;
 
             for (size_t z = i; input[z] != '\0'; z++)
-                input[z] = input[z+k];
+                input[z] = input[z + k];
         }
     }
 }
@@ -38,7 +38,7 @@ void remove_parenthesis(char *input)
 void remove_start(char *input)
 {
     for (size_t i = 0; input[i] != '\0'; i++)
-        input[i] = input[i+4];
+        input[i] = input[i + 4];
 }
 
 /**

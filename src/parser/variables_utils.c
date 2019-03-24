@@ -96,7 +96,7 @@ static char *get_variable_name(char *val, char **store_val, size_t len_value,
     char *capt = calloc(sizeof(char), len_value);
     char c = ' ';
 
-    while (*val != '\0' && is_in_variable_pattern(*val))//(*val != ' ' && (c != '\\' && *val != '}')))
+    while (*val != '\0' && is_in_variable_pattern(*val))
     {
         c = *val;
         capt[cursor++] = c;

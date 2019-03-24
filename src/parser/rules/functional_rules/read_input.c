@@ -86,7 +86,7 @@ int ast_input_exec(struct ast_node *ast)
     return res;
 }
 
-struct ast_node *ast_input_init()
+struct ast_node *ast_input_init(void)
 {
     struct ast_node *ast = ast_init(AST_INPUT, NULL);
     ast->exec = ast_input_exec;

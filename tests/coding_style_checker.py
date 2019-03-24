@@ -81,6 +81,8 @@ def coding_styler(file, filename):
             if eighty_columns(index, file, line_number, filename):
                 style_errors+=1
                 col_err = True
+        if file[index:index+2] == "()":
+            style_errors += void_function(index, file, line_number, filename)
         if file[index:index+2] == "/*":
             style_errors += long_dead_code(index, file, line_number, filename)
         if file[index:index+5] == "#else":
@@ -109,9 +111,26 @@ def find_line(index, file):
 
 # coding style rules:
 
+def void_function(index, file, line_number, filename):
+    """ Checks if function has input or not """
+    [line_start, line_end] = find_line(index, file)
+    if "if" in file[line_start:index]:
+        return 0
+    if '"' in file[line_start:index] and '"' in file[index:line_end]:
+        return 0
+    if "'" in file[line_start:index] and "'" in file[index:line_end]:
+        return 0
+    if file[index+2] is ';':
+        return 0
+    print_error("Void missing", index, line_number, file, filename)
+    return 1
+        
 def long_dead_code(index, file, line_number, filename):
     """ Checks if there is dead code in long comment format """
     while file[index:index+2] != "*/":
+        # If comment is doxygen, presence of ; is acceptable.
+        if "**" in file[index:index+3]:
+            return 0
         if file[index] == ';':
             print(file[index])
             print("Long dead code at line " + str(line_number)
@@ -136,7 +155,6 @@ def blank_end(index, file, filename):
 
 def forbidden_tab(index, file, line_number, filename):
     """ Is only called if a tab was used """
-    [line_start, line_end] = find_line(index, file)
     print_error("Tab used", index, line_number, file, filename)
     return 1
 

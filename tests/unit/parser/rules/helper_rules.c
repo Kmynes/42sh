@@ -27,7 +27,7 @@ bool test_rule(bool (*read_func)(struct parser *),
     return res;
 }
 
-bool test_not_rule( bool (*read_func)(struct parser *), char *input)
+bool test_not_rule(bool (*read_func)(struct parser *), char *input)
 {
     struct parser *p = parser_new_from_string(input);
     bool res = !read_func(p);
@@ -36,7 +36,7 @@ bool test_not_rule( bool (*read_func)(struct parser *), char *input)
     return res;
 }
 
-struct ast_node *ast_from_read( bool (*read_func)(struct parser *),
+struct ast_node *ast_from_read(bool (*read_func)(struct parser *),
                                 char *input)
 {
     struct parser *p = parser_new_from_string(input);

@@ -72,7 +72,7 @@ int read_case_clause_exec(struct ast_node *ast, char *word)
     return 0; // by default ok
 }
 
-struct ast_node *ast_case_clause_init()
+struct ast_node *ast_case_clause_init(void)
 {
     struct ast_node *ast = ast_init(AST_CASE_CLAUSE, NULL);
     ast->exec_arg = read_case_clause_exec;

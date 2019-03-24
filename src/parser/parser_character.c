@@ -10,7 +10,7 @@ char parser_getchar(struct parser *p)
     return p->input[p->cursor++];
 }
 
-bool parser_peekchar(struct parser * p, char c)
+bool parser_peekchar(struct parser *p, char c)
 {
     if (p->input[p->cursor] == c)
         return true;

@@ -99,37 +99,37 @@ int execute_options(char *command, char *options)
     for (unsigned i = 0; options[i]; i++)
         switch (options[i])
         {
-            case 'a':
-                ast_print_flag = true;
-                break;
-            case 'n':
-                norc_flag = true;
-                break;
-            default:
-                break;
+        case 'a':
+            ast_print_flag = true;
+            break;
+        case 'n':
+            norc_flag = true;
+            break;
+        default:
+            break;
         }
 
     // do a second loop of the options to execute in tder
     for (unsigned i = 0; options[i]; i++)
         switch (options[i])
         {
-            case 'f':
-                if (fopen(command, "r") == NULL)
-                {
-                    printf("42sh: %s: No such file or directory\n", command);
-                    return 1;
-                }
+        case 'f':
+            if (fopen(command, "r") == NULL)
+            {
+                printf("42sh: %s: No such file or directory\n", command);
+                return 1;
+            }
 
-                res = exec_file(command, ast_print_flag);
-                return res;
-            case 'v':
-                version_display();
-                return 0;
-            case 'c':
-                res = execute_command(command, ast_print_flag);
-                return res;
-            default:
-                break;
+            res = exec_file(command, ast_print_flag);
+            return res;
+        case 'v':
+            version_display();
+            return 0;
+        case 'c':
+            res = execute_command(command, ast_print_flag);
+            return res;
+        default:
+            break;
         }
 
     if (!(has_options(options, 'c') || has_options(options, 'v')))
@@ -174,8 +174,6 @@ char *option_translator(char *options, char *current_option)
         options[first_empty(options)] = 'n';
     else if (!strcmp(current_option, "--ast-print"))
         options[first_empty(options)] = 'a';
-        // else if (!strcmp(current_option, "-f"))
-        //    options[first_empty(options)] = 'f';
     else
         // default case treats argument as filename
         options[first_empty(options)] = 'f';
@@ -199,7 +197,7 @@ unsigned first_empty(char *table)
 /**
 ** \brief Prints out current version number
 */
-void version_display()
+void version_display(void)
 // prints current version
 {
     printf("Version 0.3\n");

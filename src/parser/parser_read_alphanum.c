@@ -12,9 +12,9 @@ bool parser_readnum(struct parser *p)
 
 bool parser_readletter(struct parser *p)
 {
-    return parser_readrange(p, 'a', 'z') ||
-           parser_readrange(p, 'A', 'Z') ||
-           parser_readchar(p, '_');
+    return parser_readrange(p, 'a', 'z')
+        || parser_readrange(p, 'A', 'Z')
+        || parser_readchar(p, '_');
 }
 
 bool parser_readalphanum(struct parser *p)

@@ -90,7 +90,7 @@ int ast_and_or_exec(struct ast_node *ast)
     return res;
 }
 
-struct ast_node *ast_and_or_init()
+struct ast_node *ast_and_or_init(void)
 {
     struct ast_node *ast = ast_init(AST_AND_OR, NULL);
     ast->exec = ast_and_or_exec;

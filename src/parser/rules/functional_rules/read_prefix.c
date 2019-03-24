@@ -31,7 +31,7 @@ bool read_prefix(struct parser *p)
     return false;
 }
 
-struct ast_node *ast_prefix_init()
+struct ast_node *ast_prefix_init(void)
 {
     struct ast_node *ast = ast_init(AST_PREFIX, NULL);
     return ast;

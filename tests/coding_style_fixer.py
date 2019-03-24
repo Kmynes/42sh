@@ -9,7 +9,6 @@ import os.path
 # \author Daniel
 # \version v0.5
 # \date March 2019
-
 def get_file_list(given_path):
     ''' iterates recursively through subdirectories to get a list of
     them and returns it '''
@@ -69,6 +68,8 @@ def coding_fixer(file, filename):
             [fixed_errors, file] = forbidden_tab(index, file, filename, fixed_errors)
         if file[index] == '\n':
             [fixed_errors, file] = trailing_spaces(index, file, filename, fixed_errors)
+        if file[index:index+2] == "()":
+            [fixed_errors, file] = void_function(index, file, filename, fixed_errors)
         index+=1
     if file[len(file)-1] == '\n':
         [fixed_errors, file] = blank_end(index, file, filename, fixed_errors)
@@ -151,13 +152,23 @@ def include_priority(index, file, filename, fixed_errors):
         return [fixed_errors, fixed_file]
     return [fixed_errors, file]
 
-def pre_proc_directive(index, file, line_number, filename):
-    """ Checks if the pre-processor directive is on the first column """
+def void_function(index, file, filename, fixed_errors):
+    """ Checks if function has input or not """
     [line_start, line_end] = find_line(index, file)
-    if index-line_start != 2:
-        return 0
-    print_error("Misplaced Pre-Proc directive", index, line_number, file, filename)
-    return 1
+    if "if" in file[line_start:index]:
+        return [fixed_errors, file]
+    if '"' in file[line_start:index] and '"' in file[index:line_end]:
+        return [fixed_errors, file]
+    if "'" in file[line_start:index] and "'" in file[index:line_end]:
+        return [fixed_errors, file]
+    if file[index+2] is ';':
+        return [fixed_errors, file]
+    index+=1
+    file = file[:index]+ "void" + file[index:]
+    #print(file)
+    print("Void added in file "+filename) 
+    fixed_errors+=1 
+    return [fixed_errors, file]
 
 def operation_spacing(index, file, line_number, filename):
     """ Checks if there are spaces around binary operators """
@@ -168,61 +179,6 @@ def operation_spacing(index, file, line_number, filename):
         print_error("Missing space around operator", index, line_number, file, filename)
         return 1
     return 0
-
-def indentation_check(index, file, line_number, filename):
-    """ Checks if there is an indent after anopening brace """
-    [line_start, line_end] = find_line(index, file)
-    if "struct" in file[line_start:line_end]:
-        return 0
-    if '"' in file[index-20:index] and '"' in file[index:index+20]:
-        return 0
-    if "'" in file[index-2:index] and "'" in file[index:index+2]:
-        return 0
-    preceding_spaces = index-file[0:index].rfind('\n')-1
-    if file[index+preceding_spaces+2] == '}':
-        return 0
-    succeeding_spaces = 0
-    special_index = index+1
-    while file[special_index+1] == ' ':
-        succeeding_spaces += 1
-        special_index += 1
-    if succeeding_spaces == preceding_spaces:
-        print("Badly indented code at line "+str(line_number+1)
-                + " of file " + filename)
-        [line_start, line_end] = find_line(line_end+3, file)
-        print(file[line_start+1:line_end])
-        print(" "*(succeeding_spaces) + "^")
-        return 1
-    return 0
-
-def dead_code(index, file, line_number, filename):
-    """ Checks if there is dead code in the code """
-    [line_start, line_end] = find_line(index, file)
-    if "'" in file[index-2:index] and "'" in file[index:index+2]:
-        return 0
-    if "//" in file[line_start:index]:
-        print_error("Dead code", index, line_number, file, filename)
-        return 1
-    return 0
-
-def sticky_star(index, file, line_number, filename):
-    """ Checks if pointers are spaced correctly """
-    [line_start, line_end] = find_line(index, file)
-    is_comment = False
-    if not ';' in file[line_start:line_end]:
-        is_comment = True
-    if file[index-2] == ')':
-        return 0
-    if "**" in file[line_start:line_start + 5]:
-        return 0
-    if file[index+2].isalpha() and not is_comment:
-        #print(file[index+2])
-        if file[index+1] == " ":
-            print_error("Potential pointer style error", index, line_number, file, filename)
-            return 1
-    return 0
-
-
 
 def comma_space(index, file, line_number, filename):
     """ Checks if there is a space after a comma """
