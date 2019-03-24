@@ -73,14 +73,14 @@ int ast_list_exec(struct ast_node *ast)
         return 1;
 
     int res = ast->children[0]->exec(ast->children[0]);
-    
+
     for (size_t i = 1; ast->nb_children > i; i += 2)
     {
         char *op = ast->children[i]->data;
         if (res  == 0 || strcmp(op, ";") == 0)
             res = ast->children[i + 1]->exec(ast->children[i + 1]);
         else
-            return 1;
+            return res;
     }
 
     return res;

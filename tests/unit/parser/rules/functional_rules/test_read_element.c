@@ -19,7 +19,7 @@ void test_read_element(void)
     print_state_test(check, "test_read_element (4)");
 
     check = test_rule(read_element, "2<<-END\necho toto\nEND",
-                     "AST_ELEMENT(1)");    
+                     "AST_ELEMENT(1)");
     print_state_test(check, "test_read_element (5)");
 
     check = test_rule(read_element, "2>&test.sh",

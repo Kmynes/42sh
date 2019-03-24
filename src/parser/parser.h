@@ -208,8 +208,3 @@ static inline bool parser_end_capture(struct parser *p, const char *tag)
 
 //ast_print
 int ast_print(struct ast_node *ast, FILE *stream);
-
-//42_history
-void put_in_history_file();
-void read_history();
-void erease_tmp_history();

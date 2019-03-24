@@ -10,6 +10,7 @@ int execute_command(char *command, int ast_print_flag)
         if (!read_input(p))
         {
             printf("wrong input : %s\n", command);
+            parser_free(p);
             return 1;
         }
     }

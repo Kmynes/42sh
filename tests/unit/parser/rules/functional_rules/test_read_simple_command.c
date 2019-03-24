@@ -1,6 +1,6 @@
-#include "unit/parser/rules/test_rules.h"
 #include <utils/function_utils.h>
 #include <unit/helper_unit.h>
+#include "unit/parser/rules/test_rules.h"
 
 static void test_read_simple_command1(void)
 {

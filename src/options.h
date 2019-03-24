@@ -6,4 +6,4 @@
 
 int options_parser(char **argv, int argc, char **env);
 bool has_options(char *options, char option);
-int exec_file(char *file_name);
+int exec_file(char *file_name, bool ast_print_flag);

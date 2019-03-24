@@ -1,3 +1,4 @@
+#pragma once
 #include <parser/parser.h>
 #include "rules/helper_rules.h"
 #include "../test.h"

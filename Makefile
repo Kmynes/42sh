@@ -3,6 +3,7 @@
 all:
 	mkdir -p ./build
 	cd ./build && cmake .. && make
+
 unit:
 	$(MAKE) -s all
 	clear
@@ -14,3 +15,6 @@ doc:
 check:
 	$(MAKE) -s unit
 	python3 tests/test_suite.py --debug
+
+style:
+	python3 tests/test_suite.py --style

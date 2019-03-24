@@ -141,25 +141,29 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
  * @return
  */
 static char **create_command_list(struct ast_node *ast, size_t prefix_count,
-    bool *prog_found)
+    bool *prog_found, size_t *nb_args)
 {
     struct ast_node *child = NULL;
     struct ast_node *sub_child = NULL;
     size_t len_args = ast->nb_children - prefix_count + 1;
     char **args = malloc(sizeof(char *) * len_args);
 
+    *nb_args = 0;
     size_t i = 0;
     size_t range = prefix_count;
 
-    while (range < ast->nb_children)
+    for  (;range < ast->nb_children; i++)
     {
         child = ast->children[range];
         sub_child = child->children[0];
         if (sub_child->type == AST_WORD)
         {
+
+            char *word = strdup(sub_child->data);
+            manage_variable_str(&word);
             if (!*prog_found)
             {
-                char *prog = sub_child->data;
+                char *prog = word;
                 char delim[] = " ";
                 char *part = strtok(prog, delim);
                 while (part)
@@ -167,7 +171,8 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
                     if (i == len_args)
                         args = enlarge_list(args, &len_args);
 
-                    args[i++] = part;
+                    args[i] = strdup(part);
+                    *nb_args += 1;
                     part = strtok(NULL, delim);
                 }
                 *prog_found = true;
@@ -177,19 +182,21 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
                 if (i == len_args)
                     args = enlarge_list(args, &len_args);
 
-                args[i++] = sub_child->data;
+                args[i] = strdup(word);
+                range++;
+                *nb_args += 1;
             }
+            free(word);
         }
         range++;
     }
 
-    args[i] = NULL;
+    args[*nb_args] = NULL;
     return args;
 }
 
 int create_redirection(struct ast_redirection *redir)
 {
-//    char *ionumber = redir->ionumber ? redir->ionumber : "1";
     if (strcmp(redir->redirect, ">") == 0)
     {
         int fd = open(redir->word,
@@ -255,7 +262,8 @@ int ast_simple_command_exec(struct ast_node *ast)
 
     int res = 0;
     bool has_prog = false;
-    char **args = create_command_list(ast, prefix_count, &has_prog);
+    size_t nbr_args;
+    char **args = create_command_list(ast, prefix_count, &has_prog, &nbr_args);
     if (has_prog)
     {
         size_t count = 0;
@@ -264,6 +272,9 @@ int ast_simple_command_exec(struct ast_node *ast)
         res = exec_cmd(args, env);
         string_list_free(env, count);
     }
+
+    for (size_t i = 0; i < nbr_args; i++)
+        free(args[i]);
 
     free(args);
     return res;

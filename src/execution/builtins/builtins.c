@@ -7,7 +7,7 @@ extern struct builtin *builtin_table;
 
 void builtin_table_init(void)
 {
-    struct builtin table[] = 
+    struct builtin table[] =
     {
         {
             NULL,

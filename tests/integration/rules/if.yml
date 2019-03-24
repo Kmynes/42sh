@@ -1,3 +1,2 @@
 desc: Checks comments are parser
-ref: bash ../tests/sh_test_files/rules/if.sh
-mycode: ./42sh ../tests/sh_test_files/rules/if.sh
+test: ../tests/sh_test_files/rules/if.sh

@@ -3,8 +3,8 @@
 ** \file read_compound_list.c
 ** \brief reads compound_list grammar as specified by the subject.
 **
-** command: simple_command 
-** | shell_command (redirection)* 
+** command: simple_command
+** | shell_command (redirection)*
 ** | funcdec (redirection)*
 ** \author Thibault
 ** \version 0.3
@@ -38,10 +38,8 @@ static bool read_third_instructions(struct parser *p)
     return false;
 }
 
-void set_ast_redirection(struct parser *p, struct ast_node *ast,
-    struct ast_node *ast_child)
+void set_ast_redirection(struct parser *p, struct ast_node *ast)
 {
-    ast_set_in_parent(ast, ast_child);
     ast_recover_all_from_parser(ast, p, AST_REDIRECTION);
 }
 
@@ -72,14 +70,14 @@ bool read_command(struct parser *p)
         if (ast_child != NULL)
         {
             ast_set_in_parent(ast, ast_child);
-            set_ast_redirection(p, ast, ast_child);
+            set_ast_redirection(p, ast);
             ast_set_in_parser(p, ast);
             return true;
         }
 
         ast_child = ast_get_from_parser(p, AST_FUNCDEC);
         ast_set_in_parent(ast, ast_child);
-        set_ast_redirection(p, ast, ast_child);
+        set_ast_redirection(p, ast);
         ast_set_in_parser(p, ast);
 
         return true;

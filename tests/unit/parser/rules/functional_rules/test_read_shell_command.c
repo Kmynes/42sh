@@ -59,7 +59,7 @@ static void test_read_shell_command_until(void)
     struct ast_node *ast = ast_from_read(read_shell_command, input);
     check = ast->children[0]->type == AST_RULE_UNTIL;
     print_state_test(check, "test_read_shell_command_until (2)");
- 
+
     ast_free(ast);
 }
 

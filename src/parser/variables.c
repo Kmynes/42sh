@@ -10,7 +10,7 @@
 struct key_value *variables = NULL;
 
 
-/** 
+/**
 ** \brief Initialize the globale variable [variables]
 ** \return void.
 */
@@ -19,7 +19,7 @@ void variables_init()
     variables = create_variable(NULL, NULL);
 }
 
-/** 
+/**
 ** \param char *key
 ** \param char *value
 ** \return struct key_value *.

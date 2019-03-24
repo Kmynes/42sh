@@ -1,2 +1,2 @@
-ref: bash ../tests/sh_test_files/check_exec_if_bash.sh
-mycode: ./42sh ../tests/sh_test_files/check_exec_if_42sh.sh
+desc: 
+test: ../tests/sh_test_files/check_exec_if_42sh.sh

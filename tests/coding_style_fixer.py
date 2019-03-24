@@ -1,5 +1,5 @@
 import os.path
-from coding_style_fixer import file_to_fix_selector
+
 ##
 # \file coding_style_checker.py
 # \brief Separate test file that manages coding style errors.
@@ -23,83 +23,60 @@ def get_file_list(given_path):
             all_files.append(full_path)
     return all_files
 
-def file_selector():
+def file_to_fix_selector():
     ''' calls get file list to obtain a list of all the files in
     subdirectories and then calls coding_styler to run on each
     individual file.
     This function is the one that is called by test_suite.py'''
-    print("= Coding style checks " + 58*"=")
-    style_errors = fixed_errors = 0
+    print("= Coding style fixes " + 59*"=")
+    total_fixed_errors = 0
     directory = os.path.dirname(os.path.abspath(__file__))
     all_files = get_file_list(directory)
     directory = directory.replace("/tests","/src")
     all_files = get_file_list(directory) + all_files
-    for filename in all_files:
-        if os.path.isfile(filename):
-            if filename[len(filename)-2:len(filename)]==".c" or \
-                filename[len(filename)-2:len(filename)]==".h":
-                with open(filename, 'r') as file:
+    for file_path in all_files:
+        fixed_errors = 0
+        if os.path.isfile(file_path):
+            if file_path[len(file_path)-2:len(file_path)]==".c" or \
+                file_path[len(file_path)-2:len(file_path)]==".h":
+                with open(file_path, 'r') as file:
                     file = file.read()
-                    keep = filename.find("42sh")
-                    filename = filename[keep:]
-                    style_errors += coding_styler(file, filename)
-                
-    print(str(style_errors) + " coding style error(s) found.")
-    if style_errors>0:
-        answer = input("Do you want to try and fix them? (y/n)\n")
-        if answer == "y" or answer == "yes":
-            file_to_fix_selector()
-        return 1
-    else:
-        return 0
+                keep = file_path.find("42sh")
+                filename = file_path[keep:]
+                [file, fixed_errors] = coding_fixer(file, filename)
+                if fixed_errors>0:
+                    file_to_fix = open(file_path, 'w')
+                    file_to_fix.write(file)
+                    total_fixed_errors += fixed_errors
+    print(str(total_fixed_errors) + " coding style error(s) fixed.")
+    return
 
-def coding_styler(file, filename):
+def coding_fixer(file, filename):
     """ loops through each character of given file and calls coding style rules
     depending on what character is at current index. """
     line_number = 1
-    style_errors = 0
+    fixed_errors = 0
     col_err = False
-    style_errors += blank_start(file, filename)
-    for index in range(0, len(file)-1):
+    if ".h" in filename and "pragma" not in file:
+        [fixed_errors, file] = header_guard(file, filename, fixed_errors)
+    if file[0] == '\n':
+        [fixed_errors, file] = blank_start(file, filename, fixed_errors)
+    index=0
+    while index < len(file)-1:
         if file[index:index+10] == "#include \"":
-            style_errors += include_priority(index, file, line_number, filename)
-        if file[index:index+2] == "if":
-            style_errors += if_space(index+1, file, line_number, filename)
-        if file[index:index+3] == "for":
-            style_errors += for_space(index+2, file, line_number, filename)
-        if file[index:index+5] == "while":
-            style_errors += while_space(index+4, file, line_number, filename)
-        if file[index] == '#':
-            style_errors += pre_proc_directive(index, file, line_number, filename)
+            [fixed_errors, file] = include_priority(index, file, filename, fixed_errors)
         if file[index] == '\t':
-            style_errors += forbidden_tab(index, file, line_number, filename)
-        if file[index] == ';' and index != len(file):
-            style_errors += dead_code(index, file, line_number, filename)
+            [fixed_errors, file] = forbidden_tab(index, file, filename, fixed_errors)
         if file[index] == '\n':
-            style_errors += trailing_spaces(index, file, line_number, filename)
-        if not col_err:
-            if eighty_columns(index, file, line_number, filename):
-                style_errors+=1
-                col_err = True
-        if file[index:index+2] == "/*":
-            style_errors += long_dead_code(index, file, line_number, filename)
-        if file[index:index+5] == "#else":
-            style_errors += else_comment(index, file, line_number, filename)
-        if file[index] == '*':
-            style_errors += sticky_star(index, file, line_number, filename)
-        if file[index] == '+' or file[index] == '-' or file[index] == '*':
-            style_errors += operation_spacing(index, file, line_number, filename)
-        if file[index] == '{' or file[index] == '}':
-            style_errors += solo_braces(index, file, line_number, filename)
-        if file[index] == '{':
-            style_errors += indentation_check(index, file, line_number, filename)
-        if file[index] == ',':
-            style_errors += comma_space(index, file, line_number, filename)
-        if file[index] == '\n':
-            col_err = False
-            line_number+=1
-    style_errors += blank_end(index, file, filename)
-    return style_errors
+            [fixed_errors, file] = trailing_spaces(index, file, filename, fixed_errors)
+        index+=1
+    if file[len(file)-1] == '\n':
+        [fixed_errors, file] = blank_end(index, file, filename, fixed_errors)
+        
+    
+    return [file, fixed_errors]
+
+
 
 def find_line(index, file):
     """ returns line in which an index is """
@@ -109,44 +86,70 @@ def find_line(index, file):
 
 # coding style rules:
 
-def long_dead_code(index, file, line_number, filename):
-    """ Checks if there is dead code in long comment format """
-    while file[index:index+2] != "*/":
-        if file[index] == ';':
-            print(file[index])
-            print("Long dead code at line " + str(line_number)
-                  + " in file " + filename)
-            return 1
-        index+=1
-    return 0
+def header_guard(file, filename, fixed_errors):
+    """ Checks if header files are guarded """
+    file = "#pragma once\n" + file
+    fixed_errors += 1
+    print("Added header guard to file "+filename)
+    return [fixed_errors, file]
 
-def blank_start(file, filename):
+def blank_start(file, filename, fixed_errors):
     """ Checks if first line is blank """
-    if file[0] == '\n':
-        print("First line is blank in file " + filename + "\n")
-        return 1
-    return 0
+    file = file[1:len(file)]
+    print("Starting blank line removed in file " + filename + "\n")
+    fixed_errors += 1
+    return [fixed_errors, file]
 
-def blank_end(index, file, filename):
-    """ Checks if last line is blank """
-    if file[index+1] == '\n':
-        print("Last line is blank in file " + filename + "\n")
-        return 1
-    return 0
+def blank_end(index, file, filename, fixed_errors):
+    file = file[0:len(file)-1]
+    print("Ending blank line removed in file " + filename + "\n")
+    fixed_errors += 1
+    return [fixed_errors, file]
 
-def forbidden_tab(index, file, line_number, filename):
+def forbidden_tab(index, file, filename, fixed_errors):
     """ Is only called if a tab was used """
-    [line_start, line_end] = find_line(index, file)
-    print_error("Tab used", index, line_number, file, filename)
-    return 1
+    file = file.replace("\t", "    ")
+    print("Tab removed in file " + filename)
+    fixed_errors+=1
+    return [fixed_errors, file]
 
-def else_comment(index, file, line_number, filename):
-    """ Checks if there is a comment after an else """
+def trailing_spaces(index, file, filename, fixed_errors):
+    """ Checks if there are any trailing spaces at the end of a line """
+    [line_start, line_end] = find_line(index-1, file)
+    # check if line is comment
+    if "//" in file[line_start:line_end]:
+        return [fixed_errors, file]
+    # check if line is a multiline statement 
+    if '\\' in file[index:line_end]:
+        return [fixed_errors, file]
+    # check if space is part of string
+    if '"' in file[index-20:index] and '"' in file[index:index + 20]:
+        return [fixed_errors, file]
+    if file[index - 1] != " ":
+        return [fixed_errors, file]
+    i = index-1
+    number_of_trails = 0
+    while file[i] == " ":
+        number_of_trails+=1
+        i-=1
+    print("number of trails: " + str(number_of_trails))
+    fixed_file = file[:index-number_of_trails] + file[index:]
+    print("Trailing space removed in file "+ filename)
+    fixed_errors+=1
+    return [fixed_errors, fixed_file]
+
+def include_priority(index, file, filename, fixed_errors):
+    """ Checks if includes are in the right order """
     [line_start, line_end] = find_line(index, file)
-    if "//" in file[line_start, line_end]:
-        return 0
-    print_error("Pre-proc else lacks comment", index, line_number, file, filename)
-    return 1
+    [next_line_start, next_line_end] = find_line(line_end+1, file)
+    if "#include <" in file[next_line_start:next_line_end]:
+        first_line = file[line_start+1:line_end]
+        second_line = file[next_line_start+1:next_line_end]
+        fixed_file = file[:line_start+1] + second_line +"\n"+ first_line + file[next_line_end:]
+        print("Fixed include priority in file " + filename)
+        fixed_errors+=1
+        return [fixed_errors, fixed_file]
+    return [fixed_errors, file]
 
 def pre_proc_directive(index, file, line_number, filename):
     """ Checks if the pre-processor directive is on the first column """
@@ -155,27 +158,6 @@ def pre_proc_directive(index, file, line_number, filename):
         return 0
     print_error("Misplaced Pre-Proc directive", index, line_number, file, filename)
     return 1
-
-def include_priority(index, file, line_number, filename):
-    """ Checks if includes are in the right order """
-    [line_start, line_end] = find_line(index, file)
-    [next_line_start, next_line_end] = find_line(line_end+1, file)
-    if "#include <" in file[next_line_start:next_line_end]:
-        print("Bad include priority at line " + str(line_number)
-              + " in file " + filename)
-        print(file[line_start+1:line_end])
-        print(file[next_line_start+1:next_line_end]+'\n')
-        return 1
-    return 0
-
-def eighty_columns(index, file, line_number, filename):
-    """ Checks if there are more than 80 characters in a single line """
-    [line_start, line_end] = find_line(index, file)
-    if index-line_start > 80:
-        index = index-2
-        print_error("More than 80 columns", index, line_number, file, filename)
-        return 1
-    return 0
 
 def operation_spacing(index, file, line_number, filename):
     """ Checks if there are spaces around binary operators """
@@ -240,22 +222,7 @@ def sticky_star(index, file, line_number, filename):
             return 1
     return 0
 
-def trailing_spaces(index, file, line_number, filename):
-    """ Checks if there are any trailing spaces at the end of a line """
-    [line_start, line_end] = find_line(index-1, file)
-    # check if line is comment
-    if "//" in file[line_start:line_end]:
-        return 0
-    # check if line is a multiline statement 
-    if '\\' in file[index:line_end]:
-        return 0
-    # check if space is part of string
-    if '"' in file[index-20:index] and '"' in file[index:index + 20]:
-        return 0
-    if file[index - 1] == " ":
-        print_error("Trailing space", index, line_number, file, filename)
-        return 1
-    return 0
+
 
 def comma_space(index, file, line_number, filename):
     """ Checks if there is a space after a comma """
@@ -270,7 +237,9 @@ def comma_space(index, file, line_number, filename):
 def solo_braces(index, file, line_number, filename):
     """ Checks that { and } are on their own line """
     [line_start, line_end] = find_line(index, file)
-    if '"' in file[line_start:index] and '"' in file[index:line_end]:
+    if "struct" in file[line_start:line_end]:
+        return 0
+    if '"' in file[index-30:index] and '"' in file[index:index+20]:
         return 0
     if "'" in file[index-2:index] and "'" in file[index:index+2]:
         return 0

@@ -37,8 +37,8 @@ int ast_do_group_exec(struct ast_node *ast)
 {
     if (ast->type != AST_DO_GROUP)
         return 1;
-
-    return ast->children[0]->exec(ast->children[0]);
+    struct ast_node *first_child = ast->children[0];
+    return first_child->exec(first_child);
 }
 
 struct ast_node *ast_do_group_init()

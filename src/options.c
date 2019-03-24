@@ -20,7 +20,7 @@ unsigned first_empty(char *table);
 void version_display(void);
 
 /**
-** \brief Main function that is called and parses arguments directly from 
+** \brief Main function that is called and parses arguments directly from
 ** command line.
 ** \param argv a list of strings given as argument to 42sh
 ** \param argc an integer representing the number of arguments
@@ -51,7 +51,8 @@ int options_parser(char **argv, int argc, char **env)
             i++;
         }
     }
-
+    char *key = NULL;
+    char *value = NULL;
     while (*env)
     {
         char *var_env = *env;
@@ -60,15 +61,17 @@ int options_parser(char **argv, int argc, char **env)
         while (var_env[len_name] != '=')
             len_name++;
 
-        char *key = calloc(sizeof(char), len_name);
+        key = calloc(sizeof(char), len_name + 1);
         strncpy(key, *env, len_name);
 
         char *val_env = var_env + len_name + 1;
         size_t len_val_env = strlen(val_env);
-        char *value = calloc(sizeof(char), len_val_env);
+        value = calloc(sizeof(char), len_val_env + 1);
         strncpy(value, val_env, len_val_env);
 
         variables_add(key, value);
+        free(key);
+        free(value);
         env++;
     }
 
@@ -86,8 +89,8 @@ int options_parser(char **argv, int argc, char **env)
 */
 int execute_options(char *command, char *options)
 {
-    int ast_print_flag = 0;
-    int norc_flag = 0;
+    int ast_print_flag = false;
+    int norc_flag = false;
     int res;
     norc_flag++; // REMOVE THIS - testing dummy
     norc_flag--; // REMOVE THIS - testing dummy
@@ -97,10 +100,10 @@ int execute_options(char *command, char *options)
         switch (options[i])
         {
             case 'a':
-                ast_print_flag = 1;
+                ast_print_flag = true;
                 break;
             case 'n':
-                norc_flag = 1;
+                norc_flag = true;
                 break;
             default:
                 break;
@@ -117,7 +120,7 @@ int execute_options(char *command, char *options)
                     return 1;
                 }
 
-                res = exec_file(command);
+                res = exec_file(command, ast_print_flag);
                 return res;
             case 'v':
                 version_display();
@@ -131,7 +134,8 @@ int execute_options(char *command, char *options)
 
     if (!(has_options(options, 'c') || has_options(options, 'v')))
     {
-        if (stdin_has_input()) {
+        if (stdin_has_input())
+        {
             char buf[MAX_INPUT];
 
             fgets(buf, sizeof buf, stdin);

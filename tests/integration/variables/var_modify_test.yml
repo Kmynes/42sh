@@ -1,3 +1,2 @@
 desc: Checks that when a variable is set, it can be modified and then called.
-ref: bash ../tests/sh_test_files/var_modify_test.sh
-mycode: ./42sh ../tests/sh_test_files/var_modify_test.sh
+test: ../tests/sh_test_files/var_modify_test.sh

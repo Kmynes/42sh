@@ -94,8 +94,8 @@ int ast_shell_command_exec(struct ast_node *ast)
 {
     if (ast->type != AST_SHELL_COMMAND)
         error_ast_exec("ast_shell_command_exec");
-
-    return ast->children[0]->exec(ast->children[0]);
+    struct ast_node *first_child = ast->children[0];
+    return first_child->exec(first_child);
 }
 
 struct ast_node *ast_shell_command_init()

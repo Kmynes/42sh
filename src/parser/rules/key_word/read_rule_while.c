@@ -27,7 +27,7 @@ bool read_rule_while(struct parser *p)
         ast_set_in_parser(p, ast);
         return true;
     }
-    
+
     p->cursor = tmp;
 
     return false;
