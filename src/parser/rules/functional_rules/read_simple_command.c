@@ -16,23 +16,17 @@
 ** \date February 2019
 */
 
-static bool sub_command1(struct parser *p)
-{
-    unsigned int tmp = p->cursor;
-    if (read_prefix(p))
-    {
-        ZERO_OR_MANY(parser_readeol(p));
-        return true;
-    }
-
-    p->cursor = tmp;
-    return false;
-}
-
+/*
+** \brief Allow to read the first part of the simple_command's grammar
+**  (prefix)+
+** \param parser
+** \return true if this part is can be read on the current parsor's cursor
+** false otherwise
+*/
 static bool read_simple_command1(struct parser *p)
 {
     unsigned int tmp = p->cursor;
-    if (ONE_OR_MANY(sub_command1(p)))
+    if (ONE_OR_MANY(read_prefix(p)))
     {
         struct ast_node *ast = ast_simple_command_init();
         ast_recover_all_from_parser(ast, p, AST_PREFIX);
@@ -45,6 +39,13 @@ static bool read_simple_command1(struct parser *p)
     return false;
 }
 
+/*
+** \brief Allow to read the second part of the simple_command's grammar
+**  (prefix)* (element)+
+** \param parser
+** \return true if this part is can be read on the current parsor's cursor
+** false otherwise
+*/
 static bool read_simple_command2(struct parser *p)
 {
     unsigned int tmp = p->cursor;
@@ -71,11 +72,11 @@ bool read_simple_command(struct parser *p)
 }
 
 /**
- * generates env params from chained list to string array
- * @param list
- * @param count
- * @return
- */
+** \brief generates env params from chained list to string array
+** \param list
+** \param count
+** \return
+*/
 static char **build_env_param(struct ast_assignment_word *list, size_t *count)
 {
     struct ast_assignment_word *tmp = list;
@@ -105,10 +106,10 @@ static char **build_env_param(struct ast_assignment_word *list, size_t *count)
 }
 
 /**
- * generates list of env variables to feed to the command
- * @param ast
- * @return
- */
+** \brief generates list of env variables to feed to the command
+** \param ast
+** \return Create the environment variables for the sub process
+*/
 static struct ast_assignment_word *create_env_list(struct ast_node *ast)
 {
     struct ast_node *sub_child = NULL;
@@ -133,13 +134,13 @@ static struct ast_assignment_word *create_env_list(struct ast_node *ast)
     return list;
 }
 
-/**
- * generates command from ast children, matches only AST_WORD
- * @param ast
- * @param prefix_count
- * @param prog_found
- * @return
- */
+/*
+** \brief generates command from ast children, matches only AST_WORD
+** \param ast
+** \param prefix_count
+** \param prog_found
+** \return list of environment variables char **env
+*/
 static char **create_command_list(struct ast_node *ast, size_t prefix_count,
     bool *prog_found, size_t *nb_args)
 {
@@ -195,6 +196,11 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
     return args;
 }
 
+/*
+** \brief Create a redirection
+** \param ast
+** \return 0 in all case
+*/
 int create_redirection(struct ast_redirection *redir)
 {
     if (strcmp(redir->redirect, ">") == 0)
@@ -250,11 +256,11 @@ int create_redirections(struct ast_node *ast)
 }
 
 /**
- * executes ast simple command, generates command string, env params
- * and call the fork exec function
- * @param ast
- * @return
- */
+** \brief executes ast simple command, generates command string, env params
+** and call the fork exec function
+** \param ast
+** \return the result of the code of the sub program
+**/
 int ast_simple_command_exec(struct ast_node *ast)
 {
     struct ast_assignment_word *list = create_env_list(ast);
