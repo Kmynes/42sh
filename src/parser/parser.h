@@ -18,17 +18,17 @@ __extension__({     \
 
 #define ZERO_OR_MANY(R)\
 __extension__({        \
-    while(R);          \
-    true;                 \
+    while (R);         \
+    true;              \
 })
 
 #define ONE_OR_MANY(R) \
 __extension__({        \
-    int res = false;       \
+    int res = false;   \
     if (R)             \
     {                  \
         while (R);     \
-        res = true;       \
+        res = true;    \
     }                  \
     res;               \
 })

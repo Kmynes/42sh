@@ -51,7 +51,8 @@ static void test_read_simple_command5(void)
 static void test_read_simple_command6(void)
 {
     char *input="docker=compose epitech 356>>file_to_edit.sh epita";
-    bool check = test_rule(read_simple_command, input, "AST_SIMPLE_COMMAND(4)");
+    bool check = test_rule(read_simple_command, input,
+        "AST_SIMPLE_COMMAND(4)");
     print_state_test(check, "test_read_simple_command6");
 }
 
