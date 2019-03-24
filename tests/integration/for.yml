@@ -1,3 +1,0 @@
-desc: Checks rule for
-ref: bash ../tests/sh_test_files/rules/for.sh
-mycode: ./42sh ../tests/sh_test_files/rules/for.sh
