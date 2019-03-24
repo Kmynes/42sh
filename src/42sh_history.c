@@ -41,7 +41,7 @@ void put_in_history_file(char *input)
 /**
 ** \brief This function prints the results of the 'history' command
 */
-void read_history()
+void read_history(void)
 {
     char path_to_tmp[1024];
     char ch;
@@ -61,7 +61,7 @@ void read_history()
 /**
 ** \brief This function ereases the tmp file used for the 'history' command
 */
-void erease_tmp_history()
+void erease_tmp_history(void)
 {
     char path_to_tmp[1024];
 

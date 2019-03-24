@@ -112,6 +112,9 @@ def find_line(index, file):
 def long_dead_code(index, file, line_number, filename):
     """ Checks if there is dead code in long comment format """
     while file[index:index+2] != "*/":
+        # If comment is doxygen, presence of ; is acceptable.
+        if "**" in file[index:index+3]:
+            return 0
         if file[index] == ';':
             print(file[index])
             print("Long dead code at line " + str(line_number)

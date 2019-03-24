@@ -38,8 +38,7 @@ bool read_case_item(struct parser *p)
         && ZERO_OR_MANY(read_case_item_element(p, data))
         && parser_readchar(p, ')')
         && ZERO_OR_MANY(parser_readchar(p, '\n'))
-        && OPTIONAL(read_compound_list(p))
-            )
+        && OPTIONAL(read_compound_list(p)))
     {
 
         data->words[0] = parser_get_capture(p, "case_item_0");

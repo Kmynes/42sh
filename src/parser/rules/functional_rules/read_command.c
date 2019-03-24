@@ -50,8 +50,7 @@ bool read_command(struct parser *p)
     if ((read_simple_command(p)
         || read_second_instructions(p)
         || read_third_instructions(p))
-        && ZERO_OR_MANY(read_comment(p))
-        )
+        && ZERO_OR_MANY(read_comment(p)))
     {
         struct ast_node *ast = ast_command_init();
         struct ast_node *ast_child = NULL;

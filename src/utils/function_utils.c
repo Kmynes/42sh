@@ -45,7 +45,7 @@ char *get_content_file(const char *file_name)
     char *buff = calloc(sizeof(char), capacity);
 
     char c;
-    while ( (c = fgetc(fp)) != EOF)
+    while ((c = fgetc(fp)) != EOF)
     {
         if (nb_element == capacity)
             buff = enlarge_list(buff, &capacity);
