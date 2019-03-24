@@ -44,7 +44,7 @@ char *ast_else_clause_to_string(struct ast_node *ast)
     return str;
 }
 
-struct ast_node *ast_else_clause_init()
+struct ast_node *ast_else_clause_init(void)
 {
     struct ast_node *ast = ast_init(AST_ELSE_CLAUSE, NULL);
     ast->to_string = ast_else_clause_to_string;

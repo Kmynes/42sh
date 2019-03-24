@@ -98,7 +98,7 @@ int ast_shell_command_exec(struct ast_node *ast)
     return first_child->exec(first_child);
 }
 
-struct ast_node *ast_shell_command_init()
+struct ast_node *ast_shell_command_init(void)
 {
     struct ast_node *ast = ast_init(AST_SHELL_COMMAND, NULL);
     ast->exec = ast_shell_command_exec;

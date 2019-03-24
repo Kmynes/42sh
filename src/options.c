@@ -197,7 +197,7 @@ unsigned first_empty(char *table)
 /**
 ** \brief Prints out current version number
 */
-void version_display()
+void version_display(void)
 // prints current version
 {
     printf("Version 0.3\n");

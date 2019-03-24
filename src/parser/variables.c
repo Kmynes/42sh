@@ -14,7 +14,7 @@ struct key_value *variables = NULL;
 ** \brief Initialize the globale variable [variables]
 ** \return void.
 */
-void variables_init()
+void variables_init(void)
 {
     variables = create_variable(NULL, NULL);
 }

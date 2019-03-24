@@ -41,7 +41,7 @@ int ast_do_group_exec(struct ast_node *ast)
     return first_child->exec(first_child);
 }
 
-struct ast_node *ast_do_group_init()
+struct ast_node *ast_do_group_init(void)
 {
     struct ast_node *ast = ast_init(AST_DO_GROUP, NULL);
     ast->exec = ast_do_group_exec;

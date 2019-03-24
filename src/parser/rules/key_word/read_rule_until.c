@@ -48,7 +48,7 @@ int ast_rule_until_exec(struct ast_node *ast)
     return res;
 }
 
-struct ast_node *ast_rule_until_init()
+struct ast_node *ast_rule_until_init(void)
 {
     struct ast_node *ast = ast_init(AST_RULE_UNTIL, NULL);
     ast->exec = ast_rule_until_exec;

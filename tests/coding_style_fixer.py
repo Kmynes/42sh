@@ -165,9 +165,9 @@ def void_function(index, file, filename, fixed_errors):
         return [fixed_errors, file]
     index+=1
     file = file[:index]+ "void" + file[index:]
-    print(file)
+    #print(file)
     print("Void added in file "+filename) 
-    #fixed_errors++
+    fixed_errors+=1 
     return [fixed_errors, file]
 
 def operation_spacing(index, file, line_number, filename):

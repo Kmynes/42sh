@@ -21,7 +21,7 @@ char *ast_ini_file_to_string(struct ast_node *ast)
     return default_to_string(ast, "ini_file:");
 }
 
-struct ast_node *ast_ini_file_init()
+struct ast_node *ast_ini_file_init(void)
 {
     struct ast_node *ast = ast_init(AST_NODE_INI_FILE, NULL);
     ast->to_string = ast_ini_file_to_string;

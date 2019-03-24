@@ -65,7 +65,7 @@ char *ast_element_to_string(struct ast_node *ast)
     return strdup(buff);
 }
 
-struct ast_node *ast_element_init()
+struct ast_node *ast_element_init(void)
 {
     struct ast_node *ast = ast_init(AST_ELEMENT, NULL);
     ast->to_string = ast_element_to_string;

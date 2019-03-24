@@ -91,7 +91,7 @@ int ast_compound_list_exec(struct ast_node *ast)
     return 0;
 }
 
-struct ast_node *ast_compound_list_init()
+struct ast_node *ast_compound_list_init(void)
 {
     struct ast_node *ast = ast_init(AST_COMPOUND_LIST, NULL);
     ast->exec = ast_compound_list_exec;

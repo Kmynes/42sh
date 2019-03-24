@@ -280,7 +280,7 @@ int ast_simple_command_exec(struct ast_node *ast)
     return res;
 }
 
-struct ast_node *ast_simple_command_init()
+struct ast_node *ast_simple_command_init(void)
 {
     struct ast_node *ast = ast_init(AST_SIMPLE_COMMAND, NULL);
     ast->exec = ast_simple_command_exec;

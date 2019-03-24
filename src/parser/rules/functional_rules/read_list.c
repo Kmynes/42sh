@@ -86,7 +86,7 @@ int ast_list_exec(struct ast_node *ast)
     return res;
 }
 
-struct ast_node *ast_list_init()
+struct ast_node *ast_list_init(void)
 {
     struct ast_node *ast = ast_init(AST_LIST, NULL);
     ast->exec = ast_list_exec;
