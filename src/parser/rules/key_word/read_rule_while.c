@@ -14,6 +14,7 @@ bool read_rule_while(struct parser *p)
 
     if (parser_readtext(p, "while")
         && read_compound_list(p)
+        && read_spaces(p)
         && read_do_group(p))
     {
         struct ast_node *ast = ast_rule_while_init();

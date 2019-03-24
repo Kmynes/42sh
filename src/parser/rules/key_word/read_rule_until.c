@@ -14,6 +14,7 @@ bool read_rule_until(struct parser *p)
 
     if (parser_readtext(p, "until")
         && read_compound_list(p)
+        && read_spaces(p)
         && read_do_group(p))
     {
         struct ast_node *ast = ast_rule_until_init();
