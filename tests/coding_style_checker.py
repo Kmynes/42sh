@@ -83,6 +83,10 @@ def coding_styler(file, filename):
                 col_err = True
         if file[index:index+2] == "()":
             style_errors += void_function(index, file, line_number, filename)
+        if file[index] == "(":
+            style_errors += open_parenthesis_space(index, file, line_number, filename)
+        if file[index] == ")":
+            style_errors += close_parenthesis_space(index, file, line_number, filename)
         if file[index:index+2] == "/*":
             style_errors += long_dead_code(index, file, line_number, filename)
         if file[index:index+5] == "#else":
@@ -110,6 +114,20 @@ def find_line(index, file):
     return [line_start, line_end]
 
 # coding style rules:
+
+def open_parenthesis_space(index, file, line_number, filename):
+    """ Checks if there is a space after an open parenthesis """
+    if file[index+1] is " ":
+        print_error("Space after opening parenthesis", index, line_number, file, filename)
+        return 1
+    return 0
+
+def close_parenthesis_space(index, file, line_number, filename):
+    """ Checks if there is a space after an closing parenthesis """
+    if file[index-1] is " ":
+        print_error("Space before closing parenthesis", index, line_number, file, filename)
+        return 1
+    return 0
 
 def void_function(index, file, line_number, filename):
     """ Checks if function has input or not """
