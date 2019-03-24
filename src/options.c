@@ -20,6 +20,37 @@ unsigned first_empty(char *table);
 void version_display(void);
 
 /**
+** \brief Add all envrionment variables to list of global key_value
+** \param env is a list of all environment variable
+*/
+static void add_env_variables(char **env)
+{
+    char *key = NULL;
+    char *value = NULL;
+    while (*env)
+    {
+        char *var_env = *env;
+
+        size_t len_name = 0;
+        while (var_env[len_name] != '=')
+            len_name++;
+
+        key = calloc(sizeof(char), len_name + 1);
+        strncpy(key, *env, len_name);
+
+        char *val_env = var_env + len_name + 1;
+        size_t len_val_env = strlen(val_env);
+        value = calloc(sizeof(char), len_val_env + 1);
+        strncpy(value, val_env, len_val_env);
+
+        variables_add(key, value);
+        free(key);
+        free(value);
+        env++;
+    }
+}
+
+/**
 ** \brief Main function that is called and parses arguments directly from
 ** command line.
 ** \param argv a list of strings given as argument to 42sh
@@ -51,29 +82,8 @@ int options_parser(char **argv, int argc, char **env)
             i++;
         }
     }
-    char *key = NULL;
-    char *value = NULL;
-    while (*env)
-    {
-        char *var_env = *env;
 
-        size_t len_name = 0;
-        while (var_env[len_name] != '=')
-            len_name++;
-
-        key = calloc(sizeof(char), len_name + 1);
-        strncpy(key, *env, len_name);
-
-        char *val_env = var_env + len_name + 1;
-        size_t len_val_env = strlen(val_env);
-        value = calloc(sizeof(char), len_val_env + 1);
-        strncpy(value, val_env, len_val_env);
-
-        variables_add(key, value);
-        free(key);
-        free(value);
-        env++;
-    }
+    add_env_variables(env);
 
     int error_code = execute_options(command, options);
     free(options);
