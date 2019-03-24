@@ -33,7 +33,11 @@ bool read_rule_while(struct parser *p)
 
     return false;
 }
-
+/*
+** \brief Allow to execute a while in 42sh
+** \param ast is an ast of type AST_RULE_WHILE
+** \return 0 if the last loop tower was a succes, and one otherwise
+*/
 int ast_rule_while_exec(struct ast_node *ast)
 {
     if (ast->type != AST_RULE_UNTIL)
