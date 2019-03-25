@@ -280,13 +280,13 @@ def trailing_spaces(index, file, line_number, filename):
     """ Checks if there are any trailing spaces at the end of a line """
     [line_start, line_end] = find_line(index-1, file)
     # check if line is comment
-    if "//" in file[line_start:line_end]:
+    if "//" in file[line_start:index]:
         return 0
     # check if line is a multiline statement 
-    if '\\' in file[index:line_end]:
+    if '**' in file[index:line_end]:
         return 0
     # check if space is part of string
-    if '"' in file[index-20:index] and '"' in file[index:index + 20]:
+    if '"' in file[line_start:index] and '"' in file[index:line_end]:
         return 0
     if file[index - 1] == " ":
         print_error("Trailing space", index, line_number, file, filename)

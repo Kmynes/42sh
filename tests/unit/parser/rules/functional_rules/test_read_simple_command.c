@@ -27,7 +27,7 @@ static void test_read_simple_command2_5(void)
 
 static void test_read_simple_command3(void)
 {
-    bool check = test_rule(read_simple_command, "The_real_test", 
+    bool check = test_rule(read_simple_command, "The_real_test",
         "AST_SIMPLE_COMMAND(1)");
     print_state_test(check, "test_read_simple_command3");
 }

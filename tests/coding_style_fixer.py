@@ -121,10 +121,10 @@ def trailing_spaces(index, file, filename, fixed_errors):
     if "//" in file[line_start:line_end]:
         return [fixed_errors, file]
     # check if line is a multiline statement 
-    if '\\' in file[index:line_end]:
+    if '**' in file[index:line_end]:
         return [fixed_errors, file]
     # check if space is part of string
-    if '"' in file[index-20:index] and '"' in file[index:index + 20]:
+    if '"' in file[line_start:index] and '"' in file[index:line_end]:
         return [fixed_errors, file]
     if file[index - 1] != " ":
         return [fixed_errors, file]
