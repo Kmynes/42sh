@@ -228,9 +228,12 @@ def indentation_check(index, file, line_number, filename):
     [line_start, line_end] = find_line(index, file)
     if "struct" in file[line_start:line_end]:
         return 0
-    if '"' in file[index-20:index] and '"' in file[index:index+20]:
+    if '"' in file[line_start:index] and '"' in file[index:line_end]:
         return 0
     if "'" in file[index-2:index] and "'" in file[index:index+2]:
+        return 0
+    [prev_line_start, prev_line_end] = find_line(line_start-3, file)
+    if "switch" in file[prev_line_start:prev_line_end]:
         return 0
     preceding_spaces = index-file[0:index].rfind('\n')-1
     if file[index+preceding_spaces+2] == '}':
