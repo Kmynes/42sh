@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-if echo ""; then pwd; fi
+if echo "ls"; then pwd; fi

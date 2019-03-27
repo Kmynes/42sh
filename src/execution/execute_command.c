@@ -1,9 +1,9 @@
 #include <parser/rules/rules.h>
 #include <ast_print.h>
-#include "execute_command.h"
 #include <options.h>
 #include <interactive/prompt.h>
 #include <utils/option_util.h>
+#include "execute_command.h"
 
 int execute_command(char *command, int ast_print_flag)
 {

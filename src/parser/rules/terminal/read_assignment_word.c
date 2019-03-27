@@ -40,7 +40,7 @@ char *ast_assignment_word_to_string(struct ast_node *ast)
     char *key = assign_word->key;
     char *value = assign_word->value;
 
-    sprintf(buff, "assignment_word: -> key:%s value:%s", key, value);
+    sprintf(buff, "assignment_word: key:%s value:%s", key, value);
     return strdup(buff);
 }
 
