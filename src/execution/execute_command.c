@@ -1,6 +1,9 @@
 #include <parser/rules/rules.h>
 #include <ast_print.h>
 #include "execute_command.h"
+#include <options.h>
+#include <interactive/prompt.h>
+#include <utils/option_util.h>
 
 int execute_command(char *command, int ast_print_flag)
 {
@@ -9,7 +12,7 @@ int execute_command(char *command, int ast_print_flag)
     {
         if (!read_input(p))
         {
-            printf("wrong input : %s\n", command);
+            fprintf(stderr, "wrong input : %s\n", command);
             parser_free(p);
             return 1;
         }
@@ -30,4 +33,24 @@ int execute_command(char *command, int ast_print_flag)
 
     parser_free(p);
     return res;
+}
+
+int execute_shell_no_option(int ast_print_flag)
+{
+    if (stdin_has_input())
+    {
+        char buf[MAX_INPUT];
+
+        fgets(buf, sizeof buf, stdin);
+        int status = execute_command(buf, ast_print_flag);
+        if (status == 1)
+            return 2;
+        else
+            return status;
+    }
+    else
+    {
+        create_prompt();
+        return 0;
+    }
 }
