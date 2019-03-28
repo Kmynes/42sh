@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -10,9 +12,9 @@
 /**
  * execute command using fork/execvpe
  * execvpe looks up the PATH before executing a command
- * @param cmd
- * @param env
- * @return
+ * \param cmd
+ * \param env
+ * \return
  */
 int run_cmd(char **cmd, char **env)
 {
@@ -31,6 +33,11 @@ int run_cmd(char **cmd, char **env)
         // father
         int status = 0;
         waitpid(pid, &status, 0);
+
+        char buffer[1024];
+        sprintf(buffer, "%d", status);
+        variables_add("?", buffer);
+
         return WEXITSTATUS(status);
     }
 }

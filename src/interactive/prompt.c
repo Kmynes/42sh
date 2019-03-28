@@ -49,11 +49,12 @@ void create_prompt(void)
 
         if (strcmp("history", input) == 0)
                 read_history();
-            else
-                execute_command(input, 0);
+        else
+            execute_command(input, 0);
 
         memset(input, 0, MAX_INPUT);
     }
     free(input);
+    variables_free();
     erease_tmp_history();
 }
