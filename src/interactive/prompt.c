@@ -6,6 +6,7 @@
 #include <signal.h>
 #include "prompt.h"
 #include "./42sh_history.h"
+#include "../src/execution/builtins/builtins.h"
 
 void sigintHandler(int sig_num)
 {
@@ -49,7 +50,9 @@ void create_prompt(void)
 
         if (strcmp("history", input) == 0)
                 read_history();
-            else
+        else if (builtin_exit(input))
+                break;
+        else
                 execute_command(input, 0);
 
         memset(input, 0, MAX_INPUT);
