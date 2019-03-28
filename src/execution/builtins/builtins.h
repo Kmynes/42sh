@@ -7,9 +7,6 @@ struct builtin {
     int (*func)(char **args);
 };
 
-struct builtin *builtin_table;
-
-void builtin_table_init(void);
 int (*get_builtin(char *name))(char **args);
 
 

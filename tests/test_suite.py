@@ -53,8 +53,10 @@ def output_diff(test_name, ref_output, mycode_output, arguments):
             print("\033[1;31;40m KO", end='')
             print(" - timed out \033[m")
             return 1
+    ref_return = int(ref_output.returncode)
     ref_stdout = str(ref_output.stdout)
     ref_stderr = str(ref_output.stderr)
+    mycode_return = int(mycode_output.returncode)
     mycode_stdout = str(mycode_output.stdout)
     mycode_stderr = str(mycode_output.stderr)
     # valgrind checks
@@ -67,7 +69,7 @@ def output_diff(test_name, ref_output, mycode_output, arguments):
             return 1
         mycode_stderr = valgrind_cleanup(mycode_stderr)
         
-    if ref_stdout == mycode_stdout and ref_stderr == mycode_stderr:
+    if ref_stdout == mycode_stdout and ref_stderr == mycode_stderr and ref_return == mycode_return:
         if arguments[3]:
             print_debug(ref_stdout, ref_stderr, mycode_stdout, mycode_stderr, type)
         # if there is no difference between both outputs, print OK in green
@@ -80,6 +82,11 @@ def output_diff(test_name, ref_output, mycode_output, arguments):
         if arguments[3]:
             print_debug(ref_stdout, ref_stderr, mycode_stdout,
                         mycode_stderr, "err")
+    elif ref_return is not mycode_return:
+        print(" - unexpected return value \033[m")
+        if arguments[3]:
+            print_debug(ref_stdout, ref_stderr, mycode_stdout,
+                        mycode_stderr, "out")
     else:
         print(" - unexpected output \033[m")
         if arguments[3]:

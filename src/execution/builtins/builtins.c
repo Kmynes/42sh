@@ -3,20 +3,16 @@
 #include <stdio.h>
 #include "builtins.h"
 
-extern struct builtin *builtin_table;
-
-void builtin_table_init(void)
-{
-    struct builtin table[] =
-    {
+struct builtin builtin_table[10] = {
         {
-            NULL,
-            NULL
+                "echo",
+                builtin_echo
+        },
+        {
+                NULL,
+                NULL
         }
-    };
-
-    builtin_table = table;
-}
+};
 
 int (*get_builtin(char *name))(char **args)
 {

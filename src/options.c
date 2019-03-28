@@ -143,17 +143,7 @@ int execute_options(char *command, char *options)
         }
 
     if (!(has_options(options, 'c') || has_options(options, 'v')))
-    {
-        if (stdin_has_input())
-        {
-            char buf[MAX_INPUT];
-
-            fgets(buf, sizeof buf, stdin);
-            return execute_command(buf, ast_print_flag);
-        }
-        else
-            create_prompt();
-    }
+        return execute_shell_no_option(ast_print_flag);
 
     return 0;
 }

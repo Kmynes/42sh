@@ -74,14 +74,9 @@ int ast_input_exec(struct ast_node *ast)
     if (ast->type != AST_INPUT)
         return 1;
 
-    int res = 0;
+    int res;
     for (size_t i = 0; i < ast->nb_children; i++)
-    {
         res = ast->children[i]->exec(ast->children[i]);
-
-        if (res != 0)
-            return res;
-    }
 
     return res;
 }

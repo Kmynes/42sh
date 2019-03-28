@@ -1,0 +1,2 @@
+desc: Checks "for" rule when a basic "break" is used.
+test: ../tests/sh_test_files/for/break_basic.sh
