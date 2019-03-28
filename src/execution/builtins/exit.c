@@ -7,7 +7,7 @@ bool builtin_exit(char *input)
     if (read_spaces(p) && parser_readtext(p, "exit") && read_spaces(p))
     {
         parser_free(p);
-        return true;
+        exit(0);
     }
 
     parser_free(p);

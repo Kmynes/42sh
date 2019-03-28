@@ -3,10 +3,13 @@
 #include <options.h>
 #include <interactive/prompt.h>
 #include <utils/option_util.h>
+#include <execution/builtins/builtins.h>
 #include "execute_command.h"
 
 int execute_command(char *command, int ast_print_flag)
 {
+    if (builtin_exit(command))
+        return 0;
     struct parser *p = parser_new_from_string(command);
     do
     {
