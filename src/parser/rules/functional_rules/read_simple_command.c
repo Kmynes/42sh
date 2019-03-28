@@ -273,17 +273,24 @@ int ast_simple_command_exec(struct ast_node *ast)
     char **args = create_command_list(ast, prefix_count, &has_prog, &nbr_args);
     if (has_prog)
     {
-        size_t count = 0;
-        char **env = build_env_param(list, &count);
-        create_redirections(ast);
-        res = exec_cmd(args, env);
-        string_list_free(env, count);
+        struct list_func *func = get_function(args[0]);
+        if (func)
+        {
+            struct ast_node *ast_funcdec = func->ast_funcdec;
+            ast_funcdec->exec(ast_funcdec);
+        }
+        else
+        {
+            size_t count = 0;
+            char **env = build_env_param(list, &count);
+            create_redirections(ast);
+            res = exec_cmd(args, env);
+            string_list_free(env, count);
+        }
     }
 
-    for (size_t i = 0; i < nbr_args; i++)
-        free(args[i]);
+    string_list_free(args, nbr_args);
 
-    free(args);
     return res;
 }
 

@@ -3,6 +3,18 @@
 #include <parser/ast/ast.h>
 
 
+struct list_func
+{
+    char *name;
+    struct ast_node *ast_funcdec;
+    struct list_func *next;
+};
+
+extern struct list_func *functions;
+struct list_func *add_function(char *name, struct ast_node *ast_funcdec);
+struct list_func *get_function(char *name);
+void free_functions(void);
+
 // Global
 char *default_to_string(struct ast_node *ast, char *type);
 struct ast_multiple_word

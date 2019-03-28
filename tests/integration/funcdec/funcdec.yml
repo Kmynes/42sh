@@ -1,0 +1,2 @@
+desc: Check a simple funcdec's execution
+test: ../tests/sh_test_files/funcdec/simple.sh
