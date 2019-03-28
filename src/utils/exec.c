@@ -1,18 +1,18 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <err.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "exec.h"
 
-/**
- * execute command using fork/execvpe
- * execvpe looks up the PATH before executing a command
- * @param cmd
- * @param env
- * @return
- */
+/*
+** \brief execute command using fork/execvpe
+** execvpe looks up the PATH before executing a command
+** \param cmd
+** \param env
+** \return
+*/
 int exec_cmd(char **cmd, char **env)
 {
     pid_t pid = fork();
@@ -30,6 +30,11 @@ int exec_cmd(char **cmd, char **env)
         // father
         int status = 0;
         waitpid(pid, &status, 0);
+
+        char buffer[1024];
+        sprintf(buffer, "%d", status);
+        variables_add("?", buffer);
+
         return WEXITSTATUS(status);
     }
 }

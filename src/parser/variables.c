@@ -57,6 +57,7 @@ struct key_value *variables_add(char *key, char *value)
 */
 struct key_value *variables_get(char *key)
 {
+
     if (strcmp(key, variables->key) == 0)
         return variables;
 

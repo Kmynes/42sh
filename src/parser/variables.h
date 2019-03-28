@@ -1,4 +1,6 @@
 #pragma once
+#include <stdbool.h>
+
 struct key_value
 {
     char *key;
@@ -17,4 +19,4 @@ void variables_delete(char *key);
 // Utils
 struct key_value *create_variable(char *key, char *value);
 void variables_free(void);
-void manage_variable_str(char **value);
+void manage_variable_str(char **value, bool del_unknow_var);

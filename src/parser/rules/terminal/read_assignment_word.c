@@ -18,7 +18,7 @@ bool read_assignment_word(struct parser *p)
         char *key = parser_get_capture(p, "key");
         char *value = parser_get_capture(p, "value");
 
-        manage_variable_str(&value);
+        manage_variable_str(&value, false);
         variables_add(key, value);
 
         data->key = key;

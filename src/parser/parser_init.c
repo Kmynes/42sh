@@ -2,7 +2,6 @@
 #include <execution/builtins/builtins.h>
 #include "parser.h"
 
-
 /**
 ** \param char *text
 ** \return struct parser *.
@@ -31,7 +30,6 @@ struct parser *parser_new_from_string(const char *text)
 */
 void parser_free(struct parser *p)
 {
-    variables_free();
     if (p)
     {
         free(p->input);
@@ -45,7 +43,6 @@ void parser_free(struct parser *p)
 // free parser but not ast
 void parser_free_no_ast(struct parser *p)
 {
-    variables_free();
     if (p)
     {
         free(p->input);

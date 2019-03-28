@@ -162,7 +162,7 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
         {
 
             char *word = strdup(sub_child->data);
-            manage_variable_str(&word);
+            manage_variable_str(&word, true);
             if (!*prog_found)
             {
                 char *prog = word;
