@@ -136,7 +136,7 @@ int execute_options(char *command, char *options)
             version_display();
             return 0;
         case 'c':
-            res = execute_command(command, ast_print_flag);
+            res = execute_command(command, ast_print_flag, false);
             return res;
         default:
             break;

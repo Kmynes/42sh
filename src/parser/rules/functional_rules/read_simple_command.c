@@ -160,7 +160,6 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
         sub_child = child->children[0];
         if (sub_child->type == AST_WORD)
         {
-
             char *word = strdup(sub_child->data);
             manage_variable_str(&word, true);
             if (!*prog_found)
@@ -185,7 +184,6 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
                     args = enlarge_list(args, &len_args);
 
                 args[i] = strdup(word);
-                //range++;
                 *nb_args += 1;
             }
             free(word);
@@ -276,6 +274,17 @@ int ast_simple_command_exec(struct ast_node *ast)
         struct list_func *func = get_function(args[0]);
         if (func)
             res = func->exec(func, args, nbr_args);
+        else if (strcmp(args[0], "break") == 0)
+        {
+            variables_add("42sh_break_loop", "1");
+            string_list_free(args, nbr_args);
+            return 0;
+        }
+        else if (strcmp(args[0], "continue") == 0)
+        {
+            string_list_free(args, nbr_args);
+            return 0;
+        }
         else
         {
             size_t count = 0;

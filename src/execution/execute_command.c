@@ -5,7 +5,7 @@
 #include <utils/option_util.h>
 #include "execute_command.h"
 
-int execute_command(char *command, int ast_print_flag)
+int execute_command(char *command, int ast_print_flag, bool prompt_mode)
 {
     struct parser *p = parser_new_from_string(command);
     do
@@ -33,6 +33,12 @@ int execute_command(char *command, int ast_print_flag)
         ast_print(p->ast, NULL);
 
     parser_free(p);
+    if (!prompt_mode)
+    {
+        variables_free();
+        free_functions();
+    }
+
     return res;
 }
 
@@ -43,7 +49,7 @@ int execute_shell_no_option(int ast_print_flag)
         char buf[MAX_INPUT];
 
         fgets(buf, sizeof buf, stdin);
-        int status = execute_command(buf, ast_print_flag);
+        int status = execute_command(buf, ast_print_flag, false);
         if (status == 1)
             return 2;
         else
