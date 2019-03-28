@@ -61,6 +61,7 @@ int ast_rule_if_exec(struct ast_node *ast)
 {
     struct ast_node *first_compound_list = ast->children[0];
     int res_exec_first = first_compound_list->exec(first_compound_list);
+    fflush(stdout);
     if (res_exec_first == 0)
     {
         struct ast_node *seconde_compound_list = ast->children[1];

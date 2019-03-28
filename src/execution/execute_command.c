@@ -26,6 +26,7 @@ int execute_command(char *command, int ast_print_flag)
     {
         ast = p->ast->children[i];
         res = ast->exec(ast);
+        fflush(stdout);
     }
 
     if (ast_print_flag)
