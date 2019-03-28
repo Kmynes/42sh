@@ -1,0 +1,2 @@
+desc: Checks "for" rule with misplaced newlines.
+test: ../tests/sh_test_files/for/bad_lines.sh
