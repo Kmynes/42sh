@@ -1,4 +1,6 @@
 #include <parser/rules/rules.h>
+#include <utils/string.h>
+
 /**
 ** \file read_funcdec.c
 ** \brief reads funcdec grammar as specified by the subject.
@@ -11,12 +13,48 @@
 
 struct list_func *functions = NULL;
 
+int func_exec(struct list_func *func, char **args, size_t nb_args)
+{
+    char **buff = calloc(sizeof(char), nb_args + 1);
+
+    size_t nb_buffer = 0;
+
+    for (size_t i = 1; i < nb_args; i++)
+    {
+        char *key = calloc(sizeof(char), 32);
+        sprintf(key, "%ld", i);
+        struct key_value *kv = variables_get(key);
+        if (kv)
+        {
+            buff[i] = strdup(kv->value);
+            nb_buffer++;
+        }
+        variables_add(key, args[i]);
+        free(key);
+    }
+
+    struct ast_node *ast_funcdec = func->ast_funcdec;
+    int res = ast_funcdec->exec(ast_funcdec);
+
+    for (size_t i = 0; i < nb_buffer; i++)
+    {
+        char *key = calloc(sizeof(char), 32);
+        sprintf(key, "%ld", (i + 1));
+        variables_add(key, buff[i]);
+        free(key);
+    }
+
+    string_list_free(buff, nb_buffer);
+    return res;
+}
+
 static struct list_func *init_function(char *name,
     struct ast_node *ast_funcdec)
 {
     struct list_func *func = malloc(sizeof(struct list_func));
     func->name = strdup(name);
     func->ast_funcdec = ast_funcdec;
+    func->exec = func_exec;
     func->next = NULL;
     return func;
 }
@@ -83,6 +121,7 @@ bool read_funcdec(struct parser *p)
         && parser_end_capture(p, "func_n")
         && read_spaces(p)
         && parser_readchar(p, '(')
+        && OPTIONAL(read_spaces(p))
         && parser_readchar(p, ')')
         && read_spaces(p)
         && ZERO_OR_MANY(parser_readchar(p, '\n')))

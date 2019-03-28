@@ -185,7 +185,7 @@ static char **create_command_list(struct ast_node *ast, size_t prefix_count,
                     args = enlarge_list(args, &len_args);
 
                 args[i] = strdup(word);
-                range++;
+                //range++;
                 *nb_args += 1;
             }
             free(word);
@@ -275,10 +275,7 @@ int ast_simple_command_exec(struct ast_node *ast)
     {
         struct list_func *func = get_function(args[0]);
         if (func)
-        {
-            struct ast_node *ast_funcdec = func->ast_funcdec;
-            ast_funcdec->exec(ast_funcdec);
-        }
+            res = func->exec(func, args, nbr_args);
         else
         {
             size_t count = 0;

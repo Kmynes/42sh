@@ -10,7 +10,7 @@ struct key_value
 
 extern struct key_value *variables;
 
-void variables_init();
+void variables_init(void);
 struct key_value *variables_add(char *key, char *value);
 struct key_value *variables_get(char *key);
 struct key_value *variables_update(char *key, char *value);

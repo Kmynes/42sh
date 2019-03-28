@@ -1,6 +1,9 @@
-function func_test () {
-    echo 'This is a test1'
-    echo 'This is the test 2'
+function func_test (       ) {
+    echo $1
+    echo $2
+    echo $3
+    echo $4
+    echo $5
 }
 
-func_test
+func_test 'test1' 'test2' 'test3' 'test4' 'test5'

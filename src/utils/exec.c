@@ -9,13 +9,13 @@
 #include <execution/builtins/builtins.h>
 #include "exec.h"
 
-/**
- * execute command using fork/execvpe
- * execvpe looks up the PATH before executing a command
- * \param cmd
- * \param env
- * \return
- */
+/*
+** execute command using fork/execvpe
+** execvpe looks up the PATH before executing a command
+** \param cmd
+** \param env
+** \return
+*/
 int run_cmd(char **cmd, char **env)
 {
     pid_t pid = fork();
@@ -42,12 +42,12 @@ int run_cmd(char **cmd, char **env)
     }
 }
 
-/**
- * execute a cmd by checking builtins or forking
- * @param cmd
- * @param env
- * @return
- */
+/*
+** \brief execute a cmd by checking builtins or forking
+** \param cmd
+** \param env
+** \return
+*/
 int exec_cmd(char **cmd, char **env)
 {
     int (*func)(char **args) = get_builtin(cmd[0]);

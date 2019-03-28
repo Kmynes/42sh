@@ -2,11 +2,11 @@
 
 #include <parser/ast/ast.h>
 
-
 struct list_func
 {
     char *name;
     struct ast_node *ast_funcdec;
+    int (*exec)(struct list_func *func, char **args, size_t nb_args);
     struct list_func *next;
 };
 
