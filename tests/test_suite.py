@@ -84,7 +84,7 @@ def output_diff(test_name, ref_output, mycode_output, arguments):
     #        print_debug(ref_stdout, ref_stderr, mycode_stdout,
     #                    mycode_stderr, "err")
     if ref_return is not mycode_return:
-        print(" - Expected return: "+str(ref_return)+", but got:"+str(mycode_return)+".")
+        print(" - Expected return: "+str(ref_return)+" but got: "+str(mycode_return)+".\033[m")
         if arguments[3]:
             print_debug(ref_stdout, ref_stderr, mycode_stdout, mycode_stderr, "err")
 
