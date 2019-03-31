@@ -77,15 +77,16 @@ def output_diff(test_name, ref_output, mycode_output, arguments):
         return 0
     # otherwise, print KO in red
     print("\033[91m KO", end='')
-    if mycode_stderr != "b''":
-        print(" - unexpected error \033[m")
-        if arguments[3]:
-            print_debug(ref_stdout, ref_stderr, mycode_stdout,
-                        mycode_stderr, "err")
-    elif ref_return is not mycode_return:
+    # temporarily removing error output print.
+    #if mycode_stderr != "b''":
+    #    print(" - unexpected error \033[m")
+    #    if arguments[3]:
+    #        print_debug(ref_stdout, ref_stderr, mycode_stdout,
+    #                    mycode_stderr, "err")
+    if ref_return is not mycode_return:
         print(" - Expected return: "+str(ref_return)+", but got:"+str(mycode_return)+".")
         if arguments[3]:
-            print_debug(ref_stdout, ref_stderr, mycode_stdout, mycode_stderr, "out")
+            print_debug(ref_stdout, ref_stderr, mycode_stdout, mycode_stderr, "err")
 
     else:
         print(" - unexpected output \033[m")
