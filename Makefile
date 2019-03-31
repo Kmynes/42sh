@@ -12,9 +12,13 @@ unit:
 doc:
 	doxygen doxy-config
 
-check:
+debug:
 	$(MAKE) -s unit
 	python3 tests/test_suite.py --debug
+
+check:
+	$(MAKE) -s unit
+	python3 tests/test_suite.py
 
 style:
 	python3 tests/test_suite.py --style
