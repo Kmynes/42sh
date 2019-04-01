@@ -1,2 +1,29 @@
-# 42sh
-BlueShell42's 42sh project
+Post V0.5 TODO:
+
+Tests :
+Tester que bash --posix et 42sh
+stdout 
+Return value
+Pas stderr pour l’instant (à confirmer avec lionel)
+
+Tests à implémenter
+If
+For
+grammar_bad
++ dev à faire, trouver des tests qui ne marchent pas
+
+Dev à faire (+ tests)
+v0.3
+Bad arguments, not print on stdout but stderr : done
+As_input return value grammard_bad
+V0.5
+Pipes
+While until
+Functions
+Operators : and_or
+
+V0.8
+Builtins
+Variables
+Tilde expansion
+Reste ..
