@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
-if [[0 && 0]]
+
+f = 0
+t = 1
+
+if [[$z && $t]]
 then
     echo "KO"
 fi
 
-if [[1 && 0]]
+if [[$t && $z]]
 then
     echo "KO"
 fi
 
-if [[0 && 1]]
+if [[$z && $t]]
 then
     echo "KO"
 fi
 
-if [[1 && 1]]
+if [[$t && $t]]
 then
     echo "OK"
 fi

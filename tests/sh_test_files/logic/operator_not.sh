@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
-if [[!0]]
+
+f = 0
+t = 1
+
+if [[!$f]]
 then
     echo "OK"
 fi
 
-if [[!1]]
+if [[!$t]]
 then
     echo "KO"
 fi
