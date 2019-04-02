@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-f = 0
-t = 1
+f=0
+t=1
 
 if [[$z && $t]]
 then
