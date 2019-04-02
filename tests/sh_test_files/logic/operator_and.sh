@@ -3,22 +3,22 @@
 f=0
 t=1
 
-if [[$z && $t]]
+if [[ $f && $t ]]
 then
     echo "KO"
 fi
 
-if [[$t && $z]]
+if [[ $t && $f ]]
 then
     echo "KO"
 fi
 
-if [[$z && $t]]
+if [[ $f && $t ]]
 then
     echo "KO"
 fi
 
-if [[$t && $t]]
+if [[ $t && $t ]]
 then
     echo "OK"
 fi
