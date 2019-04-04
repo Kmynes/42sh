@@ -181,9 +181,10 @@ def full_test_suite(arguments=[None]*4):
 def category_test(arguments):
     """ Executes tests for a specific category given in argument """
     category = arguments[0]
+    directory = os.path.dirname(os.path.abspath(__file__))+"/build"
     if category == "unit":
         print("= unit tests " + "="*67)
-        fails = run_unit_test()
+        fails = run_unit_test(directory)
         print()
         if fails > 0:
             return [1, 1]
