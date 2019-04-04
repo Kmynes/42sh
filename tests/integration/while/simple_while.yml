@@ -1,0 +1,2 @@
+desc: Checks basic vanilla "for" rule
+test: ../tests/sh_test_files/while/simple_while.sh

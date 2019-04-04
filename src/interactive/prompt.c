@@ -4,9 +4,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <execution/execute_command.h>
 #include "prompt.h"
 #include "./42sh_history.h"
-#include <execution/execute_command.h>
 
 void sigintHandler(int sig_num)
 {

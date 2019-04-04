@@ -1,0 +1,2 @@
+desc: Checks "for" rule with no argument after "in".
+test: ../tests/sh_test_files/while/no_while_condition.sh

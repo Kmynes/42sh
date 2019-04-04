@@ -1,0 +1,2 @@
+desc: Checks "for" rule with condition from 0 to 0
+test: ../tests/sh_test_files/for/only_one.sh

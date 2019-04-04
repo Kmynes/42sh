@@ -12,9 +12,15 @@ unit:
 doc:
 	doxygen doxy-config
 
-check:
-	$(MAKE) -s unit
+debug:
+	$(MAKE) -s all
+	clear
 	python3 tests/test_suite.py --debug
+
+check:
+	$(MAKE) -s all
+	clear
+	python3 tests/test_suite.py
 
 style:
 	python3 tests/test_suite.py --style
