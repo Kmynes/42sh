@@ -69,7 +69,7 @@ static void simple_variable(char **arg_ptr, bool del_unknow_var)
         {
             free(*arg_ptr);
             *arg_ptr = strdup("");
-        } 
+        }
     }
 }
 

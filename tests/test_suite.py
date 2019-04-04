@@ -158,9 +158,8 @@ def category_list():
 def full_test_suite(arguments=[None]*4):
     """ Executes a full test suite """
     total_tests = total_fails = 0
-    print("= unit tests " + "="*67)
-    total_fails += run_unit_test()
     print()
+    category_test(["unit", None, None, None])
     directory = os.path.dirname(os.path.abspath(__file__))+"/integration"
 
     for category in os.listdir(directory):
@@ -187,9 +186,9 @@ def category_test(arguments):
         fails = run_unit_test()
         print()
         if fails > 0:
-            return [0, 1]
+            return [1, 1]
         else:
-            return [0, 0]
+            return [1, 0]
     print("= "+category+" "+"="*(77-len(category)))
     category_fails = category_tests = 0
     directory = os.path.dirname(os.path.abspath(__file__))+"/integration"
