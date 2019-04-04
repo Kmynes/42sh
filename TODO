@@ -1,4 +1,4 @@
-Post V0.5 TODO:
+= Post V0.3 defense: ================================================
 
 Tests :
 Tester que bash --posix et 42sh
@@ -27,3 +27,15 @@ Builtins
 Variables
 Tilde expansion
 Reste ..
+
+= Post v0.5 defense =================================================
+
+Update Man page @Daniel
+	- update version number
+	- update new features
+Fix cmake
+	- look at "target" (add/set)? @Daniel?
+Fix sanity mode for test suite @Daniel
+Make history work with arrow keys @Yann?
+Fix Ast-Print printing in root @Yann
+Add PS2 prompt @Thibault
