@@ -2,7 +2,7 @@ import subprocess
 from coding_style_checker import file_selector
 import os
 import sys
-from test_unit import run_unit_test
+from unit_test import run_unit_test
 try:
     import yaml
 except ImportError: 
