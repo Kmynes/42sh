@@ -1,16 +1,8 @@
 = Post V0.3 defense: ================================================
 
-Tests :
-Tester que bash --posix et 42sh
-stdout 
-Return value
-Pas stderr pour l’instant (à confirmer avec lionel)
-
-Tests à implémenter
+Tests to implement
 If
-For
 grammar_bad
-+ dev à faire, trouver des tests qui ne marchent pas
 
 Dev à faire (+ tests)
 v0.3
@@ -31,7 +23,6 @@ Reste ..
 = Post v0.5 defense =================================================
 
 Update Man page @Daniel
-	- update version number
 	- update new features
 Fix cmake
 	- look at "target" (add/set)? @Daniel?
