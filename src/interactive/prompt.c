@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include "prompt.h"
-#include "./42sh_history.h"
+#include "../execution/builtins/42sh_history.h"
 
 void sigintHandler(int sig_num)
 {
@@ -47,7 +47,7 @@ void create_prompt(void)
 
         put_in_history_file(input);
 
-        if (strcmp("history", input) == 0)
+        if (read_builtin_history(input))
                 read_history();
         else
             execute_command(input, 0);

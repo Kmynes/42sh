@@ -12,4 +12,5 @@ int (*get_builtin(char *name))(char **args);
 
 // builtins prototypes
 int builtin_echo(char **args);
+int builtin_cd(char **args);
 int builtin_exit(char *input);

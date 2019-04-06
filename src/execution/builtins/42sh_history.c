@@ -39,6 +39,24 @@ void put_in_history_file(char *input)
 }
 
 /**
+** \brief This function checks for 'history' command
+** \param input: the input of the user
+*/
+bool read_builtin_history(char *input)
+{
+    struct parser *p = parser_new_from_string(input);
+
+    if (read_spaces(p) && parser_readtext(p, "history") && read_spaces(p))
+    {
+        parser_free(p);
+        return true;
+    }
+
+    parser_free(p);
+    return false;
+}
+
+/**
 ** \brief This function prints the results of the 'history' command
 */
 void read_history(void)

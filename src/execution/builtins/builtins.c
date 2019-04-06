@@ -9,6 +9,10 @@ struct builtin builtin_table[10] = {
                 builtin_echo
         },
         {
+                "cd",
+                builtin_cd
+        },
+        {
                 NULL,
                 NULL
         }
