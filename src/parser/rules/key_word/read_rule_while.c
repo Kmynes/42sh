@@ -49,7 +49,7 @@ bool read_rule_while(struct parser *p)
 */
 int ast_rule_while_exec(struct ast_node *ast)
 {
-    if (ast->type != AST_RULE_UNTIL)
+    if (ast->type != AST_RULE_WHILE)
         return 1;
 
     int res;
