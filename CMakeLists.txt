@@ -23,3 +23,8 @@ file(GLOB_RECURSE TEST_FILES tests/*)
 
 add_library(test_42sh SHARED ${SRC_FILES} ${TEST_FILES})
 target_link_libraries(test_42sh 42sh_lib)
+
+add_custom_target(doc doxygen ../doxy-config)
+add_custom_target(debug python3 ../tests/test_suite.py --debug)
+add_custom_target(check python3 ../tests/test_suite.py)
+add_custom_target(style python3 ../tests/test_suite.py --style)
