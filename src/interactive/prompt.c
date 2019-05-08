@@ -5,9 +5,10 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <execution/execute_command.h>
-#include<readline/readline.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "prompt.h"
-#include "./42sh_history.h"
+#include "../execution/builtins/42sh_history.h"
 
 void sigintHandler(int sig_num)
 {
@@ -35,15 +36,13 @@ void create_prompt(void)
             break;
         }
 
-        put_in_history_file(input);
+        using_history();
 
-        if (strcmp("history", input) == 0)
-                read_history();
-        else
-            execute_command(input, 0, true);
+        execute_command(input, 0, true);
+
+        put_in_history(input);
 
         free(input);
     }
     free(input);
-    erease_tmp_history();
 }
