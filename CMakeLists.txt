@@ -15,7 +15,7 @@ file(GLOB_RECURSE SRC_FILES  src/*)
 add_executable(42sh src/42sh.c)
 
 add_library(42sh_lib SHARED ${SRC_FILES})
-target_link_libraries(42sh 42sh_lib -fsanitize=address)
+target_link_libraries(42sh 42sh_lib -fsanitize=address readline)
 
 ### UNIT TESTS
 

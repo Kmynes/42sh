@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <execution/execute_command.h>
+#include<readline/readline.h>
 #include "prompt.h"
 #include "./42sh_history.h"
 
@@ -26,25 +27,13 @@ void create_prompt(void)
 
     while (true)
     {
-        printf("42sh$ ");
-        size_t i = 0;
-        char c;
-        while (true)
-        {
-            c = getchar();
+        char* input;
 
-            if (c == '\n')
-                break;
-            input[i] = c;
-            i++;
-            if (c == 0 || c == -1)
-            {
-                break;
-            }
-        }
-
-        if (i != 0 && (input[0] == 0 || input[0] == -1))
+        input = readline("42sh$ ");  // readline allocates space for returned
+        // string
+        if(input == NULL) {
             break;
+        }
 
         put_in_history_file(input);
 
@@ -53,7 +42,7 @@ void create_prompt(void)
         else
             execute_command(input, 0, true);
 
-        memset(input, 0, MAX_INPUT);
+        free(input);
     }
     free(input);
     erease_tmp_history();
