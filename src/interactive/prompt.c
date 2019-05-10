@@ -8,6 +8,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "prompt.h"
+#include "../execution/builtins/exit.h"
 #include "../execution/builtins/42sh_history.h"
 
 void sigintHandler(int sig_num)
@@ -38,9 +39,16 @@ void create_prompt(void)
 
         using_history();
 
+        put_in_history(input);
+
+        if (builtin_exit(input) == true){
+            free(input);
+            exit(EXIT_SUCCESS);    
+        }
+
         execute_command(input, 0, true);
 
-        put_in_history(input);
+       
 
         free(input);
     }
