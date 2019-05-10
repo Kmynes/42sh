@@ -48,8 +48,6 @@ void create_prompt(void)
 
         execute_command(input, 0, true);
 
-       
-
         free(input);
     }
     free(input);

@@ -1,4 +1,5 @@
-void builtin_shopt(void)
+int builtin_shopt(char **args)
 {
-    return;
+    args++;
+    return 0;
 }

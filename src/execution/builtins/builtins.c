@@ -17,6 +17,10 @@ struct builtin builtin_table[10] = {
                 my_read_history
         },
         {
+                "shopt",
+                builtin_shopt
+        },
+        {
                 NULL,
                 NULL
         }

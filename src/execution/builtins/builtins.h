@@ -12,5 +12,5 @@ int (*get_builtin(char *name))(char **args);
 // builtins prototypes
 int builtin_echo(char **args);
 int builtin_cd(char **args);
-int builtin_exit(char **voidarg);
 int my_read_history(char **voidarg);
+int builtin_shopt(char **args);
