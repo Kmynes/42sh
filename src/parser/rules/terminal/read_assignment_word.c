@@ -18,7 +18,7 @@ bool read_assignment_word(struct parser *p)
         char *key = parser_get_capture(p, "key");
         char *value = parser_get_capture(p, "value");
 
-        manage_variable_str(&value);
+        manage_variable_str(&value, false);
         variables_add(key, value);
 
         data->key = key;
@@ -40,7 +40,7 @@ char *ast_assignment_word_to_string(struct ast_node *ast)
     char *key = assign_word->key;
     char *value = assign_word->value;
 
-    sprintf(buff, "assignment_word: -> key:%s value:%s", key, value);
+    sprintf(buff, "assignment_word: key:%s value:%s", key, value);
     return strdup(buff);
 }
 

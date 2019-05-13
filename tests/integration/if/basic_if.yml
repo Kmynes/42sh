@@ -1,0 +1,2 @@
+desc: Checks comments are parser
+test: ../tests/sh_test_files/rules/basic_if.sh

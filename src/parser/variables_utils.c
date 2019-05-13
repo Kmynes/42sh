@@ -40,12 +40,12 @@ void variables_free(void)
     }
 }
 
-static void simple_variable(char **arg_ptr)
+static void simple_variable(char **arg_ptr, bool del_unknow_var)
 {
     char *arg = *arg_ptr;
     if (arg[0] == '$')
     {
-        char *key = calloc(sizeof(char), strlen(arg));
+        char *key = calloc(sizeof(char), strlen(arg) + 1);
         if (arg[1] == '{')
         {
             size_t i = 0;
@@ -56,6 +56,7 @@ static void simple_variable(char **arg_ptr)
         }
         else
             strcpy(key, arg + 1);
+
         struct key_value *kv = variables_get(key);
         free(key);
 
@@ -64,6 +65,11 @@ static void simple_variable(char **arg_ptr)
             free(*arg_ptr);
             *arg_ptr = strdup(kv->value);
         }
+        else if(del_unknow_var)
+        {
+            free(*arg_ptr);
+            *arg_ptr = strdup("");
+        }
     }
 }
 
@@ -71,7 +77,8 @@ static bool is_in_variable_pattern(char c)
 {
     bool is_alpha = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
     bool is_num = c >= '0' && c <= '9';
-    return is_alpha || is_num || c == '_';
+    bool is_authorize_char = c == '?' || c == '#';
+    return is_alpha || is_num || c == '_' || is_authorize_char;
 }
 
 static char *take_of_quote(char *value, size_t len_value)
@@ -127,14 +134,18 @@ static void check_quote(char **addr, size_t len_value)
                     char *var_name = get_variable_name(val, &val, len_value,
                         &is_accolade);
                     struct key_value *kv = variables_get(var_name);
-                    char *var_call = calloc(sizeof(char),
-                        strlen(var_name) + 8);
-
+                    char *var_call = var_call = calloc(sizeof(char),
+                            strlen(var_name) + 8);
                     sprintf(var_call, is_accolade ? "${%s}" : "$%s", var_name);
-                    *addr = str_replace(var_call, kv ? kv->value : "", *addr);
+
+                    if (kv)
+                        *addr = str_replace(var_call, kv->value, *addr);
+                    else
+                        *addr = str_replace(var_call, "", *addr);
+
                     val = *addr;
-                    free(var_name);
                     free(var_call);
+                    free(var_name);
                 }
             }
             val++;
@@ -142,10 +153,10 @@ static void check_quote(char **addr, size_t len_value)
     }
 }
 
-void manage_variable_str(char **value)
+void manage_variable_str(char **value, bool del_unknow_var)
 {
     size_t len_value = strlen(*value);
     check_simple_quote(value, len_value);
     check_quote(value, len_value);
-    simple_variable(value);
+    simple_variable(value, del_unknow_var);
 }

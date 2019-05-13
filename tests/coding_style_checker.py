@@ -83,6 +83,10 @@ def coding_styler(file, filename):
                 col_err = True
         if file[index:index+2] == "()":
             style_errors += void_function(index, file, line_number, filename)
+        if file[index] == "(":
+            style_errors += open_parenthesis_space(index, file, line_number, filename)
+        if file[index] == ")":
+            style_errors += close_parenthesis_space(index, file, line_number, filename)
         if file[index:index+2] == "/*":
             style_errors += long_dead_code(index, file, line_number, filename)
         if file[index:index+5] == "#else":
@@ -110,6 +114,20 @@ def find_line(index, file):
     return [line_start, line_end]
 
 # coding style rules:
+
+def open_parenthesis_space(index, file, line_number, filename):
+    """ Checks if there is a space after an open parenthesis """
+    if file[index+1] is " ":
+        print_error("Space after opening parenthesis", index, line_number, file, filename)
+        return 1
+    return 0
+
+def close_parenthesis_space(index, file, line_number, filename):
+    """ Checks if there is a space after an closing parenthesis """
+    if file[index-1] is " ":
+        print_error("Space before closing parenthesis", index, line_number, file, filename)
+        return 1
+    return 0
 
 def void_function(index, file, line_number, filename):
     """ Checks if function has input or not """
@@ -210,9 +228,12 @@ def indentation_check(index, file, line_number, filename):
     [line_start, line_end] = find_line(index, file)
     if "struct" in file[line_start:line_end]:
         return 0
-    if '"' in file[index-20:index] and '"' in file[index:index+20]:
+    if '"' in file[line_start:index] and '"' in file[index:line_end]:
         return 0
     if "'" in file[index-2:index] and "'" in file[index:index+2]:
+        return 0
+    [prev_line_start, prev_line_end] = find_line(line_start-3, file)
+    if "switch" in file[prev_line_start:prev_line_end]:
         return 0
     preceding_spaces = index-file[0:index].rfind('\n')-1
     if file[index+preceding_spaces+2] == '}':
@@ -262,13 +283,13 @@ def trailing_spaces(index, file, line_number, filename):
     """ Checks if there are any trailing spaces at the end of a line """
     [line_start, line_end] = find_line(index-1, file)
     # check if line is comment
-    if "//" in file[line_start:line_end]:
+    if "//" in file[line_start:index]:
         return 0
     # check if line is a multiline statement 
-    if '\\' in file[index:line_end]:
+    if '**' in file[index:line_end]:
         return 0
     # check if space is part of string
-    if '"' in file[index-20:index] and '"' in file[index:index + 20]:
+    if '"' in file[line_start:index] and '"' in file[index:line_end]:
         return 0
     if file[index - 1] == " ":
         print_error("Trailing space", index, line_number, file, filename)

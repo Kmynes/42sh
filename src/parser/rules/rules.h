@@ -2,6 +2,18 @@
 
 #include <parser/ast/ast.h>
 
+struct list_func
+{
+    char *name;
+    struct ast_node *ast_funcdec;
+    int (*exec)(struct list_func *func, char **args, size_t nb_args);
+    struct list_func *next;
+};
+
+extern struct list_func *functions;
+struct list_func *add_function(char *name, struct ast_node *ast_funcdec);
+struct list_func *get_function(char *name);
+void free_functions(void);
 
 // Global
 char *default_to_string(struct ast_node *ast, char *type);

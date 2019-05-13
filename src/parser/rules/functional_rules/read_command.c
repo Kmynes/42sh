@@ -47,14 +47,13 @@ bool read_command(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
-    if ((read_simple_command(p)
-        || read_second_instructions(p)
-        || read_third_instructions(p))
+    if ((read_third_instructions(p)
+        || read_simple_command(p)
+        || read_second_instructions(p))
         && ZERO_OR_MANY(read_comment(p)))
     {
         struct ast_node *ast = ast_command_init();
         struct ast_node *ast_child = NULL;
-
 
         ast_child = ast_get_from_parser(p, AST_SIMPLE_COMMAND);
         if (ast_child != NULL)
@@ -92,12 +91,17 @@ int ast_command_exec(struct ast_node *ast)
         return 1;
 
     int res = 0;
+    struct ast_node *child = NULL;
     for (size_t i = 0; i < ast->nb_children; i++)
     {
-        res = ast->children[i]->exec(ast->children[i]);
+        child = ast->children[i];
+        if (child->type != AST_FUNCDEC)
+        {
+            res = child->exec(child);
 
-        if (res != 0)
-            return res;
+            if (res != 0)
+                return res;
+        }
     }
     return res;
 }

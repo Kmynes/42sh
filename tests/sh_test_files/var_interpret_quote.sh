@@ -10,12 +10,6 @@ phrase="${part1} $part2 ${suffix}"
 
 echo $phrase
 
-prog='python3'
-
-$prog --version
-
-echo $phrase
-
 echo "empty variable [$empty]"
 
 echo "an other empty variable [${empty_var}]"

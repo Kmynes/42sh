@@ -1,25 +1,25 @@
 #include "parser/rules/rules.h"
 
+char *protected_words[] =
+{
+    "for",
+    "while",
+    "until",
+    "case",
+    "esac",
+    "if",
+    "then",
+    "fi",
+    "else",
+    "elif",
+    "do",
+    "done",
+    NULL
+};
+
 bool read_word(struct parser *p)
 {
     unsigned int tmp = p->cursor;
-
-    char *protected_words[] =
-    {
-        "for",
-        "while",
-        "until",
-        "case",
-        "esac",
-        "if",
-        "then",
-        "fi",
-        "else",
-        "elif",
-        "do",
-        "done",
-        NULL
-    };
 
     if (parser_eof(p))
         return false;

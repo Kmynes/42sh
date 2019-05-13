@@ -4,8 +4,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <execution/execute_command.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "prompt.h"
-#include "./42sh_history.h"
+#include "../execution/builtins/exit.h"
+#include "../execution/builtins/42sh_history.h"
 
 void sigintHandler(int sig_num)
 {
@@ -25,35 +29,26 @@ void create_prompt(void)
 
     while (true)
     {
-        printf("42sh$ ");
-        size_t i = 0;
-        char c;
-        while (true)
-        {
-            c = getchar();
+        char* input;
 
-            if (c == '\n')
-                break;
-            input[i] = c;
-            i++;
-            if (c == 0 || c == -1)
-            {
-                break;
-            }
+        input = readline("42sh$ ");  // readline allocates space for returned
+        // string
+        if(input == NULL) {
+            break;
         }
 
-        if (i != 0 && (input[0] == 0 || input[0] == -1))
-            break;
+        using_history();
 
-        put_in_history_file(input);
+        put_in_history(input);
 
-        if (strcmp("history", input) == 0)
-                read_history();
-            else
-                execute_command(input, 0);
+        if (builtin_exit(input) == true){
+            free(input);
+            exit(EXIT_SUCCESS);    
+        }
 
-        memset(input, 0, MAX_INPUT);
+        execute_command(input, 0, true);
+
+        free(input);
     }
     free(input);
-    erease_tmp_history();
 }

@@ -8,11 +8,19 @@
 ** \version 0.3
 ** \date March 2019
 */
+
+/*
+** \brief Allow to read the rule while
+** \param parser
+** \return true if a while is readable from the current parsor's cursor
+** false otherwise
+*/
 bool read_rule_while(struct parser *p)
 {
     unsigned int tmp = p->cursor;
 
     if (parser_readtext(p, "while")
+        && read_spaces(p)
         && read_compound_list(p)
         && read_spaces(p)
         && read_do_group(p))
@@ -34,9 +42,14 @@ bool read_rule_while(struct parser *p)
     return false;
 }
 
+/*
+** \brief Allow to execute a while in 42sh
+** \param ast is an ast of type AST_RULE_WHILE
+** \return 0 if the last loop tower was a succes, and one otherwise
+*/
 int ast_rule_while_exec(struct ast_node *ast)
 {
-    if (ast->type != AST_RULE_UNTIL)
+    if (ast->type != AST_RULE_WHILE)
         return 1;
 
     int res;
@@ -48,6 +61,10 @@ int ast_rule_while_exec(struct ast_node *ast)
     return res;
 }
 
+/*
+** \brief create a new AST_RULE_WHILE
+** \return ast
+*/
 struct ast_node *ast_rule_while_init(void)
 {
     struct ast_node *ast = ast_init(AST_RULE_WHILE, NULL);

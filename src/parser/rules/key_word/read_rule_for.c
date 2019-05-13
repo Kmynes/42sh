@@ -115,11 +115,13 @@ int ast_rule_for_exec(struct ast_node *ast)
     struct ast_node *first_child = ast->children[0];
     char *word = data->words[0];
     int res = 0;
-
-    for (size_t i = 1; i < data->nb_word; i++)
+    struct key_value *kv = variables_add("42sh_break_loop", "0");
+    size_t i = 1;
+    while (i < data->nb_word && kv->value[0] == '0')
     {
         variables_update(word, data->words[i]);
         res = first_child->exec(first_child);
+        i++;
     }
 
     return res;

@@ -37,7 +37,7 @@ bool read_element(struct parser *p)
         if (is_word)
         {
             char *word = parser_get_capture(p, "elt");
-            manage_variable_str(&word);
+            manage_variable_str(&word, false);
             struct ast_node *ast_word = ast_word_init(word);
             ast_set_in_parent(ast, ast_word);
         }

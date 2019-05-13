@@ -1,15 +1,18 @@
 #include <parser/rules/rules.h>
 #include <ast_print.h>
+#include <options.h>
+#include <interactive/prompt.h>
+#include <utils/option_util.h>
 #include "execute_command.h"
 
-int execute_command(char *command, int ast_print_flag)
+int execute_command(char *command, int ast_print_flag, bool prompt_mode)
 {
     struct parser *p = parser_new_from_string(command);
     do
     {
         if (!read_input(p))
         {
-            printf("wrong input : %s\n", command);
+            fprintf(stderr, "wrong input : %s\n", command);
             parser_free(p);
             return 1;
         }
@@ -23,11 +26,38 @@ int execute_command(char *command, int ast_print_flag)
     {
         ast = p->ast->children[i];
         res = ast->exec(ast);
+        fflush(stdout);
     }
 
     if (ast_print_flag)
         ast_print(p->ast, NULL);
 
     parser_free(p);
+    if (!prompt_mode)
+    {
+        variables_free();
+        free_functions();
+    }
+
     return res;
+}
+
+int execute_shell_no_option(int ast_print_flag)
+{
+    if (stdin_has_input())
+    {
+        char buf[MAX_INPUT];
+
+        fgets(buf, sizeof buf, stdin);
+        int status = execute_command(buf, ast_print_flag, false);
+        if (status == 1)
+            return 2;
+        else
+            return status;
+    }
+    else
+    {
+        create_prompt();
+        return 0;
+    }
 }

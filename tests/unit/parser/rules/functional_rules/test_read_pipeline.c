@@ -32,8 +32,8 @@ void test_read_pipeline_multiple(void)
     print_state_test(check, "test_read_pipeline_multiple (1)");
 
     struct ast_node *ast = ast_from_read(read_pipeline, input);
-    check = ast->children[0]->type == AST_COMMAND;
-    print_state_test(check, "test_read_pipeline_multiple (2)");
+    print_state_test(ast->children[0]->type == AST_COMMAND,
+        "test_read_pipeline_multiple (2)");
 
     check = ast->children[1]->type == AST_COMMAND;
     print_state_test(check, "test_read_pipeline_multiple (3)");
@@ -44,8 +44,8 @@ void test_read_pipeline_multiple(void)
     print_state_test(check, "test_read_pipeline_multiple (4)");
     ast = ast_from_read(read_pipeline, input);
 
-    check = ast->children[0]->type == AST_COMMAND;
-    print_state_test(check, "test_read_pipeline_multiple (5)");
+    print_state_test(ast->children[0]->type == AST_COMMAND,
+        "test_read_pipeline_multiple (5)");
 
     check = ast->children[1]->type == AST_COMMAND;
     print_state_test(check, "test_read_pipeline_multiple (6)");
@@ -56,14 +56,14 @@ void test_read_pipeline_multiple(void)
     print_state_test(check, "test_read_pipeline_multiple (7)");
     ast = ast_from_read(read_pipeline, input);
 
-    check = ast->children[0]->type == AST_COMMAND;
-    print_state_test(check, "test_read_pipeline_multiple (8)");
+    print_state_test(ast->children[0]->type == AST_COMMAND,
+        "test_read_pipeline_multiple (8)");
 
-    check = ast->children[1]->type == AST_COMMAND;
-    print_state_test(check, "test_read_pipeline_multiple (9)");
+    print_state_test(ast->children[1]->type == AST_COMMAND,
+        "test_read_pipeline_multiple (9)");
 
-    check = ast->children[2]->type == AST_COMMAND;
-    print_state_test(check, "test_read_pipeline_multiple (10)");
+    print_state_test(ast->children[2]->type == AST_COMMAND,
+        "test_read_pipeline_multiple (10)");
     ast_free(ast);
 }
 

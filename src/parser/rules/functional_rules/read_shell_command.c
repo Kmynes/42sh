@@ -18,7 +18,9 @@ static bool read_first(struct parser *p)
 {
     unsigned int tmp = p->cursor;
     if (parser_readchar(p, '{')
+        && ZERO_OR_MANY(read_end_of_line(p))
         && read_compound_list(p)
+        && ZERO_OR_MANY(read_end_of_line(p))
         && parser_readchar(p, '}'))
     {
         return true;

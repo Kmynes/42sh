@@ -1,0 +1,2 @@
+desc: Checks "for" rule when a "break" is used with an argument to break from a nested for loop
+test: ../tests/sh_test_files/while/break_nested.sh

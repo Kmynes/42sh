@@ -36,4 +36,6 @@ void print_state_test(bool condition, char *func_name)
 
     if (global_condition)
         global_condition = condition;
+    variables_free();
+    free_functions();
 }

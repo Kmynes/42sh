@@ -1,0 +1,2 @@
+desc: Checks "for" rule when a basic "continue" is used.
+test: ../tests/sh_test_files/for/continue_basic.sh

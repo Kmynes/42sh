@@ -1,2 +1,32 @@
-# 42sh
-BlueShell42's 42sh project
+= Post V0.3 defense: ================================================
+
+Tests to implement
+If
+grammar_bad
+
+Dev à faire (+ tests)
+v0.3
+Bad arguments, not print on stdout but stderr : done
+As_input return value grammard_bad
+V0.5
+Pipes
+While until
+Functions
+Operators : and_or
+
+V0.8
+Builtins
+Variables
+Tilde expansion
+Reste ..
+
+= Post v0.5 defense =================================================
+
+Update Man page @Daniel
+	- update new features
+Fix cmake
+	- look at "target" (add/set)? @Daniel?
+Fix sanity mode for test suite @Daniel
+Make history work with arrow keys @Yann?
+Fix Ast-Print printing in root @Yann
+Add PS2 prompt @Thibault
